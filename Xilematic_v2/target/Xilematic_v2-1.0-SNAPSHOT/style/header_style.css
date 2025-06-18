@@ -1,0 +1,101 @@
+header {
+    background: rgba(18, 18, 18, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    height: 80px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: var(--shadow-sm);
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.logo img {
+    height: 50px;
+    transition: var(--transition);
+}
+
+.logo:hover img {
+    transform: scale(1.05);
+}
+
+.navbar {
+    display: flex;
+    gap: 30px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: var(--neutral-200);
+    font-weight: 500;
+    font-size: 16px;
+    position: relative;
+    padding: 10px 0;
+    transition: var(--transition);
+}
+
+.navbar a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: var(--transition);
+}
+
+.navbar a:hover {
+    color: white;
+}
+
+.navbar a:hover::after {
+    width: 100%;
+}
+
+.btn-authen {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-authen button {
+    padding: 10px 25px;
+    font-size: 15px;
+    border-radius: 30px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-authen button:first-child {
+    background: transparent;
+    color: var(--neutral-100);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-authen button:first-child:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+.btn-authen button:last-child {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-authen button:last-child:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(230, 57, 70, 0.2);
+}

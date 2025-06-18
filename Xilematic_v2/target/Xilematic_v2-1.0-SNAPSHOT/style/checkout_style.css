@@ -1,0 +1,176 @@
+
+:root {
+    --black-bg: #0a0a0a;
+    --dark-card: #121212;
+    --darker-card: #0d0d0d;
+    --accent: #1a1a1a;
+    --primary: #ffffff;
+    --success: #00ff9d;
+    --text-light: #ffffff;
+    --text-muted: #aaaaaa;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --glow: 0 0 15px rgba(0, 255, 157, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+    background: var(--black-bg);
+    color: var(--text-light);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(30, 30, 30, 0.3) 0%, transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(20, 20, 20, 0.3) 0%, transparent 30%);
+    background-attachment: fixed;
+}
+
+.card {
+    width: 100%;
+    max-width: 500px;
+    background: #111;
+    border-radius: 8px;
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.03);
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+h2 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #f0f0f0;
+    position: relative;
+    padding-bottom: 15px;
+    letter-spacing: 0.5px;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 35%;
+    width: 30%;
+    height: 1px;
+    background: #333;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.row span:first-child {
+    font-weight: 500;
+    color: #aaa;
+}
+
+.row span:last-child {
+    font-weight: 500;
+    color: #fff;
+    text-align: right;
+}
+
+.total-row {
+    margin-top: 20px;
+    padding: 12px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: none;
+    font-size: 18px;
+}
+
+.total-row span:last-child {
+    color: #28c876;
+    font-weight: 600;
+}
+
+.btn-confirm {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+}
+.highlight {
+    color: var(--success);
+    font-weight: 600;
+    font-size: 18px;
+    text-shadow: 0 0 8px rgba(0, 255, 157, 0.3);
+}
+.btn-confirm:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.btn-confirm:active {
+    transform: translateY(1px);
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo-circle {
+    width: 60px;
+    height: 60px;
+    background: #28c876;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(40, 200, 120, 0.2);
+}
+
+.logo svg {
+    width: 30px;
+    height: 30px;
+    fill: white;
+}
+
+@media (max-width: 600px) {
+    .card {
+        padding: 25px 20px;
+        border-radius: 6px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 5px;
+    }
+}

@@ -1,0 +1,628 @@
+:root {
+    --primary: #e63946;
+    --primary-dark: #c1121f;
+    --secondary: #457b9d;
+    --neutral-50: #f8f9fa;
+    --neutral-100: #e9ecef;
+    --neutral-200: #dee2e6;
+    --neutral-300: #ced4da;
+    --neutral-400: #adb5bd;
+    --neutral-500: #6c757d;
+    --neutral-600: #495057;
+    --neutral-700: #343a40;
+    --neutral-800: #212529;
+    --neutral-900: #121212;
+    --accent-vip: #ffd166;
+    --accent-selecting: #90e0ef;
+    --accent-selected: #48cae4;
+    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.03);
+    --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --border-radius: 12px;
+    --border-radius-lg: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--neutral-900) 0%, var(--neutral-800) 100%);
+    color: var(--neutral-100);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top right, rgba(69, 123, 157, 0.1) 0%, transparent 40%);
+    z-index: -1;
+}
+
+
+.content {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 30px;
+    padding: 30px 5%;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+
+.booking {
+    background: rgba(33, 37, 41, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius-lg);
+    padding: 30px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.screen {
+    background: linear-gradient(to bottom, #1a1a2e, #16213e);
+    color: white;
+    text-align: center;
+    padding: 25px 0;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.screen::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, transparent, #e63946, transparent);
+}
+
+.booking-seats {
+    margin-bottom: 40px;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    gap: 8px;
+}
+
+.seat {
+    height: 45px;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--neutral-100);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: var(--shadow-sm);
+}
+
+.seat:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.vip-seat {
+    background: linear-gradient(135deg, var(--accent-vip), #e9c46a);
+    color: var(--neutral-800);
+    font-weight: 700;
+}
+
+.vip-seat:hover {
+    background: linear-gradient(135deg, #ffd166, #ffc43d);
+    box-shadow: 0 6px 12px rgba(255, 209, 102, 0.25);
+}
+
+.selecting-seat {
+    background: var(--accent-selecting);
+    color: var(--neutral-800);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(144, 224, 239, 0.3);
+}
+
+.selected-seat {
+    background: var(--accent-selected);
+    color: var(--neutral-800);
+    cursor: not-allowed;
+}
+
+.note {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.note-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+}
+
+.note-item .available {
+    height: 30px;
+    width: 30px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.note-item .selected {
+    background: var(--accent-selected);
+}
+
+.note-item .selecting {
+    background: var(--accent-selecting);
+}
+
+.note-item .vip {
+    background: linear-gradient(135deg, var(--accent-vip), #e9c46a);
+}
+
+.note-item p {
+    font-size: 16px;
+    color: var(--neutral-300);
+}
+
+.detail {
+    background: rgba(33, 37, 41, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius-lg);
+    padding: 30px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.detail-banner {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+}
+
+.detail-banner img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition);
+}
+
+.detail-banner:hover img {
+    transform: scale(1.05);
+}
+
+.detail-banner::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to top, rgba(18, 18, 18, 0.9), transparent);
+}
+
+.detail h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    margin-top: 15px;
+}
+
+.detail p {
+    font-size: 18px;
+    color: var(--neutral-300);
+}
+
+.detail p span {
+    color: white;
+    font-weight: 500;
+}
+
+.detail button {
+    background: transparent;
+    border: 2px solid var(--primary);
+    border-radius: 30px;
+    color: white;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.detail button:hover {
+    background: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(230, 57, 70, 0.3);
+}
+
+.ticket {
+    background: rgba(33, 37, 41, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius-lg);
+    padding: 30px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ticket p {
+    font-size: 18px;
+    color: var(--neutral-200);
+}
+
+.ticket p span {
+    color: white;
+    font-weight: 600;
+}
+
+#selected-seats span {
+    color: var(--accent-selecting);
+}
+
+#total-price span {
+    color: var(--accent-vip);
+    font-size: 22px;
+}
+
+#warning {
+    color: var(--primary);
+    font-weight: 500;
+    display: none;
+}
+
+.btn-book {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 15px;
+    box-shadow: var(--shadow-sm);
+    letter-spacing: 0.5px;
+}
+
+.btn-book:hover {
+    background: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3);
+}
+
+.btn-book:active {
+    transform: translateY(1px);
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+.modal-content {
+    position: relative;
+    width: 80%;
+    max-width: 900px;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+.modal-content iframe {
+    width: 100%;
+    height: 500px;
+    display: block;
+    border: none;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.5);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.close:hover {
+    background: var(--primary);
+    transform: rotate(90deg);
+}
+@media (max-width: 1200px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+    }
+
+    .header-logo {
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .navbar {
+        gap: 15px;
+    }
+
+    .footer-information {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content iframe {
+        height: 300px;
+    }
+}
+
+
+.screen {
+    text-shadow: 0 0 15px rgba(230, 57, 70, 0.8), 0 0 30px rgba(230, 57, 70, 0.5);
+    box-shadow: 0 0 25px rgba(230, 57, 70, 0.4);
+}
+
+.seat {
+    position: relative;
+    overflow: hidden;
+}
+
+.seat::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.seat:hover::after {
+    opacity: 1;
+}
+
+.vip-seat {
+    box-shadow: 0 0 15px rgba(255, 209, 102, 0.6);
+    position: relative;
+}
+
+.vip-seat::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(135deg, 
+        rgba(255, 209, 102, 0.3) 0%, 
+        rgba(255, 209, 102, 0.1) 50%, 
+        rgba(255, 209, 102, 0.3) 100%);
+    border-radius: 10px;
+    z-index: -1;
+    animation: vip-glow 2s infinite alternate;
+}
+
+@keyframes vip-glow {
+    0% { opacity: 0.4; }
+    100% { opacity: 0.8; }
+}
+
+.selecting-seat {
+    box-shadow: 0 0 15px rgba(144, 224, 239, 0.8);
+    animation: selecting-pulse 1.5s infinite alternate;
+}
+
+@keyframes selecting-pulse {
+    0% { box-shadow: 0 0 10px rgba(144, 224, 239, 0.6); }
+    100% { box-shadow: 0 0 20px rgba(144, 224, 239, 1); }
+}
+
+.btn-book {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(230, 57, 70, 0.4);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn-book::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2), 
+        transparent);
+    transform: rotate(30deg);
+    transition: transform 0.6s ease;
+}
+
+.btn-book:hover {
+    box-shadow: 0 0 25px rgba(230, 57, 70, 0.8);
+}
+
+.btn-book:hover::after {
+    transform: rotate(30deg) translate(20%, 20%);
+}
+
+.detail button {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(230, 57, 70, 0.3);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.detail button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2), 
+        transparent);
+    transition: left 0.6s ease;
+}
+
+.detail button:hover::before {
+    left: 100%;
+}
+
+.detail button:hover {
+    box-shadow: 0 0 20px rgba(230, 57, 70, 0.6);
+}
+
+.booking, .detail, .ticket {
+    position: relative;
+    overflow: hidden;
+}
+
+.booking::after, .detail::after, .ticket::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--secondary), 
+        transparent);
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.booking:hover::after, .detail:hover::after, .ticket:hover::after {
+    opacity: 0.8;
+}
+
+.modal-content {
+    box-shadow: 0 0 40px rgba(69, 123, 157, 0.8);
+}
+
+.close {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.note-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.note-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--secondary), 
+        transparent);
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
+.note-item:hover::after {
+    opacity: 0.8;
+}
+
+.detail-banner {
+    position: relative;
+}
+
+.detail-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        transparent 70%);
+    z-index: 1;
+    pointer-events: none;
+}

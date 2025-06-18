@@ -1,0 +1,303 @@
+/* Admin Page Styles */
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.logo img {
+    height: 40px;
+}
+.search-container {
+    position: relative;
+    flex: 1;
+    max-width: 400px;
+    margin: 0 20px;
+}
+.search-container .search {
+    width: 100%;
+    padding: 8px 35px 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.search-container .search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 1.2em;
+}
+.avatar {
+    font-weight: 500;
+}
+
+/* Layout */
+.main {
+    display: flex;
+    min-height: calc(100vh - 60px);
+}
+.nav-bar {
+    background-color: #2d3a4b;
+    width: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+}
+.nav-link {
+    margin-bottom: 25px;
+    color: #aaa;
+    font-size: 1.5em;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.nav-link:hover {
+    color: #fff;
+}
+
+.data {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Add New Button */
+.open-popup-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    transition: background-color 0.2s;
+}
+.open-popup-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+}
+th {
+    background-color: #f0f2f5;
+    font-weight: 600;
+}
+tr:nth-child(even) {
+    background-color: #fafafa;
+}
+.detail {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+.detail:hover {
+    text-decoration: underline;
+}
+
+
+/*-------------------------------------------------------*/
+
+/* Pagination */
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    gap: 8px;
+}
+.pagination a,
+.pagination strong {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+}
+.pagination a:hover {
+    background-color: #f0f0f0;
+}
+.pagination strong {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #0056b3;
+}
+
+
+/*-------------------------------------------------------*/
+
+/* Chart Canvas */
+#myChart {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    width: 100%;
+    max-height: 300px;
+}
+
+
+
+/*-------------------------------------------------------*/
+
+
+/*-------------------------------------------------------*/
+/* Popup overlay & content */
+/* Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+.popup-overlay.show {
+    display: flex;
+}
+
+.popup-content {
+    background: #fff;
+    padding: 32px 24px 24px 24px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    max-height: 85vh; /* Giới hạn chiều cao tối đa 85% chiều cao màn hình */
+    overflow-y: auto; /* Thêm thanh cuộn dọc khi nội dung vượt quá */
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* IE và Edge cũ */
+}
+
+.popup-content::-webkit-scrollbar {
+    display: none;                /* Chrome, Safari, Edge mới */
+}
+.popup-content h2 {
+    text-align: center;
+    margin-bottom: 18px;
+}
+.popup-content label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+.popup-content input[type="text"],
+.popup-content input[type="url"],
+.popup-content input[type="file"],
+.popup-content input[type="date"],
+.popup-content input[type="number"],
+.popup-content textarea,
+.popup-content select {
+    width: 100%;
+    padding: 7px 10px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+}
+
+.popup-content label input[type="checkbox"] {
+    position: relative;
+    left: 50px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+
+.popup-content textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+.popup-content button[type="submit"] {
+    margin-top: 16px;
+    width: 100%;
+    background: #3366cc;
+    color: #fff;
+    border: none;
+    padding: 10px 0;
+    font-size: 1.1em;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.25s;
+}
+.popup-content button[type="submit"]:hover {
+    background: #254a93;
+}
+.close-btn {
+    position: absolute;
+    top: 9px;
+    right: 15px;
+    font-size: 25px;
+    font-weight: bold;
+    color: #444;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.func-btn {
+    display: flex;
+    gap: 16px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.func-btn .update-btn,
+.func-btn .delete-btn {
+    flex: 1 1 0px;          /* Chia đều chiều rộng */
+    padding: 12px 0;
+    font-size: 1.08em;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.18s;
+    min-width: 120px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
