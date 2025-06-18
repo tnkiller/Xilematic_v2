@@ -71,7 +71,7 @@ public class MovieServlet extends HttpServlet {
         String id = request.getParameter("id");
         Movie mv = movieService.getMovie(Integer.parseInt(id));
         PrintWriter out = response.getWriter();
-        out.print("hello");
+        out.print("hello!");
     }
 
 }
