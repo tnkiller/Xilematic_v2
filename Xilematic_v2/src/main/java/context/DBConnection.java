@@ -1,5 +1,6 @@
 package context;
 
+import config.AppConfig;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.logging.Level;
@@ -8,9 +9,9 @@ import java.util.logging.Logger;
 public class DBConnection {
 
     public static String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    public static String dbURL = "jdbc:sqlserver://localhost:1433;databaseName=QuanLyRapChieuPhim;encrypt=true;trustServerCertificate=true";
-    public static String userDB = "sa";
-    public static String passDB = "123";
+    public static String dbURL = AppConfig.DB_URL;
+    public static String userDB = AppConfig.DB_USER;
+    public static String passDB = AppConfig.DB_PASS;
 
     public static Connection getConnection() {
         Connection con = null;

@@ -22,19 +22,22 @@ function selectSeat(seatId, price) {
 
 function updateTicketInfo() {
     totalPrice = selectedSeats.reduce((sum, seat) => sum + seat.price, 0);
-
+    
     const seatsElement = document.getElementById('selected-seats');
     const priceElement = document.getElementById('total-price');
     const warningElement = document.getElementById('warning');
-
+    const bookBtn = document.querySelector('.btn-book');
+    
     if (selectedSeats.length > 0) {
         seatsElement.innerHTML = `Ghế đã chọn: <span>${selectedSeats.map(seat => seat.id).join(', ')}</span>`;
         priceElement.innerHTML = `Tổng: <span>${totalPrice.toLocaleString()} VND</span>`;
         warningElement.style.display = 'none';
+        bookBtn.removeAttribute('disabled');
     } else {
         seatsElement.innerHTML = 'Ghế đã chọn: <span>None</span>';
         priceElement.innerHTML = 'Tổng: <span>0 VND</span>';
         warningElement.style.display = 'block';
+        bookBtn.setAttribute('disabled', 'disabled');
     }
 }
 

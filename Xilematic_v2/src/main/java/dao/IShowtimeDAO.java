@@ -9,4 +9,6 @@ interface IShowtimeDAO {
     public String getCinemaNameByShowtimeID(int ma_lich_chieu);
 
     public Showtime getShowtimeInformationByID(int ma_lich_chieu);
+    
+    public String getMoiveNameByShowtimeID(int ma_lich_chieu);
 }

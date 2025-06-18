@@ -21,4 +21,9 @@ public class ShowtimeService implements IShowtimeService {
     public String getCinemaNameByShowtimeID(int ma_lich_chieu) {
         return showtimeDAO.getCinemaNameByShowtimeID(ma_lich_chieu);
     }
+
+    @Override
+    public String getMoiveNameByShowtimeID(int ma_lich_chieu) {
+        return showtimeDAO.getMoiveNameByShowtimeID(ma_lich_chieu);
+    }
 }

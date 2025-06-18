@@ -114,4 +114,14 @@ public class UserService implements IUserService {
         return -1;
     }
 
+    @Override
+    public String getEmailUser(int ma_nguoi_dung) {
+        try {
+            return userDao.getEmailUser(ma_nguoi_dung);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+
 }

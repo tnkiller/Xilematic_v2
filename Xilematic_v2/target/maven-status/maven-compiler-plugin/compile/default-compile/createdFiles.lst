@@ -40,10 +40,12 @@ constant\PageLink.class
 context\DBConnection.class
 controller\CheckoutServlet.class
 dao\ISeatDAO.class
+config\AppConfig.class
 model\LichChieu.class
 controller\PagingServlet.class
 model\HeThongRap.class
 constant\SessionAttribute.class
 constant\MessageManager.class
 service\IBookingService.class
+controller\CheckoutServlet$1.class
 controller\HomeServlet.class
