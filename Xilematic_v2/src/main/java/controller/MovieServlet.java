@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import model.Movie;
 import service.MovieService;
 
@@ -69,6 +70,8 @@ public class MovieServlet extends HttpServlet {
             throws ServletException, IOException {
         String id = request.getParameter("id");
         Movie mv = movieService.getMovie(Integer.parseInt(id));
+        PrintWriter out = response.getWriter();
+        out.print("hello");
     }
 
 }
