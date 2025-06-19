@@ -7,166 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>${movie.movieName} - Chi tiết phim</title>
     <link rel="stylesheet" href="https://ionic.io/ionicons" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/detail.css" />
-    <style>
-        body {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
-}
-.detail {
-  margin-bottom: 40px;
-}
-.detail-content {
-  display: flex;
-  padding: 30px 50px;
-}
-.detail-banner {
-  margin-right: 20px;
-}
-.detail-banner img {
-  height: 100%;
-  width: 350px;
-  margin-right: 50px;
-}
-
-.detail-information {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.detail-information p,
-h2 {
-  margin: 0;
-}
-
-.detail-information h2 {
-  font-size: 40px;
-}
-.detail-information p {
-  font-size: 20px;
-}
-.btn-detail button {
-  background-color: #c62828;
-  border: none;
-  color: white;
-  padding: 15px 30px;
-  cursor: pointer;
-  font-size: 20px;
-  transition: all 0.5s;
-}
-.btn-detail button:hover {
-  transform: translateY(-2px);
-}
-
-.btn-detail button:first-of-type {
-  background-color: rgb(19, 18, 18);
-  margin-right: 20px;
-}
-#comment-form {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #f7f7f7;
-  border-radius: 10px;
-}
-
-#comment-form button {
-  margin-top: 10px;
-  padding: 6px 12px;
-  background-color: black;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 6px;
-}
-
-.user-comment {
-  margin-top: 10px;
-}
-#toggle-comments {
-  background-color: #000; /* màu nền đen */
-  color: #fff; /* chữ trắng */
-  padding: 5px 15px; /* khoảng cách bên trong */
-  font-size: 15px; /* cỡ chữ */
-  font-weight: 600; /* chữ đậm */
-  border: none; /* bỏ viền */
-  border-radius: 8px; /* bo góc */
-  cursor: pointer; /* đổi con trỏ khi hover */
-  transition: all 0.3s ease; /* hiệu ứng mượt */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* đổ bóng */
-  margin-right: 10px; /* khoảng cách bên trái */
-  margin-top: 10px; /* khoảng cách bên trên */
-}
-
-#toggle-comments:hover {
-  background-color: #333; /* khi hover chuyển sang màu xám đậm hơn */
-  transform: scale(1.05); /* hiệu ứng phóng to nhẹ */
-}
-
-.heart-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 18px; /* hoặc to hơn nếu cần */
-  padding: 0;
-  margin: 0;
-  color: red;
-  transition: transform 0.2s ease;
-}
-
-.heart-button:hover {
-  transform: scale(1.2);
-}
-      /* Màn mờ phía sau */
-.overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Làm mờ các yếu tố phía sau */
-  justify-content: center;
-  align-items: center;
-}
-
-/* Popup chứa video */
-.popup {
-  background-color: white;
-  position: relative;
-  width: 80%;
-  max-width: 800px;
-  padding: 20px;
-}
-
-#trailerIframe {
-  width: 100%;
-  height: 450px;
-  border: none;
-}
-
-/* Nút đóng */
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 30px;
-  color: black;
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  cursor: pointer;
-} 
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/detail.css" />
+    
   </head>
 
   <body>
@@ -227,7 +69,10 @@ button {
                 <iframe id="trailerIframe" src="${movie.trailer}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </div>
             </div>
-            <button onclick="bookTicket(${movie.id})">Đặt vé</button>
+            <button onclick="window.location.href='${pageContext.request.contextPath}/SelectCalendar?id=${movie.id}'">
+                Đặt vé
+              </button>
+
           </div>
         </div>
       </div>
@@ -275,17 +120,10 @@ button {
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script>
-      function playTrailer(trailer) {
-        if (trailer) {
-          window.open(trailer, '_blank');
-        } else {
-          alert('Trailer chưa được cập nhật');
-        }
-      }
-
-      function bookTicket(id) {
-        window.location.href = '${pageContext.request.contextPath}/booking?movieId=' + movieId;
+    <script src="${pageContext.request.contextPath}/script/detail.js"></script>
+    <script >
+        function bookTicket(id) {
+        window.location.href = '${pageContext.request.contextPath}/SelectCalendar?id=' + movieId;
       }
 
      function addComment(movieId) {
@@ -342,36 +180,6 @@ button {
         alert(error.message || 'Đã xảy ra lỗi khi gửi bình luận');
     });
 }
-
-function toggleCommentSection() {
-    const commentsContainer = document.getElementById('comments-container');
-    const toggleButton = document.getElementById('toggle-comments');
-    
-    // Sửa logic ẩn/hiện comments
-    if (commentsContainer.classList.contains('hidden')) {
-        commentsContainer.classList.remove('hidden');
-        toggleButton.textContent = 'Ẩn bình luận';
-    } else {
-        commentsContainer.classList.add('hidden');
-        toggleButton.textContent = 'Hiện bình luận';
-    }
-}
-document.getElementById("playTrailerBtn").addEventListener("click", function() {
-  // Chỉ định URL của video YouTube (thay thế bằng link video của bạn)
-  var videoURL = "https://www.youtube.com/embed/dQw4w9WgXcQ"; // Thay đổi URL này
-
-  // Hiển thị overlay và iframe
-  document.getElementById("overlay").style.display = "flex";
-  document.getElementById("trailerIframe").src = videoURL;
-});
-
-document.getElementById("closeBtn").addEventListener("click", function() {
-  // Ẩn overlay khi đóng
-  document.getElementById("overlay").style.display = "none";
-  document.getElementById("trailerIframe").src = ""; // Dừng video khi đóng
-});
-
-
     </script>
   </body>
 </html>

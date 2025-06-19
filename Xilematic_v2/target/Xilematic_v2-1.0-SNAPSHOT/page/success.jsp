@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                <button class="home-button" onclick="window.location.href = '<c:url value="/page/home.jsp" />'">
+                <button class="home-button" onclick="window.location.href = '<c:url value="homeservlet" />'">
                     <i class="fas fa-home"></i> Về trang chủ
                 </button>
             </div>
