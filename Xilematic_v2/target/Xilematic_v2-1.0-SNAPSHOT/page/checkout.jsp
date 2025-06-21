@@ -54,7 +54,7 @@
                 <span>${totalPrice} VND</span>
             </div>
 
-            <form action="checkout?action=confirm" method="post">
+            <form action="payment" method="post">
                 <input type="hidden" name="movieName" value="${movieName}">
                 <input type="hidden" name="ma_lich_chieu" value="${ma_lich_chieu}">
                 <input type="hidden" name="maRap" value="${maRap}">

@@ -15,6 +15,7 @@ model\User.class
 service\IMovieService.class
 service\IUserService.class
 dao\BinhLuanDAO.class
+com\vnpay\common\Config.class
 service\ISeatService.class
 controller\MovieServlet.class
 dao\IUserDAO.class
@@ -22,8 +23,10 @@ model\Booking.class
 service\MovieService.class
 dao\SeatDAO.class
 controller\AuthenticationServlet.class
+com\vnpay\common\ajaxServlet.class
 model\CumRap.class
 utils\Helper.class
+com\vnpay\common\VnpayReturn.class
 model\TheLoai.class
 service\UserService.class
 dao\IBinhLuanDAO.class
@@ -47,5 +50,5 @@ model\HeThongRap.class
 constant\SessionAttribute.class
 constant\MessageManager.class
 service\IBookingService.class
-controller\CheckoutServlet$1.class
+com\vnpay\common\VnpayReturn$1.class
 controller\HomeServlet.class
