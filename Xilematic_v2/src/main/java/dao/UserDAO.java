@@ -1,4 +1,3 @@
-
 package dao;
 
 import dao.IUserDAO;
@@ -13,7 +12,6 @@ import java.util.List;
 import model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
-
 public class UserDAO implements IUserDAO {
 
     private static final String LOGIN = "SELECT * from NguoiDung where ten_tai_khoan LIKE ?";
@@ -27,6 +25,7 @@ public class UserDAO implements IUserDAO {
     private static final String CHECK_USERNAME_ISEXIST = "SELECT * FROM NguoiDung WHERE ten_tai_khoan LIKE ?";
     private static final String PAGING_USER = "SELECT * FROM NguoiDung ORDER BY ma_nguoi_dung OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
     private static final String GET_TOTAL_OF_USER = "SELECT COUNT(*) FROM NguoiDung";
+    private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM NguoiDung WHERE email = ?";
 
     @Override
     public User login(String username, String password) throws SQLException {
@@ -201,6 +200,34 @@ public class UserDAO implements IUserDAO {
             ex.printStackTrace();
         }
         return -1;
+    }
+
+    @Override
+    public User selectUserByEmail(String email) throws SQLException {
+        try (Connection con = DBConnection.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(SELECT_USER_BY_EMAIL);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("ma_nguoi_dung"),
+                        rs.getString("ten_tai_khoan"),
+                        rs.getString("ho_ten"),
+                        rs.getString("email"),
+                        rs.getString("so_dt"),
+                        rs.getString("mat_khau"),
+                        rs.getString("loai_nguoi_dung")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //test DAO
+    public static void main(String[] args) throws SQLException {
+        System.out.println(new UserDAO().selectUserByEmail("nguyen"));
     }
 
 }

@@ -18,4 +18,5 @@ public class MessageManager {
         System.out.println(MessageManager.getMessage("login.success"));
     }
 
+
 }

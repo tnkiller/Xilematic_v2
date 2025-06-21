@@ -6,6 +6,7 @@ package controller;
 
 import constant.PageLink;
 import constant.SessionAttribute;
+import entity.GoogleAccount;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,9 +15,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.Base64;
 import model.User;
 import service.UserService;
+import utils.GenerateInfor;
 
 @WebServlet(name = "AuthenticateServlet", urlPatterns = {"/authenticate"})
 public class AuthenticationServlet extends HttpServlet {
@@ -26,6 +29,7 @@ public class AuthenticationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processLoginWithGG(request, response);
     }
 
     @Override
@@ -67,7 +71,7 @@ public class AuthenticationServlet extends HttpServlet {
             String[] namePart = user.getFullname().split(" ");
             String name = namePart[namePart.length - 1];
             session.setAttribute("alias", name);
-            if (user.getTypeOfUser().equals("admin") || user.getTypeOfUser().equals("dev")) {
+            if (user.getTypeOfUser().equals("admin")) {
                 request.setAttribute("type", "stats");
                 request.setAttribute("status", true);
                 request.getRequestDispatcher(PageLink.ADMIN_PAGE).forward(request, response);
@@ -77,9 +81,38 @@ public class AuthenticationServlet extends HttpServlet {
         }
     }
 
+    //process login with gg
+    private void processLoginWithGG(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String code = request.getParameter("code");
+        String accessToken = GoogleLogin.getToken(code);
+        GoogleAccount ggAcc = GoogleLogin.getUserInfo(accessToken);
+
+        var user = userService.getUserByEmail(ggAcc.getEmail());
+
+        if (user == null) {
+            String username = GenerateInfor.generateUsername();
+            String password = GenerateInfor.generatePassword();
+            String firstname = ggAcc.getFirst_name() != null ? ggAcc.getFirst_name() : "";
+            String givenname = ggAcc.getGiven_name() != null ? ggAcc.getGiven_name() : "";
+            String familyname = ggAcc.getFamily_name() != null ? ggAcc.getFamily_name() : "";
+            String fullname = familyname + " " + givenname + " " + firstname;
+            String email = ggAcc.getEmail();
+            while (userService.isUsernameExist(username)) {
+                username = GenerateInfor.generateUsername();
+            }
+            User u = new User(username, fullname, email, "", password, "user");
+            userService.register(u);
+        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionAttribute.USER_INFOR, user);
+        response.sendRedirect(PageLink.HOME_PAGE);
+    }
+
     //process register
     private void processRegister(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        User user = (User) request.getAttribute("user");
         String[] requestAttributeErr = {"errUsername", "errFullname", "errEmail", "errPhoneNumber", "errPassword", "errConfirmPassword"};
         String username = request.getParameter("username");
         String fullname = request.getParameter("fullname");

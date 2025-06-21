@@ -1,5 +1,6 @@
 package controller;
 
+import constant.PageLink;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -35,8 +36,14 @@ public class MovieServlet extends HttpServlet {
         String action = request.getParameter("action");
         action = action == null ? "" : action;
         switch (action) {
-            case "add":
+            case "add_movie":
                 processAddMovie(request, response);
+                break;
+            case "update_movie":
+                processUpdateMovie(request, response);
+                break;
+            case "delete":
+                processDeleteMovie(request, response);
                 break;
             default:
                 break;
@@ -46,6 +53,16 @@ public class MovieServlet extends HttpServlet {
     //process add function
     private void processAddMovie(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Movie movie = (Movie) request.getAttribute("movie");
+        movie.setReleaseDate(request.getParameter("releaseDate"));
+        movieService.insertMovie(movie);
+        response.sendRedirect("paging?type=movies");
+    }
+
+    //process update function
+    private void processUpdateMovie(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
         String movieName = request.getParameter("movieName");
         String trailer = request.getParameter("trailer");
         String image = request.getParameter("image");
@@ -57,21 +74,27 @@ public class MovieServlet extends HttpServlet {
         String actor = request.getParameter("actor");
         String director = request.getParameter("director");
 
-        boolean isHot = hot.equals("1");
+        boolean isHot = hot != null;
         boolean isShowing = status.equals("1");
-
-        movieService.insertMovie(new Movie(movieName, trailer, image, description, releaseDate, Integer.parseInt(rate), isHot, isShowing, actor, director));
+        movieService.updateMovie(new Movie(id, movieName, trailer, image, description, releaseDate, Integer.parseInt(rate), isHot, isShowing, actor, director));
         response.sendRedirect("paging?type=movies");
     }
 
-//    movie?action=showDetail&id=1
+    //process delete function
+    private void processDeleteMovie(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        movieService.deleteMovie(id);
+        response.sendRedirect("paging?type=movies");
+    }
+
     //show detail
     private void processShowDetail(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
         Movie mv = movieService.getMovie(Integer.parseInt(id));
-        PrintWriter out = response.getWriter();
-        out.print("hello!");
+        request.setAttribute("movie", mv);
+        request.getRequestDispatcher(PageLink.DETAIL_PAGE).forward(request, response);
     }
 
 }

@@ -11,5 +11,6 @@ public class PageLink {
     //page folder
     public static final String HOME_PAGE = "home/home.jsp";
     public static final String ADMIN_PAGE = "page/admin.jsp";
+    public static final String DETAIL_PAGE = "page/edit.jsp";
 
 }

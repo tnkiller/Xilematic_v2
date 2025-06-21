@@ -13,6 +13,8 @@ public interface IUserService {
 
     public User getUser(int id);
 
+    public User getUserByEmail(String email);
+
     public List<User> getAllUsers();
 
     public boolean deleteUser(int id);

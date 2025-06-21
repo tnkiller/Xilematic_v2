@@ -1,10 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-import java.time.LocalDate;
-
-public class Movie {
+public class Movie implements Serializable {
 
     private int id;
     private String movieName;
@@ -106,8 +106,12 @@ public class Movie {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
-        this.releaseDate = releaseDate;
+//    public void setReleaseDate(LocalDate releaseDate) {
+//        this.releaseDate = releaseDate;
+//    }
+    public void setReleaseDate(String releaseDate) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.releaseDate = LocalDate.parse(releaseDate, dtf);
     }
 
     public int getRate() {

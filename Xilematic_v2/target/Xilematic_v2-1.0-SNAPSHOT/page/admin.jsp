@@ -9,8 +9,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="style/admin_style.css">
-        <link rel="stylesheet" href="style/chart_style.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/style/admin_style.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/style/chart_style.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
@@ -83,8 +83,13 @@
                                                     </c:choose>
                                                 </td>
                                                 <td>${movie.status ? "Now showing" : "Coming soon"}</td>
-                                                <td><a href="movies?action=showDetail&id=${movie.id}" class="detail">Detail</a></td>
-
+                                                <td class="action-field">
+                                                    <a href="movies?action=showDetail&id=${movie.id}" class="update-btn">Update</a>
+                                                    <form action="movies" method="POST" class="delete-btn">
+                                                        <input type="hidden" name="id" value="${movie.id}"/>
+                                                        <button type="submit" name="action" value="delete">Delete</button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                     </c:when>
@@ -96,7 +101,13 @@
                                                 <td>${user.email}</td>
                                                 <td>${user.phoneNumber}</td>
                                                 <td>${user.typeOfUser}</td>
-                                                <td><a href="movies?action=showDetail&id=${user.id}" id="userDetail" class="detail">Detail</a></td>
+                                                <td>
+                                                    <a href="users?action=showDetail&id=${user.id}">Update</a>
+                                                    <form action="users" method="POST" class="delete-btn">
+                                                        <input type="hidden" name="id" value="${user.id}"/>
+                                                        <button type="submit" name="action" value="delete">Delete</button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                     </c:when>
@@ -155,9 +166,9 @@
                 <span class="close-btn" onclick="document.getElementById('addMoviePopup').style.display = 'none'">&times;</span>
                 <h2>Thêm Phim Mới</h2>
                 <!--form này sẽ được gửi đến movie servlet (url = \movies)-->
-                <form action="movies" method="POST">
+                <form action="intermediate.jsp" method="POST">
                     <label>Tên phim:</label>
-                    <input type="text" name="title" required>
+                    <input type="text" name="movieName" required>
 
                     <label>Trailer (URL):</label>
                     <input type="url" name="trailer" required>
@@ -183,7 +194,7 @@
 
                     <label>
                         Hot (phim nổi bật)
-                        <input type="checkbox" name="hot">
+                        <input type="checkbox" name="hot" value="true">
                     </label>
 
                     <label>Diễn viên (actor):</label>
@@ -192,7 +203,8 @@
                     <label>Đạo diễn (director):</label>
                     <input type="text" name="director" required>
 
-                    <button type="submit" name="action" value="add">Thêm phim</button>
+                    <input type="hidden" name="action" value="add_movie"/>
+                    <button type="submit">Thêm phim</button>
                 </form>
             </div>
         </div>
@@ -208,9 +220,9 @@
                 <span class="close-btn" onclick="document.getElementById('detailPopup').style.display = 'none'">&times;</span>
                 <h2>Chi tiết</h2>
                 <!--form này sẽ được gửi đến movie servlet (url = \movies)-->
-                <form action="movies" method="POST" class="form-row-btn">
+                <form action="intermediate.jsp" method="POST" class="form-row-btn">
                     <label>Tên phim:</label>
-                    <input type="text" name="title" value="" required="">
+                    <input type="text" name="movieName" value="" required="">
 
                     <label>Trailer (URL):</label>
                     <input type="url" name="trailer" value="" required>

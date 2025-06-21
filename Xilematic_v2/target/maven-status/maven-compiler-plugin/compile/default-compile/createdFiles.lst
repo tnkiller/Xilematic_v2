@@ -3,6 +3,7 @@ model\RapPhim.class
 service\BookingService.class
 service\IShowtimeService.class
 controller\DetailServlet.class
+controller\GoogleLogin.class
 model\Movie.class
 controller\BookingServlet.class
 dao\BookingDAO.class
@@ -22,7 +23,9 @@ model\Booking.class
 service\MovieService.class
 dao\SeatDAO.class
 controller\AuthenticationServlet.class
+constant\IConstant.class
 model\CumRap.class
+utils\GenerateInfor.class
 utils\Helper.class
 model\TheLoai.class
 service\UserService.class
@@ -37,6 +40,7 @@ dao\IBookingDAO.class
 dao\MovieDAO.class
 model\Showtime.class
 constant\PageLink.class
+entity\GoogleAccount.class
 context\DBConnection.class
 controller\CheckoutServlet.class
 dao\ISeatDAO.class
