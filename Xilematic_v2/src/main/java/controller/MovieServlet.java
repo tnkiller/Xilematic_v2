@@ -62,21 +62,10 @@ public class MovieServlet extends HttpServlet {
     //process update function
     private void processUpdateMovie(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        String movieName = request.getParameter("movieName");
-        String trailer = request.getParameter("trailer");
-        String image = request.getParameter("image");
-        String description = request.getParameter("description");
-        String releaseDate = request.getParameter("releaseDate");
-        String rate = request.getParameter("rate");
-        String hot = request.getParameter("hot");
-        String status = request.getParameter("status");
-        String actor = request.getParameter("actor");
-        String director = request.getParameter("director");
-
-        boolean isHot = hot != null;
-        boolean isShowing = status.equals("1");
-        movieService.updateMovie(new Movie(id, movieName, trailer, image, description, releaseDate, Integer.parseInt(rate), isHot, isShowing, actor, director));
+        Movie movie = (Movie) request.getAttribute("movie");
+        movie.setHot("on".equals(request.getParameter("hot")));
+        movie.setReleaseDate(request.getParameter("releaseDate"));
+        movieService.updateMovie(movie);
         response.sendRedirect("paging?type=movies");
     }
 

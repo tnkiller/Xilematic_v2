@@ -30,8 +30,14 @@
 
         <!--navigate-->
         <c:choose>
-            <c:when test='<%=act.equals("add_movie")%>'>
+            <c:when test='<%=act.equals("login") || act.equals("register")%>'>
+                <jsp:forward page="authenticate"></jsp:forward>
+            </c:when>
+            <c:when test='<%=act.equals("add_movie") || act.equals("update_movie")%>'>
                 <jsp:forward page="movies"></jsp:forward>
+            </c:when>
+            <c:when test='<%=act.equals("add_user") || act.equals("update_user")%>'>d
+                <jsp:forward page="users"></jsp:forward>
             </c:when>
         </c:choose>
 

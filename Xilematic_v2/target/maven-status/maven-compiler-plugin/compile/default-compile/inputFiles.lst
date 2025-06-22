@@ -1,7 +1,6 @@
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\AuthenticationServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\ShowtimeService.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\utils\Validator.java
-D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\filter\AuthenFilter.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\IUserDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\HomeServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\UserService.java
@@ -36,6 +35,7 @@ D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\MovieDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\BookingServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\ShowtimeDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\ISeatDAO.java
+D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\filter\AuthFilter.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\constant\IConstant.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\model\Showtime.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\UserDAO.java

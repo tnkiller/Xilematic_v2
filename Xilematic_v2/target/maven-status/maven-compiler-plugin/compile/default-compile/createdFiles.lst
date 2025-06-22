@@ -34,7 +34,7 @@ service\ICommentService.class
 model\Seat.class
 dao\IShowtimeDAO.class
 utils\Validator.class
-filter\AuthenFilter.class
+filter\AuthFilter.class
 service\SeatService.class
 dao\IBookingDAO.class
 dao\MovieDAO.class

@@ -52,8 +52,9 @@ public class AuthenticationServlet extends HttpServlet {
 
     //process login
     private void processLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        User u = (User) request.getAttribute("user");
+        String username = u.getUsername();
+        String password = u.getPassword();
         String rememberMe = request.getParameter("rememberMe");
         var user = userService.login(username, password);
 
@@ -113,22 +114,16 @@ public class AuthenticationServlet extends HttpServlet {
     private void processRegister(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User user = (User) request.getAttribute("user");
+        user.setTypeOfUser("user");//default
         String[] requestAttributeErr = {"errUsername", "errFullname", "errEmail", "errPhoneNumber", "errPassword", "errConfirmPassword"};
-        String username = request.getParameter("username");
-        String fullname = request.getParameter("fullname");
-        String email = request.getParameter("email");
-        String phoneNum = request.getParameter("phoneNum");
-        String password = request.getParameter("password");
+        String username = user.getUsername();
+        String fullname = user.getFullname();
+        String email = user.getEmail();
+        String phoneNum = user.getPhoneNumber();
+        String password = user.getPassword();
         String confirmPassword = request.getParameter("confirmPassword");
         String msg = "";
-        String role = "user"; //default
         boolean flag = true;
-
-//special code for 'admin' role
-        if (username.endsWith("..@admin")) {
-            role = "admin";
-            username = username.substring(0, username.indexOf("."));
-        }
 
         request.setAttribute("username", username);
         request.setAttribute("fullname", fullname);
@@ -192,8 +187,8 @@ public class AuthenticationServlet extends HttpServlet {
             return;
         }
 
-        boolean status = userService.register(new User(username, fullname, email, phoneNum, password, role));
-        msg = status ? "Back to login" : "Error happened!";
+        boolean status = userService.register(user);
+        msg = status ? "Back to login" : "Register";
         request.setAttribute("msg", msg);
         request.getRequestDispatcher(PageLink.REGISTER_PAGE).forward(request, response);
     }
@@ -228,9 +223,7 @@ public class AuthenticationServlet extends HttpServlet {
     //process log out
     private void processLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-
         session.invalidate();
-
         response.sendRedirect("login.jsp");
     }
 
