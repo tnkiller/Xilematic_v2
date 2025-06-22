@@ -13,12 +13,12 @@ import model.User;
 @WebFilter("/*") // Áp dụng cho tất cả request
 public class AuthFilter implements Filter {
 
-    // Bản đồ quyền truy cập
+    // MAP quyền truy cập
     private static final Map<String, Set<String>> roleAccessMap = new HashMap<>();
     // Các URL không cần xác thực
     private static final List<String> publicUrls = Arrays.asList(
             "/login.jsp", "/register.jsp", "/intermediate.jsp", "/access_denied.jsp",
-            "/style/", "/script/", "/asset/", "/favicon.ico", "/authenticate", "/components/","/home/"
+            "/style/", "/script/", "/asset/", "/favicon.ico", "/authenticate", "/components/", "/home/", "/"
     );
 
     @Override
@@ -32,7 +32,7 @@ public class AuthFilter implements Filter {
 
         //Các trang user có thể vào
         Set<String> userPages = new HashSet<>(Arrays.asList(
-                "/user/", "/home/"
+                "/user/", "/home/",""
         ));
         roleAccessMap.put("admin", adminPages);
         roleAccessMap.put("user", userPages);

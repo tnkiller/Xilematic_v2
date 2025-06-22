@@ -36,7 +36,7 @@
             <c:when test='<%=act.equals("add_movie") || act.equals("update_movie")%>'>
                 <jsp:forward page="movies"></jsp:forward>
             </c:when>
-            <c:when test='<%=act.equals("add_user") || act.equals("update_user")%>'>d
+            <c:when test='<%=act.equals("add_user") || act.equals("update_user")%>'>
                 <jsp:forward page="users"></jsp:forward>
             </c:when>
         </c:choose>

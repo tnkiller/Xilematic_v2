@@ -7,7 +7,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 import model.Movie;
 import service.MovieService;
 
@@ -83,7 +82,7 @@ public class MovieServlet extends HttpServlet {
         String id = request.getParameter("id");
         Movie mv = movieService.getMovie(Integer.parseInt(id));
         request.setAttribute("movie", mv);
-        request.getRequestDispatcher(PageLink.DETAIL_PAGE).forward(request, response);
+        request.getRequestDispatcher(PageLink.EDIT_MOVIE_PAGE).forward(request, response);
     }
 
 }
