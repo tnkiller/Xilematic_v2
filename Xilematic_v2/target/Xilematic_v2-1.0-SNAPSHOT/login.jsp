@@ -10,7 +10,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login</title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/login_style.css">
-        <link rel="icon" type="logo" href="asset/download.png" />
+        <link rel="icon" type="logo" href="asset/image/download.png" />
     </head>
 
     <body>

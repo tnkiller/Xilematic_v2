@@ -17,7 +17,7 @@ public class AuthFilter implements Filter {
     private static final Map<String, Set<String>> roleAccessMap = new HashMap<>();
     // Các tài nguyên công khai
     private static final List<String> publicUrls = Arrays.asList(
-            "/login.jsp", "/register.jsp", "/intermediate.jsp", "/access_denied.jsp",
+            "/login.jsp", "/register.jsp", "/intermediate.jsp", "/access_denied.jsp","/favorites",
             "/style/", "/script/", "/asset/", "/favicon.ico", "/authenticate", "/components/", "/home/", "/"
     );
 
@@ -50,12 +50,9 @@ public class AuthFilter implements Filter {
         String path = uri.substring(contextPath.length()); // ex: /secure/admin
 
 //        path = /style/home_style.css
-        
-        for (String url : publicUrls) {
-            if (path.equals(url) || path.startsWith(url + "/")) {
-                chain.doFilter(request, response); // Cho phép truy cập URL công khai
-                return;
-            }
+        if (publicUrls.stream().anyMatch(path::startsWith)) {
+            chain.doFilter(request, response); // Cho phép truy cập URL công khai
+            return;
         }
 
         // Kiểm tra phiên đăng nhập
