@@ -1,6 +1,7 @@
 service\ShowtimeService.class
 model\RapPhim.class
 service\BookingService.class
+service\IHeThongRapService.class
 service\IShowtimeService.class
 controller\DetailServlet.class
 controller\GoogleLogin.class
@@ -10,6 +11,7 @@ dao\BookingDAO.class
 dao\ShowtimeDAO.class
 dao\UserDAO.class
 dao\IMovieDAO.class
+controller\UserServlet.class
 model\BinhLuan.class
 service\CommentService.class
 model\User.class
@@ -21,6 +23,7 @@ controller\MovieServlet.class
 dao\IUserDAO.class
 model\Booking.class
 service\MovieService.class
+controller\TheaterSystemServlet.class
 dao\SeatDAO.class
 controller\AuthenticationServlet.class
 constant\IConstant.class
@@ -28,9 +31,11 @@ model\CumRap.class
 utils\GenerateInfor.class
 utils\Helper.class
 model\TheLoai.class
+dao\HeThongRapDAO.class
 service\UserService.class
 dao\IBinhLuanDAO.class
 service\ICommentService.class
+dao\IHeThongRapDAO.class
 model\Seat.class
 dao\IShowtimeDAO.class
 utils\Validator.class
@@ -48,6 +53,7 @@ model\LichChieu.class
 controller\PagingServlet.class
 model\HeThongRap.class
 constant\SessionAttribute.class
+service\HeThongRapService.class
 constant\MessageManager.class
 service\IBookingService.class
 controller\HomeServlet.class

@@ -1,7 +1,7 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.Movie"%>
 <%@page import="service.MovieService"%>
 <%@page import="service.IMovieService"%>
-<%@page import="model.Movie"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -49,109 +49,123 @@
 
             <!--dữ liệu bảng nằm bên phải nav-bar và chiếm khoảng 80% chiều rộng của trang-->
             <div class="data">
+                <!--nut add new cho moi bang-->
                 <c:choose>
+
                     <c:when test="${requestScope.type == 'movies'}">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_movie" data-type="${param.type}"> Add New</button>
                     </c:when>
+
                     <c:when test="${requestScope.type == 'users'}">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_user" data-type="${param.type}">Add New</button>
                     </c:when>
+
                 </c:choose>
 
 
 
                 <!--TH hien thi thong tin bang-->
-                <c:if test="${not empty list}">
-                    <table>
-                        <thead>
-                            <tr>
-                                <c:choose>
-                                    <c:when test="${param.type == 'movies'}">
-                                        <th>Movie Name</th>
-                                        <th>Release Date</th>
-                                        <th>Rate</th>
-                                        <th>Hot</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                        </c:when>
-                                        <c:when test="${param.type == 'users'}">
-                                        <th>Username</th>
-                                        <th>Full Name</th>
-                                        <th>Email</th>
-                                        <th>Phone Number</th>
-                                        <th>Type</th>
-                                        <th>Action</th>
-                                        </c:when>
-                                    </c:choose>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <!--NOTE: type, list được lấy từ paging servlet-->
+                <!--bat dau table-->
+                <table>
+                    <!--bat dau table head-->
+                    <!--tổng cộng có 6 cái đầu-->
+                    <thead>
+                        <tr>
                             <c:choose>
-                                <c:when test="${requestScope.type == 'movies'}">
-                                    <c:forEach var="movie" items="${requestScope.list}">
-                                        <tr>
-                                            <td>${movie.movieName}</td>
-                                            <td>${movie.releaseDate}</td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <i class="bi bi-star-fill text-warning me-1"></i>
-                                                    ${movie.rate}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" ${movie.hot ? 'checked' : ''} disabled>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span class="badge ${movie.status ? 'bg-success' : 'bg-info'}">
-                                                    ${movie.status ? "Now showing" : "Coming soon"}
-                                                </span>
-                                            </td>
-                                            <td class="action-field">
-                                                <a href="movies?action=showDetail&id=${movie.id}" class="update-btn">
-                                                    <i class="bi bi-pencil-square text-primary"></i>
-                                                </a>
-                                                <form action="movies" method="POST" class="delete-btn d-inline">
-                                                    <input type="hidden" name="id" value="${movie.id}"/>
-                                                    <button onclick="return confirm('Are your sure?')" type="submit" name="action" value="delete" class="btn btn-link p-0 ms-2">
-                                                        <i class="bi bi-trash text-danger"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </c:when>
-                                <c:when test="${requestScope.type == 'users'}">
-                                    <c:forEach var="user" items="${requestScope.list}">
-                                        <tr>
-                                            <td>${user.username}</td>
-                                            <td>${user.fullname}</td>
-                                            <td>${user.email}</td>
-                                            <td>${user.phoneNumber}</td>
-                                            <td>
-                                                <span class="badge ${user.typeOfUser == 'ADMIN' ? 'bg-danger' : 'bg-secondary'}">
-                                                    ${user.typeOfUser}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <a href="users?action=showDetail&id=${user.id}">
-                                                    <i class="bi bi-pencil-square text-primary"></i>
-                                                </a>
-                                                <form action="users" method="POST" class="delete-btn d-inline">
-                                                    <input type="hidden" name="id" value="${user.id}"/>
-                                                    <button type="submit" name="action" value="delete" class="btn btn-link p-0 ms-2">
-                                                        <i class="bi bi-trash text-danger"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </c:when>
-                            </c:choose>
-                        </tbody>
-                    </table>
-                </c:if>
+
+                                <c:when test="${param.type == 'movies'}">
+                                    <th>Movie Name</th>
+                                    <th>Release Date</th>
+                                    <th>Rate</th>
+                                    <th>Hot</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                    </c:when>
+
+                                <c:when test="${param.type == 'users'}">
+                                    <th>Username</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Phone Number</th>
+                                    <th>Type</th>
+                                    <th>Action</th>
+                                    </c:when>
+                                </c:choose>
+                        </tr>
+                    </thead>
+
+                    <!--bat dau table body-->
+                    <!--tổng cộng có 6 cái thân-->
+                    <tbody>
+                        <c:choose>
+
+                            <c:when test="${requestScope.type == 'movies'}">
+                                <c:forEach var="movie" items="${requestScope.list}">
+                                    <tr>
+                                        <td>${movie.movieName}</td>
+                                        <td>${movie.releaseDate}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-star-fill text-warning me-1"></i>
+                                                ${movie.rate}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" ${movie.hot ? 'checked' : ''} disabled>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge ${movie.status ? 'bg-success' : 'bg-info'}">
+                                                ${movie.status ? "Now showing" : "Coming soon"}
+                                            </span>
+                                        </td>
+                                        <td class="action-field">
+                                            <a href="movies?action=showDetail&id=${movie.id}" class="update-btn">
+                                                <i class="bi bi-pencil-square text-primary"></i>
+                                            </a>
+                                            <form action="movies" method="POST" class="delete-btn d-inline">
+                                                <input type="hidden" name="id" value="${movie.id}"/>
+                                                <button onclick="return confirm('Are your sure?')" type="submit" name="action" value="delete" class="btn btn-link p-0 ms-2">
+                                                    <i class="bi bi-trash text-danger"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+
+                            <c:when test="${requestScope.type == 'users'}">
+                                <c:forEach var="user" items="${requestScope.list}">
+                                    <tr>
+                                        <td>${user.username}</td>
+                                        <td>${user.fullname}</td>
+                                        <td>${user.email}</td>
+                                        <td>${user.phoneNumber}</td>
+                                        <td>
+                                            <span class="badge ${user.typeOfUser == 'ADMIN' ? 'bg-danger' : 'bg-secondary'}">
+                                                ${user.typeOfUser}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="users?action=showDetail&id=${user.id}">
+                                                <i class="bi bi-pencil-square text-primary"></i>
+                                            </a>
+                                            <form action="users" method="POST" class="delete-btn d-inline">
+                                                <input type="hidden" name="id" value="${user.id}"/>
+                                                <button type="submit" name="action" value="delete" class="btn btn-link p-0 ms-2">
+                                                    <i class="bi bi-trash text-danger"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+
+                        </c:choose>
+                    </tbody>
+                </table>
 
 
 
@@ -194,6 +208,8 @@
                 </div>
             </div>
         </div>
+
+
 
         <!-- POPUP ADD NEW -->
         <!-- MOVIE -->

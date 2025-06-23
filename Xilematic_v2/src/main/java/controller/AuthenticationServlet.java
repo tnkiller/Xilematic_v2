@@ -20,6 +20,7 @@ import java.util.Base64;
 import model.User;
 import service.UserService;
 import utils.GenerateInfor;
+import utils.Validator;
 
 @WebServlet(name = "AuthenticateServlet", urlPatterns = {"/authenticate"})
 public class AuthenticationServlet extends HttpServlet {
@@ -107,37 +108,32 @@ public class AuthenticationServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionAttribute.USER_INFOR, user);
-        response.sendRedirect(PageLink.HOME_PAGE);
+        if ("admin".equals(user.getTypeOfUser())) {
+            response.sendRedirect(PageLink.ADMIN_PAGE);
+        } else {
+            response.sendRedirect(PageLink.HOME_PAGE);
+        }
     }
 
     //process register
     private void processRegister(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String[] requestAttributeErr = {"errUsername", "errFullname", "errEmail", "errPhoneNumber", "errPassword", "errConfirmPassword"};
         User user = (User) request.getAttribute("user");
         user.setTypeOfUser("user");//default
-        String[] requestAttributeErr = {"errUsername", "errFullname", "errEmail", "errPhoneNumber", "errPassword", "errConfirmPassword"};
         String username = user.getUsername();
         String fullname = user.getFullname();
         String email = user.getEmail();
         String phoneNum = user.getPhoneNumber();
         String password = user.getPassword();
         String confirmPassword = request.getParameter("confirmPassword");
-        String msg = "";
         boolean flag = true;
 
-        request.setAttribute("username", username);
-        request.setAttribute("fullname", fullname);
-        request.setAttribute("email", email);
-        request.setAttribute("phoneNum", phoneNum);
-        request.setAttribute("password", password);
-
-        // khong cho khoang cach
-        if (username.isBlank()
-                || password.isBlank()
-                || fullname.isBlank()
-                || email.isBlank()
-                || phoneNum.isBlank()
-                || confirmPassword.isBlank()) {
+        if (Validator.isEmpty(username) != null
+                || Validator.isEmpty(fullname) != null
+                || Validator.isEmpty(email) != null
+                || Validator.isEmpty(phoneNum) != null
+                || Validator.isEmpty(password) != null) {
             for (String i : requestAttributeErr) {
                 request.setAttribute(i, "PLease fill form correctly!");
                 request.getRequestDispatcher(PageLink.REGISTER_PAGE).forward(request, response);
@@ -146,39 +142,43 @@ public class AuthenticationServlet extends HttpServlet {
         }
 
 //         validate không cho trùng trong database
-        if (userService.isUsernameExist(username)) {
-            request.setAttribute(requestAttributeErr[0], "This ID existed database!");
-            request.setAttribute("username", null);
+        if (Validator.isValidUsername(username) != null) {
+            request.setAttribute(requestAttributeErr[0], Validator.isValidUsername(username));
             flag = false;
+        } else {
+            request.setAttribute("username", username);
         }
 
-        if (!fullname.matches("^[A-Za-z]+(?: [A-Za-z]+)+$")) {
-            request.setAttribute(requestAttributeErr[1], "Invalid fullname!");
-            request.setAttribute("fullname", null);
+        if (Validator.isValidFullname(fullname) != null) {
+            request.setAttribute(requestAttributeErr[1], Validator.isValidFullname(fullname));
             flag = false;
+        } else {
+            request.setAttribute("fullname", fullname);
         }
 
-        if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
-            request.setAttribute(requestAttributeErr[2], "Invalid email!");
-            request.setAttribute("email", null);
+        if (Validator.isValidEmail(email) != null) {
+            request.setAttribute(requestAttributeErr[2], Validator.isValidEmail(email));
             flag = false;
-
+        } else {
+            request.setAttribute("email", email);
         }
 
-        if (!phoneNum.matches("^0\\d{9}$")) {
-            request.setAttribute(requestAttributeErr[3], "Invalid phone number!");
-            request.setAttribute("phoneNum", null);
+        if (Validator.isValidPhoneNumber(phoneNum) != null) {
+            request.setAttribute(requestAttributeErr[3], Validator.isValidPhoneNumber(phoneNum));
             flag = false;
+        } else {
+            request.setAttribute("phoneNum", phoneNum);
         }
 
-        if (!password.matches("^.{3,}$")) {
-            request.setAttribute("password", null);
-            request.setAttribute(requestAttributeErr[4], "Invalid phone number!");
+        if (Validator.isValidPassword(password) != null) {
+            request.setAttribute(requestAttributeErr[4], Validator.isValidPassword(password));
             flag = false;
+        } else {
+            request.setAttribute("password", password);
         }
 
-        if (!confirmPassword.equals(password)) {
-            request.setAttribute(requestAttributeErr[5], "Do not match password!");
+        if (Validator.isValidConfirmPassword(password, confirmPassword) != null) {
+            request.setAttribute(requestAttributeErr[5], Validator.isValidConfirmPassword(password, confirmPassword));
             flag = false;
         }
 
@@ -188,9 +188,7 @@ public class AuthenticationServlet extends HttpServlet {
         }
 
         boolean status = userService.register(user);
-        msg = status ? "Back to login" : "Register";
-        request.setAttribute("msg", msg);
-        request.getRequestDispatcher(PageLink.REGISTER_PAGE).forward(request, response);
+        response.sendRedirect(PageLink.LOGIN_PAGE);
     }
 
     //process remember me

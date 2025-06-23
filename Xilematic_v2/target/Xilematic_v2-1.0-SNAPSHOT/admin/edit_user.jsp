@@ -21,6 +21,7 @@
                         <div class="card-body">
                             <form action="<%=request.getContextPath()%>/intermediate.jsp" method="POST">
                                 <input type="hidden" name="id" value="${user.id}"/>
+                                <input type="hidden" name="password" value="${user.password}"/>
                                 <input type="hidden" name="action" value="update_user"/>
 
                                 <div class="mb-3">

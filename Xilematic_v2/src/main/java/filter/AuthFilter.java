@@ -10,12 +10,12 @@ import java.io.IOException;
 import java.util.*;
 import model.User;
 
-@WebFilter("/*") // Áp dụng cho tất cả request
+@WebFilter(urlPatterns = {"/*"}) // Áp dụng cho tất cả servlet
 public class AuthFilter implements Filter {
 
     // MAP quyền truy cập
     private static final Map<String, Set<String>> roleAccessMap = new HashMap<>();
-    // Các URL không cần xác thực
+    // Các tài nguyên công khai
     private static final List<String> publicUrls = Arrays.asList(
             "/login.jsp", "/register.jsp", "/intermediate.jsp", "/access_denied.jsp",
             "/style/", "/script/", "/asset/", "/favicon.ico", "/authenticate", "/components/", "/home/", "/"
@@ -32,7 +32,7 @@ public class AuthFilter implements Filter {
 
         //Các trang user có thể vào
         Set<String> userPages = new HashSet<>(Arrays.asList(
-                "/user/", "/home/",""
+                "/user/", "/home/"
         ));
         roleAccessMap.put("admin", adminPages);
         roleAccessMap.put("user", userPages);
@@ -49,8 +49,10 @@ public class AuthFilter implements Filter {
         String uri = req.getRequestURI();                  // ex: /myapp/secure/admin
         String path = uri.substring(contextPath.length()); // ex: /secure/admin
 
+//        path = /style/home_style.css
+        
         for (String url : publicUrls) {
-            if (path.startsWith(url)) {
+            if (path.equals(url) || path.startsWith(url + "/")) {
                 chain.doFilter(request, response); // Cho phép truy cập URL công khai
                 return;
             }
@@ -62,6 +64,9 @@ public class AuthFilter implements Filter {
         if (session != null && session.getAttribute(SessionAttribute.USER_INFOR) != null) {
             User u = (User) session.getAttribute(SessionAttribute.USER_INFOR);
             Set<String> allowedPrefixes = roleAccessMap.get(u.getTypeOfUser());
+
+            System.out.println(path);
+            System.out.println(u.getTypeOfUser());
 
             boolean allowed = false;
 

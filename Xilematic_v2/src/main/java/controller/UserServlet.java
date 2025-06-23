@@ -61,6 +61,8 @@ public class UserServlet extends HttpServlet {
     private void processUpdateUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User user = (User) request.getAttribute("user");
+
+        //validate
         userService.updateUser(user);
         response.sendRedirect("paging?type=users");
     }
@@ -68,8 +70,7 @@ public class UserServlet extends HttpServlet {
     //process delete function
     private void processDeleteUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        userService.deleteUser(id);
+        userService.deleteUser(((User) request.getAttribute("user")).getId());
         response.sendRedirect("paging?type=users");
     }
 

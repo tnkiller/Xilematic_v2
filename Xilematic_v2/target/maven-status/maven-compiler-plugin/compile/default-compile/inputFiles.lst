@@ -7,6 +7,7 @@ D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\UserService.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\entity\GoogleAccount.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\MovieService.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\PagingServlet.java
+D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\TheaterSystemServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\IShowtimeDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\BinhLuanDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\ISeatService.java
@@ -17,6 +18,7 @@ D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\constant\PageLink.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\model\HeThongRap.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\model\Movie.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\CommentService.java
+D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\HeThongRapDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\model\RapPhim.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\context\DBConnection.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\model\User.java
@@ -36,6 +38,7 @@ D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\BookingServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\ShowtimeDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\ISeatDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\filter\AuthFilter.java
+D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\UserServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\constant\IConstant.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\model\Showtime.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\UserDAO.java
@@ -44,7 +47,10 @@ D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\utils\Helper.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\MovieServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\IBinhLuanDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\model\LichChieu.java
+D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\IHeThongRapDAO.java
+D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\HeThongRapService.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\model\BinhLuan.java
+D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\IHeThongRapService.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\CheckoutServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\IUserService.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\model\Booking.java

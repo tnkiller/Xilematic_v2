@@ -12,43 +12,66 @@ public class Validator {
 
     private static IUserService userService = new UserService();
 
-    public static boolean isEmpty(String str) {
-        return str == null || str.trim().isEmpty();
+    public static String isEmpty(String str) {
+        if (str == null || str.trim().isEmpty()) {
+            return "PLease fill form correctly!";
+        }
+        return null;
     }
 
-    // Hàm kiểm tra tên người dùng có hợp lệ hay không
-    public static boolean validateUsername(String username) {
-        // Sử dụng biểu thức chính quy để kiểm tra ký tự đặc biệt
-        String regex = "^[a-zA-Z0-9]+$";  // Chỉ cho phép chữ cái và số, không có khoảng trắng hay ký tự đặc biệt
+    public static String isValidUsername(String username) {
+        String regex = "^[a-zA-Z0-9]+$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(username);
-
         if (!matcher.matches()) {
-            System.out.println("Username không được chứa ký tự đặc biệt hoặc khoảng trắng.");
-            return false;
+            return "Invalid format!";
+        } else if (isUsernameExisted(username) != null) {
+            return isUsernameExisted(username);
         }
+        return null;
+    }
 
+    private static String isUsernameExisted(String username) {
         if (userService.isUsernameExist(username)) {
+            return "This username exited!";
+        }
+        return null;
+    }
+
+    public static String isValidFullname(String fullname) {
+        if (!fullname.matches("^[A-Za-z]+(?: [A-Za-z]+)+$")) {
+            return "Invalid fullname";
+        }
+        return null;
+    }
+
+    public static String isValidEmail(String email) {
+        if (isEmpty(email) != null || !email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}")) {
+            return "Invalid email";
+        }
+        return null;
+    }
+
+    public static String isValidPhoneNumber(String phone) {
+        if (!phone.matches("^0\\d{9}$")) {
+            return "Invalid phone";
+        }
+        return null;
+    }
+
+    public static String isValidPassword(String password) {
+        if (!password.matches("^.{3,}$")) {
+            return "Password must be at least 3 characters";
+        }
+        return null;
+    }
+
+    public static String isValidConfirmPassword(String password, String confirmPassword) {
+        if (!password.equals(confirmPassword)) {
+            return "Invalid confirm password";
 
         }
-
-        // Nếu không có lỗi, tên người dùng hợp lệ
-        System.out.println("Username hợp lệ.");
-        return true;
-    }
-
-    public static boolean isValidEmail(String email) {
-        return email != null && email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}");
-    }
-
-    public static boolean isValidPhoneNumber(String phone) {
-        return phone != null && phone.matches("\\d{10}");
-    }
-
-    public static boolean isValidPassword(String password) {
-        return password != null && password.length() >= 6
-                && password.matches(".*[A-Za-z].*")
-                && password.matches(".*\\d.*");
+        return null;
     }
 
     public static boolean isValidDate(String dateStr) {
