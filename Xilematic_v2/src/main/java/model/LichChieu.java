@@ -9,6 +9,7 @@ package model;
  * @author ASUS
  */
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class LichChieu {
     private int maLichChieu;
@@ -21,6 +22,9 @@ public class LichChieu {
         this.maRap = maRap;
         this.maPhim = maPhim;
         this.ngayGioChieu = ngayGioChieu;
+    }
+
+    public LichChieu() {
     }
 
     public int getMaLichChieu() {
@@ -54,6 +58,8 @@ public class LichChieu {
     public void setNgayGioChieu(LocalDateTime ngayGioChieu) {
         this.ngayGioChieu = ngayGioChieu;
     }
+   
+
 
     @Override
     public String toString() {
