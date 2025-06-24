@@ -102,8 +102,8 @@ public class AuthenticationServlet extends HttpServlet {
             while (userService.isUsernameExist(username)) {
                 username = GenerateInfor.generateUsername();
             }
-            User u = new User(username, fullname, email, "", password, "user");
-            userService.register(u);
+            user = new User(username, fullname, email, "", password, "user");
+            userService.register(user);
         }
 
         HttpSession session = request.getSession();
