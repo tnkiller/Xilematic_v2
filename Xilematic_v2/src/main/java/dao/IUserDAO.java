@@ -25,4 +25,6 @@ public interface IUserDAO {
     public List<User> getUsersForPage(int currentPage, int pageSize) throws SQLException;
 
     public int getTotalUsersCount() throws SQLException;
+    
+    public String getEmailUser(int ma_nguoi_dung) throws SQLException;
 }

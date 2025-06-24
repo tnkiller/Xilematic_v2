@@ -10,4 +10,5 @@ public interface IShowtimeService {
 
     public Showtime getShowtimeInformationByID(int ma_lich_chieu);
     
+    public String getMoiveNameByShowtimeID(int ma_lich_chieu);
 }

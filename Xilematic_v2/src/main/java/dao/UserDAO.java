@@ -26,6 +26,7 @@ public class UserDAO implements IUserDAO {
     private static final String PAGING_USER = "SELECT * FROM NguoiDung ORDER BY ma_nguoi_dung OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
     private static final String GET_TOTAL_OF_USER = "SELECT COUNT(*) FROM NguoiDung";
     private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM NguoiDung WHERE email = ?";
+    private static final String GET_EMAIL_USER = "SELECT EMAIL FROM NguoiDung WHERE ma_nguoi_dung = ?";
 
     @Override
     public User login(String username, String password) throws SQLException {
@@ -225,9 +226,17 @@ public class UserDAO implements IUserDAO {
         return null;
     }
 
-    //test DAO
-    public static void main(String[] args) throws SQLException {
-        System.out.println(new UserDAO().selectUserByEmail("nguyen"));
+    public String getEmailUser(int ma_nguoi_dung) throws SQLException {
+        try (Connection c = DBConnection.getConnection()) {
+            PreparedStatement pt = c.prepareStatement(GET_EMAIL_USER);
+            pt.setInt(1, ma_nguoi_dung);
+            ResultSet rs = pt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("email");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return "";
     }
-
 }

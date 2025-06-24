@@ -40,7 +40,7 @@ public class BookingServlet extends HttpServlet {
         req.setAttribute("seats", seats);
         req.setAttribute("movie", movie);
         req.setAttribute("showtime", showtime);
-        req.getRequestDispatcher("page/booking.jsp").forward(req, res);
+        req.getRequestDispatcher("user/booking.jsp").forward(req, res);
     }
     
     

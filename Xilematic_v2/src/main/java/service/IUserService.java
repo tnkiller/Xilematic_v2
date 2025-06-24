@@ -27,4 +27,5 @@ public interface IUserService {
 
     public int getTotalUsersCount();
 
+    public String getEmailUser(int ma_nguoi_dung);
 }

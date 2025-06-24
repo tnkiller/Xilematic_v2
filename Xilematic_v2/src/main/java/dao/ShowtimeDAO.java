@@ -21,6 +21,9 @@ public class ShowtimeDAO implements IShowtimeDAO {
     private static final String SELECT_CINEMA_NAME = "SELECT ten_rap FROM RapPhim r\n"
             + "JOIN LichChieu l ON l.ma_rap = r.ma_rap\n"
             + "WHERE ma_lich_chieu = ?";
+    private static final String SELECT_MOVIE_NAME = "SELECT ten_phim \n"
+            + "FROM Phim p JOIN LichChieu l ON l.ma_phim = p.ma_phim\n"
+            + "WHERE ma_lich_chieu = ?";
 
     @Override
     public Showtime getShowtimeInformationByID(int ma_lich_chieu) {
@@ -72,6 +75,21 @@ public class ShowtimeDAO implements IShowtimeDAO {
 
     public static void main(String[] args) {
         ShowtimeDAO s = new ShowtimeDAO();
-        System.out.println(s.getCinemaNameByShowtimeID(1));
+        System.out.println(s.getMoiveNameByShowtimeID(1));
+    }
+
+    @Override
+    public String getMoiveNameByShowtimeID(int ma_lich_chieu) {
+        try (Connection con = DBConnection.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(SELECT_MOVIE_NAME);
+            ps.setInt(1, ma_lich_chieu);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("ten_phim");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
