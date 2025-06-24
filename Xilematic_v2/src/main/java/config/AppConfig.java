@@ -3,7 +3,7 @@ package config;
 public class AppConfig {
 
     public static final String DB_URL
-            = "jdbc:sqlserver://ADMIN-PC\\MSSQLSERVER01:1433;databaseName=QuanLyRapChieuPhim;encrypt=true;trustServerCertificate=true";
+            = "jdbc:sqlserver://localhost:1433;databaseName=QuanLyRapChieuPhim;encrypt=true;trustServerCertificate=true";
     public static final String DB_USER = "sa";
     public static final String DB_PASS = "123";
 

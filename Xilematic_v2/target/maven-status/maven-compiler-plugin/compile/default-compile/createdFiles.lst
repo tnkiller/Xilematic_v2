@@ -51,7 +51,6 @@ filter\AuthFilter.class
 service\SeatService.class
 dao\IBookingDAO.class
 dao\MovieDAO.class
-.netbeans_automatic_build
 model\Showtime.class
 constant\PageLink.class
 entity\GoogleAccount.class
