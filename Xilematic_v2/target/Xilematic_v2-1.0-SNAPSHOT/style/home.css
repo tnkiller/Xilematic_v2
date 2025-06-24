@@ -302,7 +302,7 @@ li {
 }
 .movie_clist.curr_list > li {
   width: 230px;
-  height: 411px;
+  height: 394px;
   margin: 0 0 40px 20px;
   background: #fff;
   position: relative;
@@ -375,8 +375,8 @@ img {
   height: 262px;
 }
 .movie_clist.curr_list .img img {
-  width: 228px;
-  height: 334px;
+  width: 235px;
+  height: 300px;
 }
 .curr_list .layer_hover {
   display: none;
