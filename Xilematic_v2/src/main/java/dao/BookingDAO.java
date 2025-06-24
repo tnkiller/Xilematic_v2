@@ -1,14 +1,32 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package dao;
 
+/**
+ *
+ * @author ASUS
+ */
+// dao/BookingDAO.java
 import context.DBConnection;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import model.Booking;
-
+import model.CumRap;
+import model.HeThongRap;
+import model.LichChieu;
+import model.RapPhim;
+// import các model và context...
 
 public class BookingDAO implements IBookingDAO{
-    private static final String INSERT_NEW_BOOKING = "INSERT INTO DatVe(tai_khoan, ma_lich_chieu, ghe_da_dat, gia_ve) VALUES (?, ?, ?, ?)";
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+     private static final String INSERT_NEW_BOOKING = "INSERT INTO DatVe(tai_khoan, ma_lich_chieu, ghe_da_dat, gia_ve) VALUES (?, ?, ?, ?)";
     @Override
     public void addNewBooking(Booking b) {
          try (Connection con = DBConnection.getConnection()) {
@@ -22,9 +40,95 @@ public class BookingDAO implements IBookingDAO{
             e.printStackTrace();
         }
     }
-    public static void main(String[] args) {
-        Booking b = new Booking(1, 1, "A2,A3", 100000);
-        BookingDAO da = new BookingDAO();
-        da.addNewBooking(b);
+
+    // Lấy tất cả hệ thống rạp (CGV, Lotte, ...)
+    public List<HeThongRap> getAllHeThongRap() {
+        List<HeThongRap> list = new ArrayList<>();
+        String query = "SELECT * FROM HeThongRap";
+        try {
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new HeThongRap(
+                    rs.getInt("ma_he_thong_rap"),
+                    rs.getString("ten_he_thong_rap"),
+                    rs.getString("logo")
+                ));
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        // Đóng kết nối...
+        return list;
     }
+
+    // Lấy các cụm rạp theo mã hệ thống rạp
+    public List<CumRap> getCumRapByHeThongRapId(int heThongRapId) {
+        List<CumRap> list = new ArrayList<>();
+        String query = "SELECT * FROM CumRap WHERE ma_he_thong_rap = ?";
+        try {
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, heThongRapId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int ma_cum_rap= rs.getInt("ma_cum_rap");
+                String ten_cum_rap= rs.getString("ten_cum_rap");
+                String dia_chi= rs.getString("dia_chi");
+                list.add(new CumRap(ma_cum_rap,ten_cum_rap,dia_chi,heThongRapId));
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return list;
+    }
+    public List<RapPhim> getRapByCumRapId(int cumRapId) {
+        List<RapPhim> list = new ArrayList<>();
+        String query = "SELECT * FROM RapPhim WHERE ma_cum_rap = ?";
+        try {
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, cumRapId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int ma_rap= rs.getInt("ma_rap");
+                String ten_rap= rs.getString("ten_rap");
+                int ma_cum_rap= rs.getInt("ma_cum_rap");
+                list.add(new RapPhim(ma_rap, ten_rap, ma_cum_rap));
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return list;
+    }
+
+    // Lấy lịch chiếu theo Cụm Rạp, Phim và Ngày
+    // Đây là phương thức phức tạp nhất
+    public List<LichChieu> getLichChieu( int maPhim, int maRap,String ngayChieu) {
+        List<LichChieu> list = new ArrayList<>();
+        // Câu query sẽ JOIN các bảng: LichChieu, RapPhim
+        // và lọc theo ma_cum_rap, ma_phim, và ngày
+        String query = "SELECT lc.*, r.ten_rap "
+                + "FROM LichChieu lc " +
+                     "JOIN RapPhim r ON lc.ma_rap = r.ma_rap " +
+                     "WHERE  lc.ma_phim = ? AND CONVERT(date, lc.ngay_gio_chieu) = ? AND r.ma_rap=?";
+        try {
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, maPhim);
+            ps.setString(2, ngayChieu);// Định dạng 'YYYY-MM-DD'
+            ps.setInt(3, maRap);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int ma_lich_chieu= rs.getInt("ma_lich_chieu");
+                int ma_rap= rs.getInt("ma_rap");
+                int ma_phim= rs.getInt("ma_phim");
+                LocalDateTime ngay_gio_chieu = rs.getTimestamp("ngay_gio_chieu").toLocalDateTime();
+                list.add(new LichChieu(ma_lich_chieu,ma_rap,ma_phim,ngay_gio_chieu));
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return list;
+    }
+     public static void main(String[] args) {
+       List<LichChieu> lichChieus = new BookingDAO().getLichChieu( 1,1,"04/30/2025");
+       for(LichChieu lc : lichChieus){
+           System.out.println(lc);}
+    }
+    // Thêm các phương thức khác nếu cần: getAllPhim(), getRapByCumRapId(),...
 }
+

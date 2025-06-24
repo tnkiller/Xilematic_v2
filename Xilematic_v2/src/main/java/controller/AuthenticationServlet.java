@@ -74,7 +74,7 @@ public class AuthenticationServlet extends HttpServlet {
                 request.setAttribute("status", true);
                 request.getRequestDispatcher(PageLink.ADMIN_PAGE).forward(request, response);
             } else {
-                request.getRequestDispatcher(PageLink.HOME_PAGE).forward(request, response);
+                request.getRequestDispatcher("homeservlet").forward(request, response);
             }
         }
     }
