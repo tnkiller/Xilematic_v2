@@ -29,11 +29,22 @@
                             <c:forEach var="seat" items="${seats}">
                                 <c:if test="${fn:startsWith(seat.ten_ghe, row)}">
                                     <c:choose>
-                                        <c:when test= "${seat.loai_ghe == 'VIP'}">
-                                            <button class="seat vip-seat ${seat.da_dat ? 'selected-seat' : ''}" onclick="selectSeat('${seat.ten_ghe}', 70000)">${seat.ten_ghe}</button>
+                                        <c:when test="${seat.trang_thai == 'n/a'}">
+                                            <button class="seat notavailable-seat">${seat.ten_ghe}</button>
                                         </c:when>
                                         <c:otherwise>
-                                            <div class="seat ${seat.da_dat ? 'selected-seat' : ''}" onclick="selectSeat('${seat.ten_ghe}', 45000)">${seat.ten_ghe}</div>
+                                            <c:choose>
+                                                <c:when test="${seat.loai_ghe == 'VIP'}">
+                                                    <button class="seat vip-seat ${seat.da_dat ? 'selected-seat' : ''}" 
+                                                            ${seat.da_dat ? 'disabled' : ''} 
+                                                            onclick="selectSeat('${seat.ten_ghe}', 70000)">${seat.ten_ghe}</button>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <button class="seat ${seat.da_dat ? 'selected-seat' : ''}" 
+                                                            ${seat.da_dat ? 'disabled' : ''} 
+                                                            onclick="selectSeat('${seat.ten_ghe}', 45000)">${seat.ten_ghe}</button>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:otherwise>
                                     </c:choose>
                                 </c:if>

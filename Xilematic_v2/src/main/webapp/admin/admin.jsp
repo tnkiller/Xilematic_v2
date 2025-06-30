@@ -45,6 +45,12 @@
                 <a href="paging?type=movies" class="nav-link ${requestScope.type == 'movies' ? 'active' : ''}">
                     <i class="bi bi-film fs-5"></i>
                 </a>
+                <a href="paging?type=rapPhim" class="nav-link ${requestScope.type == 'rapPhim' ? 'active' : ''}">
+                    <i class="bi bi-easel"></i>
+                </a>
+                <a href="paging?type=ghe" class="nav-link ${requestScope.type == 'ghe' ? 'active' : ''}">
+                    <i class="bi bi-grid-3x2-gap-fill"></i>
+                </a>
             </nav>
 
             <!--dữ liệu bảng nằm bên phải nav-bar và chiếm khoảng 80% chiều rộng của trang-->
@@ -59,9 +65,83 @@
                     <c:when test="${requestScope.type == 'users'}">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_user" data-type="${param.type}">Add New</button>
                     </c:when>
-
+                    <c:when test="${requestScope.type == 'rapPhim'}">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_rapPhim" data-type="${param.type}">Add New</button>
+                    </c:when>
+                    <c:when test="${requestScope.type == 'ghe'}">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_ghe" data-type="${param.type}">Add New</button>
+                    </c:when>
                 </c:choose>
 
+                <!--hiển thị select RapPhim cho Ghe-->
+                <c:if test="${requestScope.type == 'ghe'}">
+                    <form method="get" action="paging" class="mb-3">
+                        <input type="hidden" name="type" value="ghe" />
+                        <select class="form-select w-auto d-inline" name="maRap" onchange="this.form.submit()" required>
+                            <option value="">-- Chọn rạp --</option>
+                            <c:forEach var="r" items="${listRapPhim}">
+                                <option 
+                                    value="${r.maRap}" 
+                                    <c:if test="${param.maRap == r.maRap}">selected</c:if>
+                                        >
+                                    ${r.tenRap}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </form>
+                </c:if>
+                <!--thông báo cho việc chưa chọn rạp-->
+
+                <c:if test="${requestScope.type == 'ghe'}">
+                    <c:if test="${empty param.maRap}">
+                        <div class="alert alert-warning text-center mt-4" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <strong>Vui lòng chọn rạp để hiển thị danh sách ghế!</strong>
+                        </div>
+                    </c:if>
+                </c:if>
+                <!--content của bảng ghế-->
+                <c:if test="${requestScope.type == 'ghe' && not empty param.maRap}">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mã Ghế</th>
+                                <th>Tên Ghế</th>
+                                <th>Loại Ghế</th>
+                                <th>Đã Đặt</th>
+                                <th>Trạng Thái</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="ghe" items="${list}">
+                                <tr>
+                                    <td>${ghe.ma_ghe}</td>
+                                    <td>${ghe.ten_ghe}</td>
+                                    <td>${ghe.loai_ghe}</td>
+                                    <td>
+                                        <span class="badge ${ghe.da_dat ? 'bg-danger' : 'bg-success'}">
+                                            ${ghe.da_dat ? "Đã đặt" : "Còn trống"}
+                                        </span>
+                                    </td>
+                                    <td>${ghe.trang_thai}</td>
+                                    <td>
+                                        <a href="ghe?action=showDetail&ma_ghe=${ghe.ma_ghe}">
+                                            <i class="bi bi-pencil-square text-primary"></i>
+                                        </a>
+                                        <form action="ghe" method="POST" class="delete-btn d-inline">
+                                            <input type="hidden" name="ma_ghe" value="${ghe.ma_ghe}"/>
+                                            <input type="hidden" name="maRap" value="${param.maRap}"/>
+                                            <button type="submit" name="action" value="delete" class="btn btn-link p-0 ms-2">
+                                                <i class="bi bi-trash text-danger"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </c:if>
 
 
                 <!--TH hien thi thong tin bang-->
@@ -91,7 +171,14 @@
                                     <th>Type</th>
                                     <th>Action</th>
                                     </c:when>
+
+                                <c:when test="${param.type == 'rapPhim'}">
+                                    <th>Mã rạp</th>
+                                    <th>Tên rạp</th>
+                                    <th>Action</th>
+                                    </c:when>
                                 </c:choose>
+
                         </tr>
                     </thead>
 
@@ -163,6 +250,25 @@
                                 </c:forEach>
                             </c:when>
 
+                            <c:when test="${requestScope.type == 'rapPhim'}">
+                                <c:forEach var="rap" items="${requestScope.list}">
+                                    <tr>
+                                        <td>${rap.maRap}</td>
+                                        <td>${rap.tenRap}</td>
+                                        <td>
+                                            <a href="rapPhim?action=showDetail&id=${rap.maRap}">
+                                                <i class="bi bi-pencil-square text-primary"></i>
+                                            </a>
+                                            <form action="rapPhim" method="POST" class="delete-btn d-inline">
+                                                <input type="hidden" name="maRap" value="${rap.maRap}"/>
+                                                <button type="submit" name="action" value="delete" class="btn btn-link p-0 ms-2">
+                                                    <i class="bi bi-trash text-danger"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
                         </c:choose>
                     </tbody>
                 </table>
@@ -170,40 +276,46 @@
 
 
 
+                <c:set var="extraParam" value="" />
+                <c:if test="${type == 'ghe' && not empty param.maRap}">
+                    <c:set var="extraParam" value="&maRap=${param.maRap}" />
+                </c:if>
 
                 <!--Phan trang-->
                 <div class="pagination">
                     <c:if test="${currentPage > 1}">
-                        <a href="paging?type=${type}&page=${currentPage - 1}">Previous</a>
+                        <a href="paging?type=${type}&page=${currentPage - 1}${extraParam}">Previous</a>
                     </c:if>
 
                     <c:if test="${totalPages < 5}">
-                        <c:forEach  var="i" begin="1" end="${totalPages}" >
+                        <c:forEach var="i" begin="1" end="${totalPages}">
                             <c:choose>
                                 <c:when test="${i == currentPage}">
                                     <strong>${i}</strong>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="paging?type=${type}&page=${i}">${i}</a>
+                                    <a href="paging?type=${type}&page=${i}${extraParam}">${i}</a>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
                     </c:if>
-                    <c:if test="${totalPages >= 5}">                            
-                        <c:forEach var="i" begin="${currentPage - 2 > 0 ? currentPage - 2 : 1}" end="${totalPages > currentPage + 2 ? currentPage + 2 : totalPages}" >
+
+                    <c:if test="${totalPages >= 5}">
+                        <c:forEach var="i" begin="${currentPage - 2 > 0 ? currentPage - 2 : 1}"
+                                   end="${totalPages > currentPage + 2 ? currentPage + 2 : totalPages}">
                             <c:choose>
                                 <c:when test="${i == currentPage}">
                                     <strong>${i}</strong>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="paging?type=${type}&page=${i}">${i}</a>
+                                    <a href="paging?type=${type}&page=${i}${extraParam}">${i}</a>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
                     </c:if>
 
                     <c:if test="${currentPage < totalPages}">
-                        <a href="paging?type=${type}&page=${currentPage + 1}">Next</a>
+                        <a href="paging?type=${type}&page=${currentPage + 1}${extraParam}">Next</a>
                     </c:if>
                 </div>
             </div>
@@ -222,7 +334,16 @@
             <jsp:param name="title" value="ADD NEW USER" />
             <jsp:param name="action" value="ADD" />
         </jsp:include>
-
+        <!--RapPhim-->
+        <jsp:include page="modal_rapPhim.jsp">
+            <jsp:param name="title" value="ADD NEW RAP PHIM" />
+            <jsp:param name="action" value="ADD" />
+        </jsp:include>
+        <!--GHE-->
+        <jsp:include page="modal_ghe.jsp">
+            <jsp:param name="title" value="ADD NEW GHE" />
+            <jsp:param name="action" value="ADD" />
+        </jsp:include>
         <script>
             // Lấy ngày hôm nay theo định dạng yyyy-mm-dd
             const today = new Date().toISOString().split('T')[0];

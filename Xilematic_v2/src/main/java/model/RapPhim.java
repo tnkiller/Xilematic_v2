@@ -13,6 +13,14 @@ public class RapPhim {
         this.maCumRap = maCumRap;
     }
 
+    public RapPhim() {
+    }
+
+    public RapPhim(String tenRap, int maCumRap) {
+        this.tenRap = tenRap;
+        this.maCumRap = maCumRap;
+    }
+
     public int getMaRap() {
         return maRap;
     }

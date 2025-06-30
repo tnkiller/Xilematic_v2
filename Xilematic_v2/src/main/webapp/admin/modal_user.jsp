@@ -1,8 +1,4 @@
-<%-- 
-    Document   : modal
-    Created on : Jun 22, 2025, 2:00:53 AM
-    Author     : ADMIN
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>

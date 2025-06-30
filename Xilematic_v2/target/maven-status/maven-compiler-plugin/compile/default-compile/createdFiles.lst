@@ -4,8 +4,11 @@ service\BookingService.class
 service\IHeThongRapService.class
 service\IShowtimeService.class
 controller\DetailServlet.class
+controller\GheServlet.class
+service\ICumRapService.class
 controller\GoogleLogin.class
 model\Movie.class
+service\IRapPhimService.class
 model\Favorite.class
 controller\BookingServlet.class
 dao\BookingDAO.class
@@ -18,6 +21,7 @@ service\CommentService.class
 service\FavoriteServiceImpl.class
 model\User.class
 service\IMovieService.class
+service\CumRapService.class
 service\IUserService.class
 dao\BinhLuanDAO.class
 service\IFavoriteService.class
@@ -26,8 +30,10 @@ service\ISeatService.class
 controller\MovieServlet.class
 dao\IUserDAO.class
 model\Booking.class
+dao\ICumRapDAO.class
 service\MovieService.class
 dao\SeatDAO.class
+dao\IRapPhimDAO.class
 controller\AuthenticationServlet.class
 constant\IConstant.class
 dao\IFavoriteDAO.class
@@ -36,6 +42,7 @@ com\vnpay\common\ajaxServlet.class
 controller\FavoriteServlet.class
 model\CumRap.class
 utils\GenerateInfor.class
+controller\RapPhimServlet.class
 utils\Helper.class
 com\vnpay\common\VnpayReturn.class
 model\TheLoai.class
@@ -46,12 +53,14 @@ service\ICommentService.class
 dao\IHeThongRapDAO.class
 model\Seat.class
 dao\IShowtimeDAO.class
+service\RapPhimService.class
 utils\Validator.class
 filter\AuthFilter.class
 service\SeatService.class
 dao\IBookingDAO.class
+dao\CumRapDAO.class
 dao\MovieDAO.class
-.netbeans_automatic_build
+dao\RapPhimDAO.class
 model\Showtime.class
 constant\PageLink.class
 entity\GoogleAccount.class
