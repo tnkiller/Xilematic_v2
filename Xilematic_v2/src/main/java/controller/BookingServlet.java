@@ -1,3 +1,4 @@
+
 package controller;
 
 import java.io.IOException;
@@ -27,6 +28,7 @@ public class BookingServlet extends HttpServlet {
 
         int ma_lich_chieu = Integer.parseInt(req.getParameter("ma_lich_chieu"));
               
+
         Showtime showtime = showtimeService.getShowtimeInformationByID(ma_lich_chieu);
         int ma_phim = showtime.getMa_phim();
         Movie movie = movieService.getMovie(ma_phim);

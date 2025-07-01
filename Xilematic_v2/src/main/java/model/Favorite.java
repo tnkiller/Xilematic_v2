@@ -11,16 +11,16 @@ package model;
 public class Favorite {
 
     private int id;
-    private User user;
-    private Movie movie;
+    private int ma_nguoi_dung;
+    private int ma_phim;
 
     public Favorite() {
     }
 
-    public Favorite(int id, User user, Movie movie) {
+    public Favorite(int id, int ma_nguoi_dung, int ma_phim) {
         this.id = id;
-        this.user = user;
-        this.movie = movie;
+        this.ma_nguoi_dung = ma_nguoi_dung;
+        this.ma_phim = ma_phim;
     }
 
     public int getId() {
@@ -31,25 +31,25 @@ public class Favorite {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public int getMa_nguoi_dung() {
+        return ma_nguoi_dung;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setMa_nguoi_dung(int ma_nguoi_dung) {
+        this.ma_nguoi_dung = ma_nguoi_dung;
     }
 
-    public Movie getMovie() {
-        return movie;
+    public int getMa_phim() {
+        return ma_phim;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public void setMa_phim(int ma_phim) {
+        this.ma_phim = ma_phim;
     }
 
     @Override
     public String toString() {
-        return "Favorite{" + "id=" + id + ", user=" + user + ", movie=" + movie + '}';
+        return "Favorite{" + "id=" + id + ", ma_nguoi_dung=" + ma_nguoi_dung + ", ma_phim=" + ma_phim + '}';
     }
 
 }

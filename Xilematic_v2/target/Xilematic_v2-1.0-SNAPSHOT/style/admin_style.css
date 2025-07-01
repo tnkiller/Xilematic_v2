@@ -196,6 +196,20 @@ table tbody td {
     border-color: var(--primary-color);
 }
 
+.pagination .disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    background: #f9f9f9;
+}
+
+.pagination .ellipsis {
+    border: none;
+    pointer-events: none;
+    background: transparent;
+}
+
+
+
 /* Chart Container */
 .chart-container {
     background: white;
@@ -217,7 +231,7 @@ table tbody td {
     .nav-bar {
         width: 60px;
     }
-    
+
     header {
         left: 60px;
     }
@@ -225,7 +239,7 @@ table tbody td {
     .main {
         margin-left: 60px;
     }
-    
+
     .search-container {
         width: 60%;
     }

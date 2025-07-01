@@ -57,6 +57,7 @@
                 <a href="paging?type=ghe" class="nav-link ${requestScope.type == 'ghe' ? 'active' : ''}">
                     <i class="bi bi-grid-3x2-gap-fill"></i>
                 </a>
+
             </nav>
 
 
@@ -64,6 +65,7 @@
             <div class="data">
                 <!--nut add new cho moi bang-->
                 <c:choose>
+
                     <c:when test="${requestScope.type == 'movies'}">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_movie" data-type="${param.type}"> Add New</button>
                     </c:when>
@@ -159,6 +161,7 @@
                     <thead>
                         <tr>
                             <c:choose>
+
                                 <c:when test="${param.type == 'movies'}">
                                     <th>Movie Name</th>
                                     <th>Release Date</th>
@@ -167,7 +170,8 @@
                                     <th>Status</th>
                                     <th>Action</th>
                                     </c:when>
-                                    <c:when test="${param.type == 'users'}">
+
+                                <c:when test="${param.type == 'users'}">
                                     <th>Username</th>
                                     <th>Full Name</th>
                                     <th>Email</th>
@@ -226,6 +230,7 @@
                                     </tr>
                                 </c:forEach>
                             </c:when>
+
                             <c:when test="${requestScope.type == 'users'}">
                                 <c:forEach var="user" items="${requestScope.list}">
                                     <tr>
@@ -309,6 +314,7 @@
 
                 <!--Phan trang-->
                 <div class="pagination">
+                    <%-- Previous button --%>
                     <c:if test="${currentPage > 1}">
                         <a href="paging?type=${type}&page=${currentPage - 1}${extraParam}">Previous</a>
                     </c:if>
@@ -338,14 +344,75 @@
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
+                        <a href="paging?type=${type}&page=${currentPage - 1}" class="page-nav">&laquo; Previous</a>
+                    </c:if>
+                    <c:if test="${currentPage <= 1}">
+                        <span class="page-nav disabled">&laquo; Previous</span>
                     </c:if>
 
+                    <%-- First page and ellipsis --%>
+                    <c:if test="${currentPage > 3 && totalPages > 5}">
+                        <a href="paging?type=${type}&page=1">1</a>
+                        <c:if test="${currentPage > 4}">
+                            <span class="ellipsis">...</span>
+                        </c:if>
+                    </c:if>
+
+                    <%-- Page numbers --%>
+                    <c:choose>
+                        <c:when test="${totalPages <= 5}">
+                            <%-- Show all pages if total pages is less than or equal to 5 --%>
+                            <c:forEach var="i" begin="1" end="${totalPages}">
+                                <c:choose>
+                                    <c:when test="${i == currentPage}">
+                                        <strong class="current-page">${i}</strong>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="paging?type=${type}&page=${i}">${i}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <%-- Show sliding window of pages --%>
+                            <c:set var="startPage" value="${currentPage - 2 > 0 ? currentPage - 2 : 1}"/>
+                            <c:set var="endPage" value="${currentPage + 2 < totalPages ? currentPage + 2 : totalPages}"/>
+
+                            <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                                <c:choose>
+                                    <c:when test="${i == currentPage}">
+                                        <strong class="current-page">${i}</strong>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="paging?type=${type}&page=${i}">${i}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <%-- Last page and ellipsis --%>
+                    <c:if test="${currentPage < totalPages - 2 && totalPages > 5}">
+                        <c:if test="${currentPage < totalPages - 3}">
+                            <span class="ellipsis">...</span>
+                        </c:if>
+                        <a href="paging?type=${type}&page=${totalPages}">${totalPages}</a>
+                    </c:if>
+
+                    <%-- Next button --%>
                     <c:if test="${currentPage < totalPages}">
                         <a href="paging?type=${type}&page=${currentPage + 1}${extraParam}">Next</a>
+
+                    </c:if>
+                    <c:if test="${currentPage >= totalPages}">
+                        <span class="page-nav disabled">Next &raquo;</span>
                     </c:if>
                 </div>
             </div>
         </div>
+
+
+
         <!-- POPUP ADD NEW -->
         <!-- MOVIE -->
         <jsp:include page="modal_movie.jsp">
@@ -367,6 +434,7 @@
             <jsp:param name="title" value="ADD NEW GHE" />
             <jsp:param name="action" value="ADD" />
         </jsp:include>
+       
         <script>
             // Lấy ngày hôm nay theo định dạng yyyy-mm-dd
             const today = new Date().toISOString().split('T')[0];

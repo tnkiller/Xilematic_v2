@@ -20,10 +20,5 @@ public class PageLink {
     //-----------------------------------------------
     //user folder
     public static final String FAVORITE_PAGE = "user/favorite.jsp";
-    public static final String EDIT_HETHONGRAP_PAGE = "admin/modal_edit_HeThongRap.jsp";
-    public static final String EDIT_CUMRAP_PAGE = "admin/modal_edit_CumRap.jsp";
-    public static final String EDIT_RAP_PAGE = "admin/modal_edit_Rap.jsp";
-    public static final String EDIT_LICHCHIEU_PAGE = "admin/modal_edit_LichChieu.jsp";
-
 
 }

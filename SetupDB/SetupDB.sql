@@ -163,6 +163,7 @@ FETCH NEXT
 FROM
     cur INTO @ghe,
     @ma_lich_chieu;
+<<<<<<< HEAD
 
 WHILE @@FETCH_STATUS = 0 BEGIN
 SELECT
@@ -218,3 +219,52 @@ ALTER TABLE Ghe
 ADD CONSTRAINT FK_Ghe_RapPhim
 FOREIGN KEY (ma_rap) REFERENCES RapPhim(ma_rap)
 ON DELETE CASCADE;
+=======
+
+WHILE @@FETCH_STATUS = 0 BEGIN
+SELECT
+    @ma_rap = ma_rap
+FROM
+    LichChieu
+WHERE
+    ma_lich_chieu = @ma_lich_chieu;
+
+WHILE LEN(@ghe) > 0 BEGIN
+SET
+    @pos = CHARINDEX(@delimiter, @ghe);
+
+IF @pos > 0
+SET
+    @ten_ghe = LEFT(@ghe, @pos - 1);
+
+ELSE
+SET
+    @ten_ghe = @ghe;
+
+UPDATE
+    Ghe
+SET
+    da_dat = 1
+WHERE
+    ten_ghe = @ten_ghe
+    AND ma_rap = @ma_rap;
+
+IF @pos > 0
+SET
+    @ghe = SUBSTRING(@ghe, @pos + 1, LEN(@ghe));
+
+ELSE
+SET
+    @ghe = '';
+
+END FETCH NEXT
+FROM
+    cur INTO @ghe,
+    @ma_lich_chieu;
+
+END CLOSE cur;
+
+DEALLOCATE cur;
+
+END
+>>>>>>> origin/feature/header-profile-favorite/nguyen

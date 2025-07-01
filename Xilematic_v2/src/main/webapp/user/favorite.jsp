@@ -35,17 +35,6 @@
                     </div>
 
                     <div class="row">
-                        <%
-                            // Kiểm tra các scope bằng Scriptlet
-                            List<Movie> favoriteList = null;
-
-                            if (request.getAttribute("favoriteList") != null) {
-                                favoriteList = (List<Movie>) request.getAttribute("favoriteList");
-                            } else if (session.getAttribute("favoriteList") != null) {
-                                favoriteList = (List<Movie>) session.getAttribute("favoriteList");
-                            }
-                            pageContext.setAttribute("favoriteList", favoriteList);
-                        %>
                         <c:forEach var="movie" items="${favoriteList}">
                             <div class="col-md-4">
                                 <div class="movie-card">
@@ -58,8 +47,8 @@
                                             <span class="movie-views">144m views</span>
                                         </div>
                                         <div class="movie-actions">
-                                            <a href="${pageContext.request.contextPath}/book?movieId=${movie.id}" class="btn btn-book">DAT VE</a>
-                                            <a href="${pageContext.request.contextPath}/favorites?movieId=${movie.id}" class="btn btn-delete">XOA</a>
+                                            <a href="${pageContext.request.contextPath}/SelectCalendar?" class="btn btn-book">DAT VE</a>
+                                            <a href="${pageContext.request.contextPath}/favorites?action=delete&id=${movie.id}" class="btn btn-delete">XOA</a>
                                         </div>
                                     </div>
                                 </div>

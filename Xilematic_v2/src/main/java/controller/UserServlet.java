@@ -61,10 +61,13 @@ public class UserServlet extends HttpServlet {
     private void processUpdateUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User user = (User) request.getAttribute("user");
-
         //validate
         userService.updateUser(user);
-        response.sendRedirect("paging?type=users");
+        if ("admin".equals(user.getTypeOfUser())) {
+            response.sendRedirect("paging?type=users");
+        } else {
+            response.sendRedirect("homeservlet?");
+        }
     }
 
     //process delete function

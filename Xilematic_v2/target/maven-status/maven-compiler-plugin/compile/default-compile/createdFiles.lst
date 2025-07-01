@@ -32,7 +32,6 @@ dao\IUserDAO.class
 model\Booking.class
 dao\ICumRapDAO.class
 service\MovieService.class
-controller\TheaterSystemServlet.class
 dao\SeatDAO.class
 dao\IRapPhimDAO.class
 controller\AuthenticationServlet.class

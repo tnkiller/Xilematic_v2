@@ -1,4 +1,8 @@
-
+<%-- 
+    Document   : modal
+    Created on : Jun 22, 2025, 2:00:53 AM
+    Author     : ADMIN
+--%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -22,6 +26,9 @@
                             <!--thuoc tinh an gui kem-->
                             <input type="hidden" name="id"/>
                             <input type="hidden" name="action" value="add_movie"/>
+
+
+
                             <!--thuoc tinh hien de nguoi dung nhap-->
                             <!--movie_nam-->
                             <div class="mb-3">

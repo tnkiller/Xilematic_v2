@@ -7,14 +7,13 @@ public class RapPhim {
     private String tenRap;
     private int maCumRap;
 
-    
-    public RapPhim() {
-    }
-
     public RapPhim(int maRap, String tenRap, int maCumRap) {
         this.maRap = maRap;
         this.tenRap = tenRap;
         this.maCumRap = maCumRap;
+    }
+
+    public RapPhim() {
     }
 
 
