@@ -35,5 +35,8 @@ public class BookingService implements IBookingService {
     public List<LichChieu> getLichChieu( int maPhim,int maRap, String ngayChieu) {
         return bookingDAO.getLichChieu( maPhim,maRap, ngayChieu);
     }
+    public List<LichChieu> getLichChieuByRapPhimAndPhim(int maRap, int maPhim){
+    return  bookingDAO.getLichChieuByRapPhimAndPhim(maRap, maPhim);
+            }
 
 }

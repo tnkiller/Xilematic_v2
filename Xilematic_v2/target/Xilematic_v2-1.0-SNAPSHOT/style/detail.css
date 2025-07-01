@@ -154,3 +154,11 @@ button {
   color: white;
   border: none;
   cursor: pointer;}
+.temp-comment {
+    opacity: 0.6;
+    font-style: italic;
+}
+
+.comment {
+    transition: all 0.3s ease;
+}

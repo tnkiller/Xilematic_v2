@@ -48,4 +48,6 @@ public interface IHeThongRapDAO {
      public CumRap getCumRapById(int maCumRap) ;
      public RapPhim getRapPhimById(int maRap);
      public LichChieu getLichChieuById(int maLichChieu);
+     
+    public List<LichChieu> getLichChieuByRapPhimAndPhim(int maRap, int maPhim);
 }

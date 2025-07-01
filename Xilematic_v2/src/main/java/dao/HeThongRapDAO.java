@@ -529,6 +529,31 @@ public LichChieu getLichChieuById(int maLichChieu) {
     }
     return null;
 }
+public List<LichChieu> getLichChieuByRapPhimAndPhim(int maRap, int maPhim) {
+    try (Connection conn = DBConnection.getConnection()) {
+        String sql = "SELECT * FROM LichChieu WHERE MaRap = ? AND MaPhim = ? AND NgayGioChieu > CURRENT_TIMESTAMP";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, maRap);
+        pstmt.setInt(2, maPhim);
+        
+        ResultSet rs = pstmt.executeQuery();
+        List<LichChieu> listLichChieu = new ArrayList<>();
+        
+        while (rs.next()) {
+            LichChieu lichChieu = new LichChieu();
+            lichChieu.setMaLichChieu(rs.getInt("MaLichChieu"));
+            lichChieu.setNgayGioChieu(rs.getTimestamp("NgayGioChieu").toLocalDateTime());
+            // Các trường khác nếu cần
+            listLichChieu.add(lichChieu);
+        }
+        
+        return listLichChieu;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return new ArrayList<>();
+    }
+}
+
 
      public static void main(String[] args) throws SQLException {
 //     List<LichChieu> list =   new HeThongRapDAO().getLichChieusByMaRapForPage(1, 10, 1);

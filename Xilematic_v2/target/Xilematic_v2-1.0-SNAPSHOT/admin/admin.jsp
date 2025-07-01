@@ -36,27 +36,29 @@
         <div class="main">
             <!--nav-bar nằm bên trái-->
             <nav class="nav-bar">
-                <a href="paging?type=stats" class="nav-link ${requestScope.type == 'stats' ? 'active' : ''}">
-                    <i class="bi bi-house-door fs-5"></i>
-                </a>
-                <a href="paging?type=users" class="nav-link ${requestScope.type == 'users' ? 'active' : ''}">
-                    <i class="bi bi-people fs-5"></i>
-                </a>
-                <a href="paging?type=movies" class="nav-link ${requestScope.type == 'movies' ? 'active' : ''}">
-                    <i class="bi bi-film fs-5"></i>
-                </a>
-                <div class="btn-group dropend">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Hệ Thống Rạp
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="paging?type=heThongRap"${requestScope.type == 'heThongRap' ? 'active' : ''}>Hệ thống rạp </a></li>
-                        <li><a class="dropdown-item" href="paging?type=cumRap"${requestScope.type == 'cumRap' ? 'active' : ''}>Cụm rạp</a></li>
-                        <li><a class="dropdown-item" href="paging?type=rap"${requestScope.type == 'rap' ? 'active' : ''}>Rạp</a></li>
-                        <li><a class="dropdown-item" href="paging?type=lichChieu"${requestScope.type == 'lichChieu' ? 'active' : ''}>Lịch chiếu</a></li>
-                    </ul>
-                </div>
-            </nav>
+    <a href="paging?type=stats" class="nav-link ${requestScope.type == 'stats' ? 'active' : ''}">
+        <i class="bi bi-house-door fs-5"></i>
+    </a>
+    <a href="paging?type=users" class="nav-link ${requestScope.type == 'users' ? 'active' : ''}">
+        <i class="bi bi-people fs-5"></i>
+    </a>
+    <a href="paging?type=movies" class="nav-link ${requestScope.type == 'movies' ? 'active' : ''}">
+        <i class="bi bi-film fs-5"></i>
+    </a>
+    <!-- Thay thế dropdown bằng các icon riêng -->
+    <a href="paging?type=heThongRap" class="nav-link ${requestScope.type == 'heThongRap' ? 'active' : ''}">
+        <i class="bi bi-badge-4k" title="Hệ thống rạp"></i>
+    </a>
+    <a href="paging?type=cumRap" class="nav-link ${requestScope.type == 'cumRap' ? 'active' : ''}">
+        <i class="bi bi-building-gear fs-5" title="Cụm rạp"></i>
+    </a>
+    <a href="paging?type=rap" class="nav-link ${requestScope.type == 'rap' ? 'active' : ''}">
+        <i class="bi bi-easel fs-5" title="Rạp"></i>
+    </a>
+    <a href="paging?type=lichChieu" class="nav-link ${requestScope.type == 'lichChieu' ? 'active' : ''}">
+        <i class="bi bi-calendar-event fs-5" title="Lịch chiếu"></i>
+    </a>
+</nav>
 
             <!--dữ liệu bảng nằm bên phải nav-bar và chiếm khoảng 80% chiều rộng của trang-->
             <div class="data">

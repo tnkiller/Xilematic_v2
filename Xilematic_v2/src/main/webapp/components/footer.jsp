@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -6,6 +6,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Footer</title>
         <link rel="stylesheet" href="https://ionic.io/ionicons">
+        <style>
+             footer, 
+        footer *,
+        footer *::before,
+        footer *::after {
+            all: unset;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            display: revert;
+        }
+        </style>
         <link rel="stylesheet"
               href="<c:url value='/style/footer_style.css' />" />
     </head>

@@ -172,5 +172,8 @@ public class HeThongRapService implements IHeThongRapService{
     public LichChieu getLichChieuById(int maLichChieu) {
         return heThongRapDAO.getLichChieuById(maLichChieu);
     }
+    public List<LichChieu> getLichChieuByRapPhimAndPhim(int maRap, int maPhim){
+    return  heThongRapDAO.getLichChieuByRapPhimAndPhim(maRap, maPhim);
+            }
     
 }
