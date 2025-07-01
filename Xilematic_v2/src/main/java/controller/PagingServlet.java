@@ -1,7 +1,6 @@
 package controller;
 
 import constant.PageLink;
-import dao.IHeThongRapDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,9 +14,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import service.HeThongRapService;
 import service.IHeThongRapService;
+import model.CumRap;
+import model.RapPhim;
+import model.Seat;
+import service.CumRapService;
+import service.ICumRapService;
 import service.IMovieService;
+import service.IRapPhimService;
+import service.ISeatService;
 import service.MovieService;
 import service.IUserService;
+import service.RapPhimService;
+import service.SeatService;
 import service.UserService;
 
 @WebServlet(name = "PagingController", urlPatterns = {"/paging"})
@@ -26,82 +34,64 @@ public class PagingServlet extends HttpServlet {
     private final IUserService userService = new UserService();
     private final IMovieService movieService = new MovieService();
     private final IHeThongRapService heThongRap = new HeThongRapService();
+    private final IRapPhimService rapPhimService = new RapPhimService();
+    private final ICumRapService cumRapService = new CumRapService();
+    private final ISeatService seatService = new SeatService();
 
     @Override
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        int pageSize = 6;
-//        List<?> data=null;
-//        int totalItems=0;
-//        int totalPages=0;
-//        String pageParam = request.getParameter("page");
-//        int page = (pageParam != null && !pageParam.isEmpty()) ? Integer.parseInt(pageParam) : 1;
-//
-//        String type = request.getParameter("type");
-//        if (type == null) {
-//            type = "stats";  // Đặt loại dữ liệu mặc định
-//        }
-//        if(type.equalsIgnoreCase("cumRap")||type.equalsIgnoreCase("Rap")||type.equalsIgnoreCase("lichChieu")){
-//            // id đại diện cho rapId, cumRapId , heThỏngapId tùy theo loại type truyền vào 
-//        int id = Integer.parseInt(request.getParameter("id")); 
-//            try {
-//                data = getDataForPagination(type, page, pageSize,id);
-//            } catch (SQLException ex) {
-//                Logger.getLogger(PagingServlet.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//        // Tính toán số trang
-//        totalItems = getTotalItemCount(type,id);
-//        totalPages = (int) Math.ceil(totalItems / (double) pageSize);
-//        }else{
-//         data = getDataForPagination(type, page, pageSize);
-//
-//        // Tính toán số trang
-//         totalItems = getTotalItemCount(type);
-//        totalPages = (int) Math.ceil(totalItems / (double) pageSize);
-//        }
-//        // Đưa thông tin vào request
-//        request.setAttribute("list", data);
-//        request.setAttribute("totalPages", totalPages);
-//        request.setAttribute("currentPage", page);
-//        request.setAttribute("type", type);
-//
-//        // Chuyển đến JSP tương ứng
-//        request.getRequestDispatcher(PageLink.ADMIN_PAGE).forward(request, response);
-//    }
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         int pageSize = 6;
-        List<?> data=null;
-        int totalItems=0;
-        int totalPages=0;
+
         String pageParam = request.getParameter("page");
         int page = (pageParam != null && !pageParam.isEmpty()) ? Integer.parseInt(pageParam) : 1;
 
         String type = request.getParameter("type");
         if (type == null) {
-            type = "stats";  // Đặt loại dữ liệu mặc định
+            type = "stats";
         }
+
+        int maRap = 0;
+        if ("ghe".equals(type)) {
+            String maRapParam = request.getParameter("maRap");
+            if (maRapParam != null && !maRapParam.isEmpty()) {
+                try {
+                    maRap = Integer.parseInt(maRapParam);
+                    request.setAttribute("maRap", maRap);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+            List<RapPhim> listRapPhim = rapPhimService.getAllRapPhim();
+            request.setAttribute("listRapPhim", listRapPhim);
+            List<Seat> listGhe = seatService.getSeatsByCinemaId(maRap);
+            request.setAttribute("listGhe", listGhe);
+        }
+
+        List<?> data = null;
         try {
-            data = getDataForPagination(type, page, pageSize);
+            data = getDataForPagination(type, page, pageSize, maRap);
         } catch (SQLException ex) {
             Logger.getLogger(PagingServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        int totalItems = getTotalItemCount(type, maRap);
+        int totalPages = (int) Math.ceil(totalItems / (double) pageSize);
 
-        // Tính toán số trang
-         totalItems = getTotalItemCount(type);
-        totalPages = (int) Math.ceil(totalItems / (double) pageSize);
-        
-        // Đưa thông tin vào request
         request.setAttribute("list", data);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);
         request.setAttribute("type", type);
 
-        // Chuyển đến JSP tương ứng
+        if ("rapPhim".equals(type)) {
+            List<CumRap> listCumRap = cumRapService.getAllCumRap();
+            request.setAttribute("listCumRap", listCumRap);
+        }
+
         request.getRequestDispatcher(PageLink.ADMIN_PAGE).forward(request, response);
     }
 
     //lấy list tương ứng theo type
-    private List<?> getDataForPagination(String type, int page, int pageSize) throws SQLException {
+    private List<?> getDataForPagination(String type, int page, int pageSize, int maRap) throws SQLException {
         return switch (type) {
             case "users" ->
                 userService.getUsersForPage(page, pageSize);
@@ -109,62 +99,38 @@ public class PagingServlet extends HttpServlet {
                 movieService.getMoviesForPage(page, pageSize);
             case "heThongRap" ->
                 heThongRap.getHeThongRapsForPage(page, pageSize);
-             case "cumRap" ->
+            case "cumRap" ->
                 heThongRap.getCumRapForPage(page, pageSize);
-            
             case "rap" ->
                 heThongRap.getRapPhimsForPage(page, pageSize);
-            
             case "lichChieu" ->
-                heThongRap.getLichChieusForPage(page, pageSize);    
+                heThongRap.getLichChieusForPage(page, pageSize);
+            case "rapPhim" ->
+                rapPhimService.getRapPhimForPage(page, pageSize);
+            case "ghe" ->
+                seatService.getSeatForPage(maRap, page, pageSize);
             default ->
                 new ArrayList<>();
         };
     }
-    private List<?> getDataForPagination(String type, int page, int pageSize,int id) throws SQLException {
-        return switch (type) {
-            case "cumRap" ->
-                heThongRap.getCumRapByIDForPage(page, pageSize, id);
-            
-            case "rap" ->
-                heThongRap.getRapPhimsByCumRapIDForPage(page, pageSize, id);
-            
-            case "lichChieu" ->
-                heThongRap.getLichChieusByMaRapForPage(page, pageSize, id);
-            
-            default ->
-                new ArrayList<>();
-        };
-    }
-    
 
     //lấy tổng số lượng phần tử theo từng loại list
-    private int getTotalItemCount(String type) {
+    private int getTotalItemCount(String type, int maRap) {
         return switch (type) {
             case "users" ->
                 userService.getTotalUsersCount();
             case "movies" ->
                 movieService.getTotalMoviesCount();
-            case "heThongRap"->
+            case "heThongRap" ->
                 heThongRap.getTotalHeThongRap();
-            case "cumRap"->
+            case "cumRap" ->
                 heThongRap.getTotalCumRap();
-            case "rap"->
-                heThongRap.getTotalRap();
-            case "lichChieu"->
-                heThongRap.getTotalLichChieu();    
-            default ->
-                0;
-        };
-    }
-    private int getTotalItemCount(String type,int id ) {
-        return switch (type) {
-            case "cumRap"->
-                heThongRap.getTotalCumRap(id);
-            case "rap"->
-                heThongRap.getTotalRap(id);
-            case "lichChieu"->
-                heThongRap.getTotalLichChieu(id);
+            case "rapPhim" ->
+                rapPhimService.getTotalRapPhim();
+            case "ghe" ->
+                seatService.getTotalSeatInCinema(maRap);
+            case "lichChieu" ->
+                heThongRap.getTotalLichChieu();
             default ->
                 0;
         };

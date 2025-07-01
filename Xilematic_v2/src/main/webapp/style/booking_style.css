@@ -151,6 +151,10 @@ body::before {
     color: var(--neutral-800);
     cursor: not-allowed;
 }
+.notavailable-seat {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
 
 .note {
     display: grid;
@@ -626,3 +630,7 @@ body::before {
     z-index: 1;
     pointer-events: none;
 }
+
+
+
+

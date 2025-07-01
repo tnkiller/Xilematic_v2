@@ -24,12 +24,9 @@ public class BookingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        //viết logic ở chỗ này để mà lấy ma_lich_chieu(ma_rap và ma_phim) từ trang detail
-        
-        // giả lập dữ liệu được gửi từ trang detail
+
         int ma_lich_chieu = Integer.parseInt(req.getParameter("ma_lich_chieu"));
-        
-        
+              
         Showtime showtime = showtimeService.getShowtimeInformationByID(ma_lich_chieu);
         int ma_phim = showtime.getMa_phim();
         Movie movie = movieService.getMovie(ma_phim);

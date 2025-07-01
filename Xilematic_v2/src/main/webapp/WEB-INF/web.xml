@@ -6,12 +6,8 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-<<<<<<< HEAD
         <welcome-file>login.jsp</welcome-file>
         <welcome-file>home/home.jsp</welcome-file>
-=======
-        <welcome-file>authentication/login.jsp</welcome-file>
->>>>>>> origin/home_detail_booking/vinh
     </welcome-file-list>
     <servlet>
         <servlet-name>ajaxServlet</servlet-name>
