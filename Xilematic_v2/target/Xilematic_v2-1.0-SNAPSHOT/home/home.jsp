@@ -25,7 +25,221 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/home.css"/>
-  
+  <style>
+        /* ----- CORE STYLE ----- */
+        :root {
+            --primary: #6e48ff;
+            --secondary: #9c50ff;
+            --dark: #1a1a2e;
+            --light: #f5f5ff;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #f0f0f0;
+        }
+
+        /* ----- CHAT WIDGET CONTAINER ----- */
+        #chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            transition: all 0.3s ease;
+        }
+
+        /* ----- CHAT TRIGGER BUTTON (FLOATING) ----- */
+        #chat-trigger {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 
+                0 10px 25px rgba(110, 72, 255, 0.3),
+                inset 0 -3px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            outline: none;
+        }
+
+        #chat-trigger:hover {
+            transform: scale(1.1);
+            box-shadow: 
+                0 12px 30px rgba(110, 72, 255, 0.4),
+                inset 0 -3px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        #chat-trigger i {
+            font-size: 24px;
+            color: white;
+        }
+
+        /* ----- CHAT BOX (GLASS MORPHISM + GRADIENT) ----- */
+        #chat-box {
+            width: 350px;
+            height: 500px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.2),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            display: none;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* ----- CHAT HEADER (GRADIENT) ----- */
+        .chat-header {
+            padding: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .chat-header .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        /* ----- CHAT BODY (MESSAGES) ----- */
+        .chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: rgba(26, 26, 46, 0.8);
+            color: var(--light);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            background: linear-gradient(90deg, #6e48ff, #9c50ff);
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom-left-radius: 5px;
+        }
+
+        /* ----- CHAT FOOTER (INPUT + SEND BUTTON) ----- */
+        .chat-footer {
+            padding: 15px;
+            background: rgba(26, 26, 46, 0.9);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-footer input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .chat-footer input:focus {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-footer button {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-footer button:hover {
+            transform: scale(1.05);
+        }
+
+        /* ----- TYPING ANIMATION (AI IS TYPING...) ----- */
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            width: fit-content;
+            margin-bottom: 10px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+    </style>
+
+
 </head>
 <body>
   <!-- Header -->
@@ -184,6 +398,34 @@
           </nav>
       </c:if>
   </div>
+   <!-- CHAT WIDGET CONTAINER -->
+    <div id="chat-widget">
+        <!-- CHAT BOX (HIDDEN BY DEFAULT) -->
+        <div id="chat-box">
+            <div class="chat-header">
+                <h3>Trợ lý ảo 2025</h3>
+                <button class="close-btn" onclick="toggleChat()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-body" id="chat-messages">
+                <!-- Messages will appear here -->
+                <div class="message bot-message">
+                    Xin chào! Tôi có thể giúp gì cho bạn? 😊
+                </div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="user-input" placeholder="Nhập tin nhắn..." autocomplete="off">
+                <button onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        <!-- CHAT TRIGGER BUTTON -->
+        <button id="chat-trigger" onclick="toggleChat()">
+            <i class="fas fa-comment-dots"></i>
+        </button>
+    </div>
 
   <!-- Footer -->
  <footer>
@@ -231,6 +473,82 @@
             </div>
         </div>
     </footer>
+  <script>
+        // TOGGLE CHAT BOX
+        function toggleChat() {
+            const chatBox = document.getElementById('chat-box');
+            const chatTrigger = document.getElementById('chat-trigger');
+            
+            if (chatBox.style.display === 'flex') {
+                chatBox.style.display = 'none';
+                chatTrigger.style.transform = 'scale(1)';
+            } else {
+                chatBox.style.display = 'flex';
+                chatTrigger.style.transform = 'scale(0)';
+            }
+        }
+
+        // SEND MESSAGE FUNCTION
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const messages = document.getElementById('chat-messages');
+            
+            if (input.value.trim() !== '') {
+                // Add user message
+                messages.innerHTML += `
+                    <div class="message user-message">
+                        ${input.value}
+                    </div>
+                `;
+                
+                // Simulate bot typing
+                messages.innerHTML += `
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                `;
+                
+                // Scroll to bottom
+                messages.scrollTop = messages.scrollHeight;
+                
+                // Simulate bot reply after 1-2s
+                setTimeout(() => {
+                    // Remove typing indicator
+                    document.querySelector('.typing-indicator')?.remove();
+                    
+                    // Add bot reply
+                    const replies = [
+                        "Tôi đang xử lý yêu cầu của bạn...",
+                        "Bạn cần thêm thông tin gì nữa không?",
+                        "Tôi có thể giúp gì thêm? 🤖",
+                        "Câu hỏi hay đấy! Để tôi kiểm tra...",
+                    ];
+                    const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                    
+                    messages.innerHTML += `
+                        <div class="message bot-message">
+                            ${randomReply}
+                        </div>
+                    `;
+                    
+                    // Scroll to bottom again
+                    messages.scrollTop = messages.scrollHeight;
+                }, 1000 + Math.random() * 1000);
+                
+                // Clear input
+                input.value = '';
+            }
+        }
+
+        // Allow sending message with Enter key
+        document.getElementById('user-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
 
   <!-- Bootstrap JS Bundle (includes Popper) -->
    <script

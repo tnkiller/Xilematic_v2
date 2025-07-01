@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -12,6 +13,7 @@
   </head>
 
   <body>
+      <%@ include file="/components/header.jsp" %>
     <div class="detail">
       <div class="detail-content">
         <div class="detail-banner">
@@ -69,9 +71,9 @@
                 <iframe id="trailerIframe" src="${movie.trailer}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </div>
             </div>
-            <button onclick="window.location.href='${pageContext.request.contextPath}/SelectCalendar?id=${movie.id}'">
-                Đặt vé
-              </button>
+            <button onclick="window.location.href='${pageContext.request.contextPath}/SelectCalendar?id=${movie.id}&movieName=${movie.movieName}'">
+    Đặt vé
+</button>
 
           </div>
         </div>
@@ -115,9 +117,7 @@
     </c:choose>
 </div>
 
-
-    <button id="toggle-comments" onclick="toggleCommentSection()">Ẩn bình luận</button>
-
+<%@ include file="/components/footer.jsp" %>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="${pageContext.request.contextPath}/script/detail.js"></script>

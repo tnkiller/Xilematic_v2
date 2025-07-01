@@ -101,7 +101,7 @@ public class SelectCalendarServlet extends HttpServlet {
                     htmlBuilder.append("<div class='suat-chieu-item'>");
  
                     htmlBuilder.append("<span>Suất: <strong class='gio-chieu'>").append(gioChieu).append("</strong></span>");
-                    htmlBuilder.append("<a href='booking?lichChieuId=").append(lc.getMaLichChieu()).append("' class='btn-chon-ghe'>Chọn Ghế</a>");
+                    htmlBuilder.append("<a href='booking?ma_lich_chieu=").append(lc.getMaLichChieu()).append("' class='btn-chon-ghe'>Chọn Ghế</a>");
                     htmlBuilder.append("</div>");
                 }
             } else {
@@ -114,7 +114,80 @@ public class SelectCalendarServlet extends HttpServlet {
             response.getWriter().println("<p>Đã có lỗi xảy ra khi tải lịch chiếu. Vui lòng thử lại.</p>");
         }
     }
-     
+     private void getLichChieuTheoCumRap(HttpServletRequest request, HttpServletResponse response)    
+    throws ServletException, IOException {
+    
+    response.setContentType("text/html;charset=UTF-8");
+    
+    try (PrintWriter out = response.getWriter()) {
+        int maPhim = Integer.parseInt(request.getParameter("maPhim"));
+        int cumRapId = Integer.parseInt(request.getParameter("cumRapId")); 
+
+        // Lấy danh sách rạp phim trong cụm rạp
+        List<RapPhim> rapPhims = bookingService.getRapByCumRapId(cumRapId);
+        
+        StringBuilder htmlBuilder = new StringBuilder();
+        htmlBuilder.append("<div class='showtimes-container'>");
+        
+        if (rapPhims != null && !rapPhims.isEmpty()) {
+            for (RapPhim rapPhim : rapPhims) {
+                // Lấy lịch chiếu cho từng rạp phim
+                List<LichChieu> listLichChieu = bookingService.getLichChieuByRapPhimAndPhim(rapPhim.getMaRap(), maPhim);
+                
+                if (listLichChieu != null && !listLichChieu.isEmpty()) {
+                    // Thêm thông tin rạp
+                    htmlBuilder.append("<div class='theater-info'>");
+                    htmlBuilder.append("<i class='fas fa-map-marker-alt theater-icon'></i>");
+                    htmlBuilder.append("<div>");
+                    htmlBuilder.append("<div class='theater-name'>").append(rapPhim.getTenRap()).append("</div>");
+                    htmlBuilder.append("</div>");
+                    htmlBuilder.append("</div>");
+                    
+                    // Bắt đầu grid suất chiếu
+                    htmlBuilder.append("<div class='showtime-grid'>");
+                    
+                    for (LichChieu lc : listLichChieu) {
+                        String gioChieu = lc.getNgayGioChieu().format(DateTimeFormatter.ofPattern("HH:mm"));
+                        
+                        htmlBuilder.append("<div class='showtime-item'>");
+                        htmlBuilder.append("<div class='showtime-time'>").append(gioChieu).append("</div>");
+                        htmlBuilder.append("<div class='showtime-type'>2D Phụ đề</div>");
+                        htmlBuilder.append("<div class='showtime-seats'>Còn 50 chỗ</div>");
+                        htmlBuilder.append("<button class='btn-book' onclick=\"window.location.href='booking?ma_lich_chieu=")
+                                .append(lc.getMaLichChieu()).append("'\">Đặt vé</button>");
+                        htmlBuilder.append("</div>");
+                    }
+                    
+                    htmlBuilder.append("</div>"); // Đóng showtime-grid
+                }
+            }
+            
+            // Nếu không có suất chiếu nào
+            if (htmlBuilder.toString().equals("<div class='showtimes-container'>")) {
+                htmlBuilder.append("<div class='empty-state'>");
+                htmlBuilder.append("<i class='far fa-calendar-times'></i>");
+                htmlBuilder.append("<h3>Không có suất chiếu</h3>");
+                htmlBuilder.append("<p>Không tìm thấy suất chiếu nào cho phim này tại cụm rạp đã chọn</p>");
+                htmlBuilder.append("</div>");
+            }
+        } else {
+            htmlBuilder.append("<div class='empty-state'>");
+            htmlBuilder.append("<i class='far fa-building'></i>");
+            htmlBuilder.append("<h3>Không có rạp</h3>");
+            htmlBuilder.append("<p>Không tìm thấy rạp phim trong cụm rạp này</p>");
+            htmlBuilder.append("</div>");
+        }
+        
+        htmlBuilder.append("</div>"); // Đóng showtimes-container
+        
+        out.print(htmlBuilder.toString());
+    
+    } catch (Exception e) {
+        LOGGER.log(Level.SEVERE, "Error in getLichChieuTheoCumRap", e);
+        response.getWriter().println("<p>Đã có lỗi xảy ra khi tải lịch chiếu. Vui lòng thử lại.</p>");
+    }
+}
+
 
 @Override
 protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -137,7 +210,11 @@ throws ServletException, IOException {
             break;
         case "getLichChieu":
             getLichChieu(request, response);
-            break;            
+            break;  
+            case "getLichChieuTheoCumRap":
+        getLichChieuTheoCumRap(request, response);
+        break;
+    
         default:
             System.out.println("--- 3. Switch -> default case -> calling loadInitialPage() ---"); // Checkpoint 3
             loadInitialPage(request, response);
@@ -145,26 +222,32 @@ throws ServletException, IOException {
 }
 
 private void loadInitialPage(HttpServletRequest request, HttpServletResponse response) {
-    System.out.println("--- 4. INSIDE loadInitialPage() ---"); // Checkpoint 4
     try {
         List<HeThongRap> listHeThongRap = bookingService.getAllHeThongRap();
-        List<Movie> listPhim = movieService.getAllMovies();
 
-        // Checkpoint 5: Kiểm tra xem dữ liệu có bị null hoặc rỗng không
-        System.out.println("--- 5. Data fetched: listHeThongRap size = " + (listHeThongRap != null ? listHeThongRap.size() : "null"));
-        System.out.println("--- 5. Data fetched: listPhim size = " + (listPhim != null ? listPhim.size() : "null"));
-
+        // Kiểm tra nếu có tham số id 
+        String movieId = request.getParameter("id");
+        if (movieId != null) {
+            // Chuyển đổi movieId sang kiểu int nếu cần
+            try {
+                int selectedMovieId = Integer.parseInt(movieId);
+                Movie movie= movieService.getMovie(selectedMovieId);
+                System.out.println(movie);
+                request.setAttribute("selectedMovie", movie);
+            } catch (NumberFormatException e) {
+                // Xử lý nếu movieId không hợp lệ
+                System.out.println("Invalid movie ID: " + movieId);
+            }
+        }
         request.setAttribute("listHeThongRap", listHeThongRap);
-        request.setAttribute("listPhim", listPhim);
         
-        System.out.println("--- 6. Forwarding to booking.jsp... ---"); // Checkpoint 6
         request.getRequestDispatcher("home/booking.jsp").forward(request, response);
         
     } catch (Exception ex) {
-        // Nếu có lỗi ở đây, nó sẽ được in ra
         LOGGER.log(Level.SEVERE, "--- ERROR in loadInitialPage ---", ex);
     }
 }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -45,6 +45,12 @@
                 <a href="paging?type=movies" class="nav-link ${requestScope.type == 'movies' ? 'active' : ''}">
                     <i class="bi bi-film fs-5"></i>
                 </a>
+                <a href="paging?type=heThongRap" class="nav-link ${requestScope.type == 'heThongRap' ? 'active' : ''}">
+                    <i class="bi bi-badge-4k" title="Hệ thống rạp"></i>
+                </a>
+                <a href="paging?type=cumRap" class="nav-link ${requestScope.type == 'cumRap' ? 'active' : ''}">
+                    <i class="bi bi-building-gear fs-5" title="Cụm rạp"></i>
+                </a>
                 <a href="paging?type=rapPhim" class="nav-link ${requestScope.type == 'rapPhim' ? 'active' : ''}">
                     <i class="bi bi-easel"></i>
                 </a>
@@ -52,6 +58,7 @@
                     <i class="bi bi-grid-3x2-gap-fill"></i>
                 </a>
             </nav>
+
 
             <!--dữ liệu bảng nằm bên phải nav-bar và chiếm khoảng 80% chiều rộng của trang-->
             <div class="data">
