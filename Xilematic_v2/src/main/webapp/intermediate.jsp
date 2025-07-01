@@ -43,8 +43,9 @@
                 <jsp:forward page="rapPhim"></jsp:forward>
             </c:when>
             <c:when test='<%=act.equals("update_ghe") || act.equals("add_ghe")%>'>
-                <c:out value = "${ghe}" />
-                <c:out value = "adasd${maRap}" />
+                <jsp:forward page="ghe">
+                    <jsp:param value="${param.maRap}" name="maRap"></jsp:param>
+                </jsp:forward>
             </c:when>
         </c:choose>
 

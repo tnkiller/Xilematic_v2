@@ -126,7 +126,7 @@
                                     </td>
                                     <td>${ghe.trang_thai}</td>
                                     <td>
-                                        <a href="ghe?action=showDetail&ma_ghe=${ghe.ma_ghe}">
+                                        <a href="ghe?action=showDetail&ma_ghe=${ghe.ma_ghe}&maRap=${param.maRap}">
                                             <i class="bi bi-pencil-square text-primary"></i>
                                         </a>
                                         <form action="ghe" method="POST" class="delete-btn d-inline">

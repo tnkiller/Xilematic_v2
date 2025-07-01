@@ -21,28 +21,39 @@
                         <div class="card-body">
                             <form action="<%=request.getContextPath()%>/intermediate.jsp" method="POST">
                                 <input type="hidden" name="action" value="update_ghe"/>
-                                <input type="hidden" name="maGhe" value="${ghe.ma_ghe}"/>
-                                <input type="hidden" name="maRap" value="${maRap}"/>
-                                <input type="hidden" name="page" value="${currentPage}"/>
+                                <input type="hidden" name="ma_ghe" value="${ghe.ma_ghe}"/>
+                                <input type="hidden" name="maRap" value="${param.maRap}"/>
+                                <!--<input type="hidden" name="page" value="${currentPage}"/>-->
                                 <div class="mb-3">
                                     <label for="maGhe" class="form-label">Mã ghế</label>
                                     <input type="number" class="form-control" value="${ghe.ma_ghe}" id="maGhe" disabled>
                                 </div>
                                 <div class="mb-3">
                                     <label for="tenGhe" class="form-label">Tên ghế</label>
-                                    <input type="text" class="form-control" value="${ghe.ten_ghe}" id="tenGhe" name="tenGhe" required>
+                                    <input type="text" class="form-control" value="${ghe.ten_ghe}" id="tenGhe" name="ten_ghe" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="loaiGhe" class="form-label">Loại ghế</label>
-                                    <select class="form-select" id="loaiGhe" name="loaiGhe" required>
+                                    <select class="form-select" id="loaiGhe" name="loai_ghe" required>
                                         <option value="" disabled>Chọn loại ghế</option>
                                         <option value="VIP" ${ghe.loai_ghe == 'VIP' ? 'selected' : ''}>VIP</option>
                                         <option value="Thường" ${ghe.loai_ghe == 'Thường' ? 'selected' : ''}>Thường</option>
                                     </select>
                                 </div>
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" 
+                                                   type="checkbox" 
+                                                   id="daDat" 
+                                                   name="da_dat" 
+                                                   value="true"
+                                                   ${ghe.da_dat ? 'checked' : ''}>
+                                            <label class="form-check-label" for="daDat">
+                                                Đã đặt
+                                            </label>
+                                        </div>
                                 <div class="mb-3">
                                     <label for="trangThai" class="form-label">Trạng thái</label>
-                                    <select class="form-select" id="trangThai" name="trangThai" required>
+                                    <select class="form-select" id="trangThai" name="trang_thai" required>
                                         <option value="" disabled>Chọn trạng thái</option>
                                         <option value="active" ${ghe.trang_thai == 'active' ? 'selected' : ''}>active</option>
                                         <option value="n/a" ${ghe.trang_thai == 'n/a' ? 'selected' : ''}>n/a</option>
