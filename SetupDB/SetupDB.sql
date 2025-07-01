@@ -5,14 +5,14 @@ GO
 
 GO
     CREATE TABLE HeThongRap (
-        ma_he_thong_rap INT PRIMARY KEY,
+        ma_he_thong_rap INT PRIMARY KEY IDENTITY(1, 1),
         ten_he_thong_rap NVARCHAR(255),
         logo VARCHAR(255)
     );
 
 GO
     CREATE TABLE CumRap (
-        ma_cum_rap INT PRIMARY KEY,
+        ma_cum_rap INT PRIMARY KEY IDENTITY(1, 1),
         ten_cum_rap NVARCHAR(255),
         dia_chi NVARCHAR(255),
         ma_he_thong_rap INT,
@@ -21,7 +21,7 @@ GO
 
 GO
     CREATE TABLE RapPhim (
-        ma_rap INT PRIMARY KEY,
+        ma_rap INT PRIMARY KEY IDENTITY(1, 1),
         ten_rap NVARCHAR(255),
         ma_cum_rap INT,
         FOREIGN KEY (ma_cum_rap) REFERENCES CumRap(ma_cum_rap)
@@ -46,7 +46,7 @@ GO
 
 GO
     CREATE TABLE Banner (
-        ma_banner INT PRIMARY KEY,
+        ma_banner INT PRIMARY KEY IDENTITY(1, 1),
         ma_phim INT,
         hinh_anh VARCHAR(255),
         FOREIGN KEY (ma_phim) REFERENCES Phim(ma_phim)
@@ -54,7 +54,7 @@ GO
 
 GO
     CREATE TABLE TheLoai (
-        ma_the_loai INT PRIMARY KEY,
+        ma_the_loai INT PRIMARY KEY IDENTITY(1, 1),
         ten_the_loai NVARCHAR(100)
     );
 
@@ -91,12 +91,13 @@ GO
 
 GO
     CREATE TABLE Ghe (
-        ma_ghe INT PRIMARY KEY,
+        ma_ghe INT PRIMARY KEY IDENTITY(1, 1),
         ten_ghe VARCHAR(10),
         loai_ghe NVARCHAR(50),
         ma_rap INT,
         FOREIGN KEY (ma_rap) REFERENCES RapPhim(ma_rap),
-        da_dat BIT
+        da_dat BIT,
+        trang_thai NVARCHAR(10)
     );
 
 GO
@@ -135,58 +136,77 @@ go
     );
 
 GO
-
-
-CREATE TRIGGER trg_UpdateGheDaDat
-ON DatVe
+CREATE TRIGGER trg_UpdateGheDaDat ON DatVe
 AFTER INSERT
-AS
-BEGIN
-    DECLARE @ghe NVARCHAR(100);
-    DECLARE @ten_ghe NVARCHAR(10);
-    DECLARE @pos INT;
-    DECLARE @delimiter NVARCHAR(1) = ',';
-    DECLARE @ma_lich_chieu INT;
-    DECLARE @ma_rap INT;
+    AS BEGIN DECLARE @ghe NVARCHAR(100);
 
-    -- Cursor cho từng dòng insert
-    DECLARE cur CURSOR FOR
-    SELECT ghe_da_dat, ma_lich_chieu FROM inserted;
+DECLARE @ten_ghe NVARCHAR(10);
 
-    OPEN cur;
-    FETCH NEXT FROM cur INTO @ghe, @ma_lich_chieu;
+DECLARE @pos INT;
 
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-        -- Lấy ra ma_rap tương ứng với ma_lich_chieu
-        SELECT @ma_rap = ma_rap FROM LichChieu WHERE ma_lich_chieu = @ma_lich_chieu;
+DECLARE @delimiter NVARCHAR(1) = ',';
 
-        -- Tách từng tên ghế trong chuỗi
-        WHILE LEN(@ghe) > 0
-        BEGIN
-            SET @pos = CHARINDEX(@delimiter, @ghe);
+DECLARE @ma_lich_chieu INT;
 
-            IF @pos > 0
-                SET @ten_ghe = LEFT(@ghe, @pos - 1);
-            ELSE
-                SET @ten_ghe = @ghe;
+DECLARE @ma_rap INT;
 
-            -- Chỉ cập nhật ghế đúng tên và đúng rạp
-            UPDATE Ghe
-            SET da_dat = 1
-            WHERE ten_ghe = @ten_ghe AND ma_rap = @ma_rap;
+DECLARE cur CURSOR FOR
+SELECT
+    ghe_da_dat,
+    ma_lich_chieu
+FROM
+    inserted;
 
-            -- Loại bỏ tên ghế vừa xử lý
-            IF @pos > 0
-                SET @ghe = SUBSTRING(@ghe, @pos + 1, LEN(@ghe));
-            ELSE
-                SET @ghe = '';
-        END
+OPEN cur;
 
-        FETCH NEXT FROM cur INTO @ghe, @ma_lich_chieu;
-    END
+FETCH NEXT
+FROM
+    cur INTO @ghe,
+    @ma_lich_chieu;
 
-    CLOSE cur;
-    DEALLOCATE cur;
+WHILE @@FETCH_STATUS = 0 BEGIN
+SELECT
+    @ma_rap = ma_rap
+FROM
+    LichChieu
+WHERE
+    ma_lich_chieu = @ma_lich_chieu;
+
+WHILE LEN(@ghe) > 0 BEGIN
+SET
+    @pos = CHARINDEX(@delimiter, @ghe);
+
+IF @pos > 0
+SET
+    @ten_ghe = LEFT(@ghe, @pos - 1);
+
+ELSE
+SET
+    @ten_ghe = @ghe;
+
+UPDATE
+    Ghe
+SET
+    da_dat = 1
+WHERE
+    ten_ghe = @ten_ghe
+    AND ma_rap = @ma_rap;
+
+IF @pos > 0
+SET
+    @ghe = SUBSTRING(@ghe, @pos + 1, LEN(@ghe));
+
+ELSE
+SET
+    @ghe = '';
+
+END FETCH NEXT
+FROM
+    cur INTO @ghe,
+    @ma_lich_chieu;
+
+END CLOSE cur;
+
+DEALLOCATE cur;
+
 END
-

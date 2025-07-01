@@ -20,7 +20,7 @@ public class UserDAO implements IUserDAO {
     private static final String SELECT_USER_BY_ID = "SELECT * FROM NguoiDung WHERE ma_nguoi_dung = ?";
     private static final String SELECT_ALL_USERS = "select * from NguoiDung";
     private static final String UPDATE_USER = "UPDATE NguoiDung SET ten_tai_khoan = ?, ho_ten = ?, email = ?, so_dt = ?, mat_khau = ?, loai_nguoi_dung = ? WHERE ma_nguoi_dung = ?";
-    private static final String DELETE_USER = "DELETE FROM NguoiDung WHERE ma_nguoi_dung = ?";
+    private static final String DELETE_USER = "UPDATE NguoiDung SET status = '0' WHERE ma_nguoi_dung = ?";
     private static final String SEARCH_USER = "SELECT * FROM NguoiDung WHERE username LIKE ?";
     private static final String CHECK_USERNAME_ISEXIST = "SELECT * FROM NguoiDung WHERE ten_tai_khoan LIKE ?";
     private static final String PAGING_USER = "SELECT * FROM NguoiDung ORDER BY ma_nguoi_dung OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";

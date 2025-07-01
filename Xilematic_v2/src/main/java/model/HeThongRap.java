@@ -13,9 +13,6 @@ public class HeThongRap {
     private String tenHeThongRap;
     private String logo;
 
-    public HeThongRap() {
-    }
-    
     public HeThongRap(int maHeThongRap, String tenHeThongRap, String logo) {
         this.maHeThongRap = maHeThongRap;
         this.tenHeThongRap = tenHeThongRap;

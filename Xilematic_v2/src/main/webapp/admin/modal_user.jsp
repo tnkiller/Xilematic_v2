@@ -1,4 +1,8 @@
-
+<%-- 
+    Document   : modal
+    Created on : Jun 22, 2025, 2:00:53 AM
+    Author     : ADMIN
+--%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -18,12 +22,11 @@
                     </div>
                     <div class="modal-body">
                         <!--bat dau form-->
-
                         <form action="<%=request.getContextPath()%>/intermediate.jsp" method="POST" id="myUserForm">
-
                             <!--thuoc tinh an gui kem-->
                             <input type="hidden" name="id"/>
                             <input type="hidden" name="action" value="add_user"/>
+
                             <!--thuoc tinh hien de nguoi dung nhap-->
                             <!--username-->
                             <div class="mb-3">
@@ -57,7 +60,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" form="myUserForm" class="btn btn-primary"><%= request.getParameter("action")%></button>
-
                     </div>
                 </div>
             </div>

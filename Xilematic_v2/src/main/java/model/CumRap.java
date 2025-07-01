@@ -14,9 +14,6 @@ public class CumRap {
     private String diaChi;
     private int maHeThongRap;
 
-    public CumRap() {
-    }
-
     public CumRap(int maCumRap, String tenCumRap, String diaChi, int maHeThongRap) {
         this.maCumRap = maCumRap;
         this.tenCumRap = tenCumRap;

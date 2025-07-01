@@ -84,77 +84,6 @@ video {
   border: 0;
   vertical-align: baseline;
 }
-header {
-  background-color: #e0e0e0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-}
-
-.header-logo {
-  display: flex;
-  align-items: center;
-  padding: 20px 0;
-}
-.logo img {
-  width: 70px;
-}
-.navbar {
-  margin-left: 30px;
-}
-.navbar a {
-  text-decoration: none;
-  color: black;
-  font-size: 18px;
-  margin-left: 20px;
-}
-
-header button {
-  width: 100px;
-  padding: 10px 0;
-  font-size: 16px;
-  border-radius: 6px;
-  background-color: #b71c1c;
-  color: white;
-  border: none;
-  margin-left: 5px;
-  cursor: pointer;
-  transition: all 0.5s;
-}
-header button:hover {
-  background-color: #c62828;
-}
-/* search */
-#search-box {
-  background-color: #fff;
-  border-radius: 30px;
-}
-#search-box #search-text {
-  border: none;
-  outline: none;
-  background: none;
-  /* padding: 10px 15px; */
-  font-size: 16px;
-  width: 420px;
-  padding: 10px 15px;
-}
-/* #search-box:hover #search-text {
-  width: 300px;
-  padding: 10px 15px;
-  transition: width 0.25s ease-in-out;
-} */
-#search-box #search-btn {
-  background-color: #fff;
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 50%;
-  width: 40px;
-}
-
-/* end search  */
-
-/* end header */
 
 /* banner */
 .carousel.slide.carousel-fade {
@@ -302,7 +231,7 @@ li {
 }
 .movie_clist.curr_list > li {
   width: 230px;
-  height: 394px;
+  height: 411px;
   margin: 0 0 40px 20px;
   background: #fff;
   position: relative;
@@ -375,8 +304,8 @@ img {
   height: 262px;
 }
 .movie_clist.curr_list .img img {
-  width: 235px;
-  height: 300px;
+  width: 228px;
+  height: 334px;
 }
 .curr_list .layer_hover {
   display: none;

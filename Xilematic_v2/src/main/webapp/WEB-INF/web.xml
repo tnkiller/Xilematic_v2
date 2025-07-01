@@ -6,12 +6,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-<<<<<<< HEAD
-        <welcome-file>login.jsp</welcome-file>
-        <welcome-file>home/home.jsp</welcome-file>
-=======
-        <welcome-file>authentication/login.jsp</welcome-file>
->>>>>>> origin/home_detail_booking/vinh
+        <welcome-file>homeservlet</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>ajaxServlet</servlet-name>
@@ -21,7 +16,6 @@
         <servlet-name>ajaxServlet</servlet-name>
         <url-pattern>/payment</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>VnpayReturn</servlet-name>
         <servlet-class>com.vnpay.common.VnpayReturn</servlet-class>

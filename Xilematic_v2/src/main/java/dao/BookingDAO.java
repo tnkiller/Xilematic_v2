@@ -13,11 +13,8 @@ import context.DBConnection;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Booking;
 import model.CumRap;
 import model.HeThongRap;
@@ -30,7 +27,6 @@ public class BookingDAO implements IBookingDAO{
     PreparedStatement ps = null;
     ResultSet rs = null;
      private static final String INSERT_NEW_BOOKING = "INSERT INTO DatVe(tai_khoan, ma_lich_chieu, ghe_da_dat, gia_ve) VALUES (?, ?, ?, ?)";
-     
     @Override
     public void addNewBooking(Booking b) {
          try (Connection con = DBConnection.getConnection()) {
@@ -49,8 +45,8 @@ public class BookingDAO implements IBookingDAO{
     public List<HeThongRap> getAllHeThongRap() {
         List<HeThongRap> list = new ArrayList<>();
         String query = "SELECT * FROM HeThongRap";
-        try (Connection conn = DBConnection.getConnection()){
-            
+        try {
+            conn = DBConnection.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -61,7 +57,7 @@ public class BookingDAO implements IBookingDAO{
                 ));
             }
         } catch (Exception e) { e.printStackTrace(); }
-        
+        // Đóng kết nối...
         return list;
     }
 
@@ -81,11 +77,6 @@ public class BookingDAO implements IBookingDAO{
                 list.add(new CumRap(ma_cum_rap,ten_cum_rap,dia_chi,heThongRapId));
             }
         } catch (Exception e) { e.printStackTrace(); }
-        try {
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
         return list;
     }
     public List<RapPhim> getRapByCumRapId(int cumRapId) {
@@ -101,11 +92,8 @@ public class BookingDAO implements IBookingDAO{
                 String ten_rap= rs.getString("ten_rap");
                 int ma_cum_rap= rs.getInt("ma_cum_rap");
                 list.add(new RapPhim(ma_rap, ten_rap, ma_cum_rap));
-                
             }
-            conn.close();
         } catch (Exception e) { e.printStackTrace(); }
-        
         return list;
     }
 
@@ -133,20 +121,14 @@ public class BookingDAO implements IBookingDAO{
                 LocalDateTime ngay_gio_chieu = rs.getTimestamp("ngay_gio_chieu").toLocalDateTime();
                 list.add(new LichChieu(ma_lich_chieu,ma_rap,ma_phim,ngay_gio_chieu));
             }
-            conn.close();
         } catch (Exception e) { e.printStackTrace(); }
         return list;
     }
-    
-    
-     public static void main(String[] args) throws SQLException {
-     List<LichChieu> list =   new ArrayList<>();
-          System.out.println("kich thuoc :"+list.size());
-          for (LichChieu heThongRap : list) {
-              System.out.println(heThongRap);
-             
-         }
-     }
-    
+     public static void main(String[] args) {
+       List<LichChieu> lichChieus = new BookingDAO().getLichChieu( 1,1,"04/30/2025");
+       for(LichChieu lc : lichChieus){
+           System.out.println(lc);}
+    }
+    // Thêm các phương thức khác nếu cần: getAllPhim(), getRapByCumRapId(),...
 }
 

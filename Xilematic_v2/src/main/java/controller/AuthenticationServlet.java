@@ -1,4 +1,3 @@
-
 package controller;
 
 import constant.PageLink;
@@ -26,7 +25,16 @@ public class AuthenticationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processLoginWithGG(request, response);
+        String action = request.getParameter("action");
+        action = action != null ? action : "";
+        switch (action) {
+            case "logout":
+                processLogout(request, response);
+                break;
+            default:
+                processLoginWithGG(request, response);
+                break;
+        }
     }
 
     @Override
@@ -107,7 +115,7 @@ public class AuthenticationServlet extends HttpServlet {
         if ("admin".equals(user.getTypeOfUser())) {
             response.sendRedirect(PageLink.ADMIN_PAGE);
         } else {
-            response.sendRedirect(PageLink.HOME_PAGE);
+            response.sendRedirect("homeservlet");
         }
     }
 
@@ -116,12 +124,12 @@ public class AuthenticationServlet extends HttpServlet {
             throws ServletException, IOException {
         String[] requestAttributeErr = {"errUsername", "errFullname", "errEmail", "errPhoneNumber", "errPassword", "errConfirmPassword"};
         User user = (User) request.getAttribute("user");
-        user.setTypeOfUser("user");//default
         String username = user.getUsername();
         String fullname = user.getFullname();
         String email = user.getEmail();
         String phoneNum = user.getPhoneNumber();
         String password = user.getPassword();
+        user.setTypeOfUser("user");//default
         String confirmPassword = request.getParameter("confirmPassword");
         boolean flag = true;
 
@@ -218,7 +226,7 @@ public class AuthenticationServlet extends HttpServlet {
     private void processLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.invalidate();
-        response.sendRedirect("login.jsp");
+        response.sendRedirect(PageLink.LOGIN_PAGE);
     }
 
     //process forgot password

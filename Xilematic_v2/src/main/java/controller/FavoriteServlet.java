@@ -27,22 +27,20 @@ public class FavoriteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String action = request.getParameter("action");
+        action = action != null ? action : "";
 
-        String sort = request.getParameter("sort");
-        sort = sort != null ? sort : "";
-
-        switch (sort) {
-            case "title":
-                sortByTitle(request, response);
+        switch (action) {
+            case "sort":
+                processSort(request, response);
                 break;
-            case "default":
-                sortByDefault(request, response);
+            case "delete":
+                processDelete(request, response);
                 break;
             default:
                 loadFavMovies(request, response);
                 break;
         }
-
     }
 
     @Override
@@ -54,17 +52,40 @@ public class FavoriteServlet extends HttpServlet {
     private void loadFavMovies(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        List<Movie> favList;
-        if (session.getAttribute("favoriteList") != null) {
-            favList = (List<Movie>) session.getAttribute("favoriteList");
-        } else {
-            User user = (User) session.getAttribute(SessionAttribute.USER_INFOR);
-            int userId = user.getId();
-            favList = favoriteService.selectFavoriteByUserId(userId);
-            session.setAttribute("favoriteList", favList);
-        }
+        User user = (User) session.getAttribute(SessionAttribute.USER_INFOR);
+        int userId = user.getId();
+        List<Movie> favList = favoriteService.selectFavoriteByUserId(userId);
+        request.setAttribute("favoriteList", favList);
         request.setAttribute("movieCount", favList.size());
         request.getRequestDispatcher(PageLink.FAVORITE_PAGE).forward(request, response);
+    }
+
+    //process delete function
+    private void processDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String id = request.getParameter("id");
+        try {
+            favoriteService.deleteFavorite(Integer.parseInt(id));
+            response.sendRedirect("favorites");
+        } catch (Exception e) {
+            response.sendRedirect(PageLink.ACCESS_DENIED_PAGE);
+        }
+    }
+
+    //process sort function
+    private void processSort(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String sort = request.getParameter("sort");
+        sort = sort != null ? sort : "";
+
+        switch (sort) {
+            case "title":
+                sortByTitle(request, response);
+                break;
+            default:
+                loadFavMovies(request, response);
+                break;
+        }
     }
 
     //sort by alphabet
@@ -78,16 +99,6 @@ public class FavoriteServlet extends HttpServlet {
         favList = (List<Movie>) session.getAttribute("favoriteList");
         System.out.println(favList);
         request.setAttribute("movieCount", favList.size());
-        request.getRequestDispatcher(PageLink.FAVORITE_PAGE).forward(request, response);
-    }
-
-    //sort by alphabet
-    private void sortByDefault(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        List<Movie> favList = (List<Movie>) session.getAttribute("favoriteList");
-        request.setAttribute("movieCount", favList.size());
-        System.out.println(favList);
         request.getRequestDispatcher(PageLink.FAVORITE_PAGE).forward(request, response);
     }
 

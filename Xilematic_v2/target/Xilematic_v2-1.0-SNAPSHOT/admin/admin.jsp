@@ -45,23 +45,13 @@
                 <a href="paging?type=movies" class="nav-link ${requestScope.type == 'movies' ? 'active' : ''}">
                     <i class="bi bi-film fs-5"></i>
                 </a>
-                <div class="btn-group dropend">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Hệ Thống Rạp
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="paging?type=heThongRap"${requestScope.type == 'heThongRap' ? 'active' : ''}>Hệ thống rạp </a></li>
-                        <li><a class="dropdown-item" href="paging?type=cumRap"${requestScope.type == 'cumRap' ? 'active' : ''}>Cụm rạp</a></li>
-                        <li><a class="dropdown-item" href="paging?type=rap"${requestScope.type == 'rap' ? 'active' : ''}>Rạp</a></li>
-                        <li><a class="dropdown-item" href="paging?type=lichChieu"${requestScope.type == 'lichChieu' ? 'active' : ''}>Lịch chiếu</a></li>
-                    </ul>
-                </div>
             </nav>
 
             <!--dữ liệu bảng nằm bên phải nav-bar và chiếm khoảng 80% chiều rộng của trang-->
             <div class="data">
                 <!--nut add new cho moi bang-->
                 <c:choose>
+
                     <c:when test="${requestScope.type == 'movies'}">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_movie" data-type="${param.type}"> Add New</button>
                     </c:when>
@@ -70,19 +60,10 @@
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_user" data-type="${param.type}">Add New</button>
                     </c:when>
 
-                    <c:when test="${requestScope.type == 'heThongRap'}">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addHeThongRapPopup" data-type="${param.type}">Add New</button>
-                    </c:when>
-                    <c:when test="${requestScope.type == 'cumRap'}">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCumRapPopup" data-type="${param.type}">Add New</button>
-                    </c:when>
-                    <c:when test="${requestScope.type == 'rap'}">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRapPopup" data-type="${param.type}">Add New</button>
-                    </c:when>
-                    <c:when test="${requestScope.type == 'lichChieu'}">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLichChieuPopup" data-type="${param.type}">Add New</button>
-                    </c:when>
                 </c:choose>
+
+
+
                 <!--TH hien thi thong tin bang-->
                 <!--NOTE: type, list được lấy từ paging servlet-->
                 <!--bat dau table-->
@@ -92,6 +73,7 @@
                     <thead>
                         <tr>
                             <c:choose>
+
                                 <c:when test="${param.type == 'movies'}">
                                     <th>Movie Name</th>
                                     <th>Release Date</th>
@@ -100,48 +82,13 @@
                                     <th>Status</th>
                                     <th>Action</th>
                                     </c:when>
-                                    <c:when test="${param.type == 'users'}">
+
+                                <c:when test="${param.type == 'users'}">
                                     <th>Username</th>
                                     <th>Full Name</th>
                                     <th>Email</th>
                                     <th>Phone Number</th>
                                     <th>Type</th>
-                                    <th>Action</th>
-                                    </c:when>
-                                    <c:when test="${param.type == 'heThongRap'}">
-                                    <th>Mã hệ thống rạp</th>
-                                    <th>Tên hệ thống rạp</th>
-                                    <th>Logo</th>
-                                    <th>Action</th>
-                                    </c:when>
-
-
-
-                                <c:when test="${param.type == 'cumRap'}">
-                                    <th>Mã cụm rạp</th>
-                                    <th>Tên cụm rạp</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Mã hệ thống rạp phụ thuộc </th>
-                                    <th>Action</th>
-                                    </c:when>
-
-
-
-
-                                <c:when test="${param.type == 'rap'}">
-                                    <th>Mã rạp</th>
-                                    <th>Tên rạp</th>
-                                    <th>Mã cụm rạp phụ thuộc</th>
-                                    <th>Action</th>
-                                    </c:when>
-
-
-
-                                <c:when test="${param.type == 'lichChieu'}">
-                                    <th>Mã lịch chiếu </th>
-                                    <th>Mã rạp</th>
-                                    <th>Mã Phim</th>
-                                    <th>Ngày giờ chiếu</th>
                                     <th>Action</th>
                                     </c:when>
                                 </c:choose>
@@ -188,6 +135,7 @@
                                     </tr>
                                 </c:forEach>
                             </c:when>
+
                             <c:when test="${requestScope.type == 'users'}">
                                 <c:forEach var="user" items="${requestScope.list}">
                                     <tr>
@@ -214,111 +162,7 @@
                                     </tr>
                                 </c:forEach>
                             </c:when>
-                            <c:when test="${requestScope.type == 'heThongRap'}">
-                                <c:forEach var="heThongRap" items="${requestScope.list}">
-                                    <tr>
-                                        <td>${heThongRap.maHeThongRap}</td>
-                                        <td>${heThongRap.tenHeThongRap}</td>
-                                        <td>
-                                            <img src="${heThongRap.logo}" alt="${heThongRap.tenHeThongRap} Logo" 
-                                                 class="img-thumbnail" style="max-width: 50px; max-height: 50px;">
-                                        </td>
-                                        <td>
-                                            <a href="TheaterSystemServlet?action=heThongRap&id=${heThongRap.maHeThongRap}" class="text-primary me-2">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
-                                            <form action="TheaterSystemServlet" method="POST" class="delete-btn d-inline">
-                                                <input type="hidden" name="id" value="${heThongRap.maHeThongRap}"/>
-                                                <input type="hidden" name="typeEdit" value="heThongRap"/>
-                                                <button type="submit" name="action" value="delete" class="btn btn-link p-0">
-                                                    <i class="bi bi-trash text-danger"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </c:when>
 
-
-                            <c:when test="${requestScope.type == 'cumRap'}">
-                                <c:forEach var="cumRap" items="${requestScope.list}">
-                                    <tr>
-                                        <td>${cumRap.maCumRap}</td>
-                                        <td>${cumRap.tenCumRap}</td>
-                                        <td>${cumRap.diaChi}</td>
-                                        <td>
-                                            <span class="badge bg-secondary">${cumRap.maHeThongRap}</span>
-                                        </td>
-                                        <td>
-                                            <a href="TheaterSystemServlet?action=cumRap&id=${cumRap.maCumRap}" class="text-primary me-2">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
-                                            <form action="TheaterSystemServlet" method="POST" class="delete-btn d-inline">
-                                                <input type="hidden" name="id" value="${cumRap.maCumRap}"/>
-                                                <input type="hidden" name="typeEdit" value="cumRap"/>
-                                                <button type="submit" name="action" value="delete" class="btn btn-link p-0">
-                                                    <i class="bi bi-trash text-danger"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </c:when>
-
-
-                            <c:when test="${requestScope.type == 'rap'}">
-                                <c:forEach var="rap" items="${requestScope.list}">
-                                    <tr>
-                                        <td>${rap.maRap}</td>
-                                        <td>${rap.tenRap}</td>
-                                        <td>
-                                            <span class="badge bg-secondary">${rap.maCumRap}</span>
-                                        </td>
-                                        <td>
-                                            <a href="TheaterSystemServlet?action=rap&id=${rap.maRap}" class="text-primary me-2">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
-                                            <form action="TheaterSystemServlet" method="POST" class="delete-btn d-inline">
-                                                <input type="hidden" name="id" value="${rap.maRap}"/>
-                                                <input type="hidden" name="typeEdit" value="rap"/>
-                                                <button type="submit" name="action" value="delete" class="btn btn-link p-0">
-                                                    <i class="bi bi-trash text-danger"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </c:when>
-
-
-                            <c:when test="${requestScope.type == 'lichChieu'}">
-                                <c:forEach var="lichChieu" items="${requestScope.list}">
-                                    <tr>
-                                        <td>
-                                            <span class="badge bg-secondary">${lichChieu.maLichChieu}</span>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-primary">${lichChieu.maRap}</span>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-info">${lichChieu.maPhim}</span>
-                                        </td>
-                                        <td>${lichChieu.ngayGioChieu}</td>
-                                        <td>
-                                            <a href="TheaterSystemServlet?action=lichChieu&id=${lichChieu.maLichChieu}" class="text-primary me-2">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
-                                            <form action="TheaterSystemServlet" method="POST" class="delete-btn d-inline">
-                                                <input type="hidden" name="maLichChieu" value="${lichChieu.maLichChieu}"/>
-                                                <input type="hidden" name="typeEdit" value="lichChieu"/>
-                                                <button type="submit" name="action" value="delete" class="btn btn-link p-0">
-                                                    <i class="bi bi-trash text-danger"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </c:when>   
                         </c:choose>
                     </tbody>
                 </table>
@@ -329,41 +173,76 @@
 
                 <!--Phan trang-->
                 <div class="pagination">
+                    <%-- Previous button --%>
                     <c:if test="${currentPage > 1}">
-                        <a href="paging?type=${type}&page=${currentPage - 1}">Previous</a>
+                        <a href="paging?type=${type}&page=${currentPage - 1}" class="page-nav">&laquo; Previous</a>
+                    </c:if>
+                    <c:if test="${currentPage <= 1}">
+                        <span class="page-nav disabled">&laquo; Previous</span>
                     </c:if>
 
-                    <c:if test="${totalPages < 5}">
-                        <c:forEach  var="i" begin="1" end="${totalPages}" >
-                            <c:choose>
-                                <c:when test="${i == currentPage}">
-                                    <strong>${i}</strong>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="paging?type=${type}&page=${i}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                    </c:if>
-                    <c:if test="${totalPages >= 5}">                            
-                        <c:forEach var="i" begin="${currentPage - 2 > 0 ? currentPage - 2 : 1}" end="${totalPages > currentPage + 2 ? currentPage + 2 : totalPages}" >
-                            <c:choose>
-                                <c:when test="${i == currentPage}">
-                                    <strong>${i}</strong>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="paging?type=${type}&page=${i}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
+                    <%-- First page and ellipsis --%>
+                    <c:if test="${currentPage > 3 && totalPages > 5}">
+                        <a href="paging?type=${type}&page=1">1</a>
+                        <c:if test="${currentPage > 4}">
+                            <span class="ellipsis">...</span>
+                        </c:if>
                     </c:if>
 
+                    <%-- Page numbers --%>
+                    <c:choose>
+                        <c:when test="${totalPages <= 5}">
+                            <%-- Show all pages if total pages is less than or equal to 5 --%>
+                            <c:forEach var="i" begin="1" end="${totalPages}">
+                                <c:choose>
+                                    <c:when test="${i == currentPage}">
+                                        <strong class="current-page">${i}</strong>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="paging?type=${type}&page=${i}">${i}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <%-- Show sliding window of pages --%>
+                            <c:set var="startPage" value="${currentPage - 2 > 0 ? currentPage - 2 : 1}"/>
+                            <c:set var="endPage" value="${currentPage + 2 < totalPages ? currentPage + 2 : totalPages}"/>
+
+                            <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                                <c:choose>
+                                    <c:when test="${i == currentPage}">
+                                        <strong class="current-page">${i}</strong>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="paging?type=${type}&page=${i}">${i}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <%-- Last page and ellipsis --%>
+                    <c:if test="${currentPage < totalPages - 2 && totalPages > 5}">
+                        <c:if test="${currentPage < totalPages - 3}">
+                            <span class="ellipsis">...</span>
+                        </c:if>
+                        <a href="paging?type=${type}&page=${totalPages}">${totalPages}</a>
+                    </c:if>
+
+                    <%-- Next button --%>
                     <c:if test="${currentPage < totalPages}">
-                        <a href="paging?type=${type}&page=${currentPage + 1}">Next</a>
+                        <a href="paging?type=${type}&page=${currentPage + 1}" class="page-nav">Next &raquo;</a>
+                    </c:if>
+                    <c:if test="${currentPage >= totalPages}">
+                        <span class="page-nav disabled">Next &raquo;</span>
                     </c:if>
                 </div>
             </div>
         </div>
+
+
+
         <!-- POPUP ADD NEW -->
         <!-- MOVIE -->
         <jsp:include page="modal_movie.jsp">
@@ -375,30 +254,6 @@
             <jsp:param name="title" value="ADD NEW USER" />
             <jsp:param name="action" value="ADD" />
         </jsp:include>
-        <!--Hệ thống rạp--> 
-        <jsp:include page="modal_HeThongRap.jsp">
-            <jsp:param name="title" value="Thêm Hệ Rạp" />
-            <jsp:param name="action" value="ADD" />
-        </jsp:include>
-
-        <!--cụm rạp--> 
-
-        <jsp:include page="modal_add_CumRap.jsp">
-            <jsp:param name="title" value="Thêm Cụm Rạp" />
-            <jsp:param name="action" value="ADD" />
-        </jsp:include>
-        <!--rạp-->
-
-        <jsp:include page="modal_add_Rap.jsp">
-            <jsp:param name="title" value="Thêm Rạp" />
-            <jsp:param name="action" value="ADD" />
-        </jsp:include>
-        <!--lịch chiếu-->
-        <jsp:include page="modal_add_LichChieu.jsp">
-            <jsp:param name="title" value="Thêm Lịch Chiếu" />
-            <jsp:param name="action" value="ADD" />
-        </jsp:include>
-        >>>>>>> origin/home_detail_booking/vinh
 
         <script>
             // Lấy ngày hôm nay theo định dạng yyyy-mm-dd
