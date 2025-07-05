@@ -27,6 +27,10 @@ public class PageLink {
     //-----------------------------------------------
     //admin folder
     public static final String ADMIN_PAGE = "admin/admin.jsp";
+    public static final String EDIT_USER_PAGE = "admin/edit_user.jsp";
+    public static final String EDIT_RAP_PHIM_PAGE = "admin/edit_rapPhim.jsp";
+    public static final String EDIT_MOVIE_PAGE = "admin/edit_movie.jsp";
+    public static final String EDIT_GHE_PAGE = "admin/edit_ghe.jsp";
 
     //-----------------------------------------------
     //component folder
