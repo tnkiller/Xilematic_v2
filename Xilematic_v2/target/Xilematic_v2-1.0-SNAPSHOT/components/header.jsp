@@ -1,86 +1,104 @@
-
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="constant.PageLink"%>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Header</title>
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <!-- Font Awesome for search icon -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <!-- CSS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <link rel="stylesheet" href="<c:url value='/style/header_style.css'/>"/>
-
     </head>
     <body>
-        <header class="bg-light py-3 shadow-sm">
-            <div class="container d-flex justify-content-between align-items-center">
-                <!-- Logo and Navigation -->
-                <div class="header-logo">
-                    <div class="logo">
-                        <a href="#"><img src="<c:url value='/asset/image/LOGO.png'/>" alt="LOGO"></a>
-                    </div>
-                    <nav class="navbar">
-                        <a href="homeservlet" class="text-dark">Home</a>
-                        <a href="#" class="text-dark">News</a>
-                        <a href="${pageContext.request.contextPath}/SelectCalendar" class="text-dark">Booking</a>
-                    </nav>
+        <div class="site-header-wrapper">
+            <header class="site-header">
+                <!-- Logo -->
+                <div class="site-header-logo">
+                    <a href="<%=request.getContextPath()%>/homeservlet?">
+                        <img src="<%=request.getContextPath()%>/asset/image/LOGO.png" alt="LOGO" />
+                    </a>
                 </div>
 
-                <!-- Search Form -->
-                <form action="homeservlet" method="GET" id="search-box" class="input-group">
-                    <input type="text" id="search-text" name="search" class="form-control" placeholder="Search for movies...">
-                    <button type="submit" id="search-btn" class="btn btn-danger">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </form>
+                <!-- Navigation links -->
+                <nav class="site-header-nav">
+                    <ul>
+                        <li><a href="<%=request.getContextPath()%>/homeservlet?">Home</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="<%=request.getContextPath()%>/SelectCalendar?">Booking</a></li>
+                    </ul>
+                </nav>
 
-                <!-- Authentication Section -->
-                <div class="btn-authen">
+
+                <!-- Search bar -->
+                <div class="site-header-search" style='visibility: ${param.page eq "home" ? "visible" : "hidden"}'>
+                    <form action="homeservlet" method="GET">
+                        <input type="text" id="search-input" name="search" placeholder="Search for movies..." />
+                        <button type="submit" class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+
+
+
+                <!-- User section -->
+                <div class="site-header-user">
                     <c:choose>
-                        <c:when test="${empty sessionScope.userInfor}">
-                            <a href="login.jsp" class="btn btn-outline-danger me-2">Login</a>
-                            <a href="register.jsp" class="btn btn-danger">Register</a>
+                        <c:when test="${not empty sessionScope.userInfor}">
+                            <div class="site-header-greeting">
+                                <span>Hello, ${sessionScope.userInfor.username}</span>
+                            </div>
+                            <div class="site-header-avatar" id="user-avatar" style="background-color: ${sessionScope.colorCode};" onclick="toggleDropdown();">
+                                <span id="avatar-letter"></span>
+                            </div>
+                            <div id="avatar-dropdown" class="site-header-dropdown">
+                                <a href="<%=PageLink.PROFILE_PAGE%>">View Profile</a>
+                                <a href="<%=request.getContextPath()%>/user/favorite.jsp">My favourite</a>
+                                <a href="<%=request.getContextPath()%>/authenticate?action=logout">Logout</a>
+                            </div>
                         </c:when>
                         <c:otherwise>
-                            <!-- Dropdown for logged-in user -->
-                            <div class="dropdown">
-                                <button class="btn btn-link p-0" type="button" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-
-                                    <div class="avatar" id="userAvatar">${sessionScope.userInfor.username.charAt(0)}</div>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="avatarDropdown">
-                                    <li><a class="dropdown-item" href="profile.jsp">View Profile</a></li>
-                                    <li><a class="dropdown-item" href="favorites?">My favourite</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item text-danger" href="authenticate?action=logout">Logout</a></li>
-                                </ul>
+                            <div class="site-header-auth">
+                                <a href="login.jsp">
+                                    <button class="site-header-login">Login</button>
+                                </a>
+                                <a href="register.jsp">
+                                    <button class="site-header-register">Register</button>
+                                </a>
                             </div>
                         </c:otherwise>
                     </c:choose>
                 </div>
-            </div>
-        </header>
-        <script>
-            // Generate random background color for avatar
-            function getRandomColor() {
-                const letters = '0123456789ABCDEF';
-                let color = '#';
-                for (let i = 0; i < 6; i++) {
-                    color += letters[Math.floor(Math.random() * 16)];
-                }
-                return color;
-            }
+            </header>
+        </div>
 
-            // Apply random color to avatar
-            document.addEventListener('DOMContentLoaded', function () {
-                const avatar = document.getElementById('userAvatar');
-                if (avatar) {
-                    avatar.style.backgroundColor = getRandomColor();
+        <script>
+            $(document).ready(function () {
+                var username = "${sessionScope.userInfor.username}";
+                if (username) {
+                    var firstLetter = username.charAt(0).toUpperCase();
+                    $('#avatar-letter').text(firstLetter);
                 }
             });
+
+
+            function toggleDropdown() {
+                document.getElementById("avatar-dropdown").classList.toggle("show");
+            }
+
+            window.onclick = function (event) {
+                if (!event.target.matches('#user-avatar')) {
+                    var dropdowns = document.getElementsByClassName("site-header-dropdown");
+                    for (var i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            }
         </script>
     </body>
 </html>

@@ -9,28 +9,18 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>ADMIN PAGE</title>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+        <!-- Font Awesome for search icon -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link rel="stylesheet" href="https://ionic.io/ionicons">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
         <link href="<%=request.getContextPath()%>/style/admin_style.css" rel="stylesheet">
     </head>
     <body>
-        <!-- header -->
-        <header class="shadow-sm">
-            <div class="logo d-none d-md-block">
-                <a href="paging" class="d-flex align-items-center">
-                    <img src="asset/image/LOGO.png" width="40" height="40" alt="Logo">
-                </a>
-            </div>
-            <div class="search-container">
-                <input type="text" placeholder="Search..." class="search form-control">
-                <span class="search-icon"><i class="bi bi-search"></i></span>
-            </div>
-            <div class="avatar d-flex align-items-center">
-                <i class="bi bi-person-circle me-2"></i>
-                Hello, ${sessionScope.alias}
-            </div>
-        </header>
+        <!-- include header -->
+        <jsp:include page="/components/header.jsp"/>
+
 
         <!-- main -->
         <div class="main">
@@ -434,7 +424,7 @@
             <jsp:param name="title" value="ADD NEW GHE" />
             <jsp:param name="action" value="ADD" />
         </jsp:include>
-       
+
         <script>
             // Lấy ngày hôm nay theo định dạng yyyy-mm-dd
             const today = new Date().toISOString().split('T')[0];

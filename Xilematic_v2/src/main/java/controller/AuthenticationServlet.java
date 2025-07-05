@@ -15,6 +15,7 @@ import java.util.Base64;
 import model.User;
 import service.UserService;
 import utils.GenerateInfor;
+import utils.GeneratorRandomColorCode;
 import utils.Validator;
 
 @WebServlet(name = "AuthenticateServlet", urlPatterns = {"/authenticate"})
@@ -61,9 +62,9 @@ public class AuthenticationServlet extends HttpServlet {
         String username = u.getUsername();
         String password = u.getPassword();
         String rememberMe = request.getParameter("rememberMe");
-        var user = userService.login(username, password);
+        u = userService.login(username, password);
 
-        if (user == null) {
+        if (u == null) {
             request.setAttribute("errorMsg", "Wrong username or password!");
             request.getRequestDispatcher(PageLink.LOGIN_PAGE).forward(request, response);
         } else {
@@ -73,11 +74,9 @@ public class AuthenticationServlet extends HttpServlet {
                 processRememberMe(false, username, password, response);
             }
             HttpSession session = request.getSession();
-            session.setAttribute(SessionAttribute.USER_INFOR, user);
-            String[] namePart = user.getFullname().split(" ");
-            String name = namePart[namePart.length - 1];
-            session.setAttribute("alias", name);
-            if (user.getTypeOfUser().equals("admin")) {
+            session.setAttribute(SessionAttribute.USER_INFOR, u);
+            session.setAttribute(SessionAttribute.COLOR_CODE, GeneratorRandomColorCode.generateColorCode());
+            if (u.getTypeOfUser().equals("admin")) {
                 request.setAttribute("type", "stats");
                 request.setAttribute("status", true);
                 request.getRequestDispatcher(PageLink.ADMIN_PAGE).forward(request, response);
@@ -93,8 +92,9 @@ public class AuthenticationServlet extends HttpServlet {
         String accessToken = GoogleLogin.getToken(code);
         GoogleAccount ggAcc = GoogleLogin.getUserInfo(accessToken);
 
-        var user = userService.getUserByEmail(ggAcc.getEmail());
+        User user = userService.getUserByEmail(ggAcc.getEmail());
 
+        //tai khoan moi
         if (user == null) {
             String username = GenerateInfor.generateUsername();
             String password = GenerateInfor.generatePassword();
@@ -215,8 +215,6 @@ public class AuthenticationServlet extends HttpServlet {
             cookiePassword = new Cookie("PASSWORD", "");
             cookieUsername.setMaxAge(0);
             cookiePassword.setMaxAge(0);
-            cookieUsername.setPath("/");
-            cookiePassword.setPath("/");
         }
         response.addCookie(cookieUsername);
         response.addCookie(cookiePassword);

@@ -40,17 +40,17 @@
                                         <option value="Thường" ${ghe.loai_ghe == 'Thường' ? 'selected' : ''}>Thường</option>
                                     </select>
                                 </div>
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" 
-                                                   type="checkbox" 
-                                                   id="daDat" 
-                                                   name="da_dat" 
-                                                   value="true"
-                                                   ${ghe.da_dat ? 'checked' : ''}>
-                                            <label class="form-check-label" for="daDat">
-                                                Đã đặt
-                                            </label>
-                                        </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" 
+                                           type="checkbox" 
+                                           id="daDat" 
+                                           name="da_dat" 
+                                           value="true"
+                                           ${ghe.da_dat ? 'checked' : ''}>
+                                    <label class="form-check-label" for="daDat">
+                                        Đã đặt
+                                    </label>
+                                </div>
                                 <div class="mb-3">
                                     <label for="trangThai" class="form-label">Trạng thái</label>
                                     <select class="form-select" id="trangThai" name="trang_thai" required>

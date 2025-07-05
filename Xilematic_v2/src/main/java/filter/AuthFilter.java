@@ -16,7 +16,7 @@ public class AuthFilter implements Filter {
             "/login.jsp", "/register.jsp", "/intermediate.jsp", "/access_denied.jsp", "/favorites",
             "/style/", "/script/", "/asset/", "/favicon.ico", "/authenticate", "/components/", "/home/", "/"
     );
-    
+
     @Override
     public void init(FilterConfig filterConfig) {
         // Khởi tạo các quyền truy cập cho từng role
@@ -33,10 +33,12 @@ public class AuthFilter implements Filter {
         roleAccessMap.put("admin", adminPages);
         roleAccessMap.put("user", userPages);
     }
-    
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+
+        chain.doFilter(request, response);
 
 //        HttpServletRequest req = (HttpServletRequest) request;
 //        HttpServletResponse res = (HttpServletResponse) response;
@@ -45,7 +47,9 @@ public class AuthFilter implements Filter {
 //        String uri = req.getRequestURI();                  // ex: /myapp/secure/admin
 //        String path = uri.substring(contextPath.length()); // ex: /secure/admin
 //
-        ////        path = /style/home_style.css
+    
+
+////        path = /style/home_style.css
 //        if (publicUrls.stream().anyMatch(path::startsWith)) {
 //            chain.doFilter(request, response); // Cho phép truy cập URL công khai
 //            return;
@@ -80,7 +84,6 @@ public class AuthFilter implements Filter {
 //        } else {
 //            res.sendRedirect(contextPath + "/" + PageLink.LOGIN_PAGE);
 //        }
-chain.doFilter(request, response);
     }
-    
+
 }

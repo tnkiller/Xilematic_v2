@@ -1,65 +1,208 @@
-/* Custom styles */
-
-
-.header-logo {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+/* Wrapper chính */
+.site-header-wrapper {
+    width: 100%;
 }
-.logo img {
+
+/* Header chính */
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
     position: relative;
-    left: -50px;
-    height: 50px; /* Adjust logo size */
-}
-.navbar a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-}
-.navbar a:hover {
-    color: #007bff;
-}
-#search-box {
-    display: flex;
-    align-items: center;
-    max-width: 500px;
-    widows: 100%;
+    z-index: 100;
 }
 
-#search-box button {
-    border-radius: 0 10px 10px 0; /* Điều chỉnh giá trị này theo ý muốn */
+/* Logo */
+.site-header-logo img {
+    height: 60px;
 }
 
-#search-box input{
-    border-radius: 10px 0 0 10px; /* Điều chỉnh giá trị này theo ý muốn */
-
-}
-
-
-#search-text {
-    flex-grow: 1;
-    padding: 8px;
-    border-radius: 4px 0 0 4px;
-    border: 1px solid #ced4da;
-    border-right: none;
-}
-#search-btn {
-    border-radius: 0 4px 4px 0;
-    padding: 8px 12px;
-    background-color: #dc3545;
-    border: 1px solid #dc3545;
-    color: white;
-}
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+/* Thanh tìm kiếm */
+.site-header-search {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.site-header-search form{
+    display: flex;
+    width: 100%;
+}
+
+.site-header-search input {
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+    width: 80%;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+.site-header-search button {
+    padding: 0 15px;
+    height: 40px;
+    background-color: #e63e44;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Navigation links */
+.site-header-nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.site-header-nav ul li {
+    margin: 0 20px;
+}
+
+.site-header-nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* User section */
+.site-header-user {
+    display: flex;
+    align-items: center;
+}
+
+/* Greeting */
+.site-header-greeting {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 12px;
+}
+
+/* Avatar */
+.site-header-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     color: white;
     font-size: 18px;
     font-weight: bold;
-    text-transform: uppercase;
+    cursor: pointer;
+    margin-right: 10px;
+    background-color: #e63e44; /* fallback color */
+}
+
+/* Dropdown menu */
+.site-header-dropdown {
+    display: none;
+    position: absolute;
+    right: 15px;
+    top: 60px;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.site-header-dropdown a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.site-header-dropdown a:hover {
+    background-color: #f2f2f2;
+}
+
+.site-header-dropdown.show {
+    display: block;
+}
+
+/* Auth buttons (login/register) */
+.site-header-auth {
+    display: flex;
+    align-items: center;
+}
+
+.site-header-auth button {
+    padding: 8px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.site-header-login {
+    background-color: white;
+    color: #e63e44;
+}
+
+.site-header-register {
+    background-color: #e63e44;
+    color: white;
+}
+
+/* Chiều cao cố định cho header */
+.site-header {
+    height: 80px;
+}
+
+/* Tăng kích thước chữ */
+.site-header-nav ul li a {
+    font-size: 18px;
+}
+
+.site-header-greeting {
+    font-size: 18px;
+}
+
+.site-header-avatar {
+    font-size: 20px;
+}
+
+.site-header-auth button {
+    font-size: 15px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .site-header {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+
+    .site-header-search {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .site-header-nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .site-header-nav ul li {
+        margin: 10px 0;
+    }
 }

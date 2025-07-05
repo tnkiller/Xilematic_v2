@@ -6,12 +6,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+        <!-- Font Awesome for search icon -->
         <link rel="stylesheet" href="https://ionic.io/ionicons">
-        <link rel="stylesheet"
-              href="<c:url value='/style/booking_style.css' />" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link rel="stylesheet" href="<c:url value='/style/booking_D_style.css' />" />
+
     </head>
     <body>
-        <%@ include file="/components/header.jsp" %>
+        <jsp:include page="${request.getContextPath()}/components/header.jsp"/>
         <div class="content">
             <div class="booking">
                 <div class="screen">SCREEN</div>
