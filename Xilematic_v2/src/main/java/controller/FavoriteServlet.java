@@ -66,7 +66,7 @@ public class FavoriteServlet extends HttpServlet {
         String id = request.getParameter("id");
         try {
             favoriteService.deleteFavorite(Integer.parseInt(id));
-            response.sendRedirect("favorites");
+            response.sendRedirect(PageLink.FAVORITE_SERVLET);
         } catch (Exception e) {
             response.sendRedirect(PageLink.ACCESS_DENIED_PAGE);
         }

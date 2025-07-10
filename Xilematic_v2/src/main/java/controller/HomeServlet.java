@@ -1,5 +1,6 @@
 package controller;
 
+import constant.PageLink;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,6 +19,7 @@ import service.MovieService;
 
 @WebServlet("/homeservlet")
 public class HomeServlet extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger(HomeServlet.class.getName());
 
@@ -34,12 +36,12 @@ public class HomeServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             // Lấy danh sách phim
             List<Movie> allMovies = fetchMovies();
-            
+
             // Kiểm tra và xử lý trường hợp không có phim
             if (allMovies == null || allMovies.isEmpty()) {
                 handleNoMovies(request, response);
@@ -62,19 +64,17 @@ public class HomeServlet extends HttpServlet {
             List<Movie> nowShowingMovies = filterNowShowingMovies(allMovies);
 
             // Lọc phim sắp chiếu
-            
             List<Movie> upcomingMovies = filterUpcomingMovies(allMovies);
             System.out.println("List : ");
-            for(Movie movie : hotMovies){
+            for (Movie movie : hotMovies) {
                 System.out.println(movie);
             }
-            for(Movie movie : nowShowingMovies){
+            for (Movie movie : nowShowingMovies) {
                 System.out.println(movie);
             }
-            for(Movie movie : upcomingMovies){
+            for (Movie movie : upcomingMovies) {
                 System.out.println(movie);
             }
-            
 
             // Phân trang
             int page = parsePageNumber(request);
@@ -83,12 +83,12 @@ public class HomeServlet extends HttpServlet {
             int totalPages = calculateTotalPages(nowShowingMovies.size(), pageSize);
 
             // Đặt thuộc tính cho JSP
-            setRequestAttributes(request, allMovies, hotMovies, 
-                                 nowShowingMovies, upcomingMovies, 
-                                 pagedMovies, page, totalPages);
+            setRequestAttributes(request, allMovies, hotMovies,
+                    nowShowingMovies, upcomingMovies,
+                    pagedMovies, page, totalPages);
 
             // Chuyển hướng đến trang chủ
-            request.getRequestDispatcher("/home/home.jsp").forward(request, response);
+            request.getRequestDispatcher(PageLink.HOME_PAGE).forward(request, response);
 
         } catch (Exception e) {
             // Xử lý ngoại lệ
@@ -110,30 +110,30 @@ public class HomeServlet extends HttpServlet {
     // Lọc phim hot
     private List<Movie> filterHotMovies(List<Movie> movies) {
         return movies.stream()
-            .filter(Movie::isHot)
-            .limit(5)
-            .collect(Collectors.toList());
+                .filter(Movie::isHot)
+                .limit(5)
+                .collect(Collectors.toList());
     }
 
     // Lọc phim đang chiếu
     private List<Movie> filterNowShowingMovies(List<Movie> movies) {
         return movies.stream()
-            .filter(Movie::isStatus)
-            .collect(Collectors.toList());
+                .filter(Movie::isStatus)
+                .collect(Collectors.toList());
     }
 
     // Lọc phim sắp chiếu
     private List<Movie> filterUpcomingMovies(List<Movie> movies) {
         return movies.stream()
-            .filter(movie -> !movie.isStatus())
-            .collect(Collectors.toList());
+                .filter(movie -> !movie.isStatus())
+                .collect(Collectors.toList());
     }
 
     // Phân trang
     private List<Movie> getPaginatedMovies(List<Movie> movies, int page, int pageSize) {
         int start = (page - 1) * pageSize;
         int end = Math.min(start + pageSize, movies.size());
-        
+
         return start >= movies.size() ? new ArrayList<>() : movies.subList(start, end);
     }
 
@@ -153,14 +153,14 @@ public class HomeServlet extends HttpServlet {
     }
 
     // Đặt thuộc tính cho request
-    private void setRequestAttributes(HttpServletRequest request, 
-                                      List<Movie> allMovies,
-                                      List<Movie> hotMovies,
-                                      List<Movie> nowShowingMovies,
-                                      List<Movie> upcomingMovies,
-                                      List<Movie> pagedMovies,
-                                      int currentPage,
-                                      int totalPages) {
+    private void setRequestAttributes(HttpServletRequest request,
+            List<Movie> allMovies,
+            List<Movie> hotMovies,
+            List<Movie> nowShowingMovies,
+            List<Movie> upcomingMovies,
+            List<Movie> pagedMovies,
+            int currentPage,
+            int totalPages) {
         request.setAttribute("allMovies", allMovies);
         request.setAttribute("hotMovies", hotMovies);
         request.setAttribute("nowShowingMovies", nowShowingMovies);
@@ -171,21 +171,21 @@ public class HomeServlet extends HttpServlet {
     }
 
     // Xử lý trường hợp không có phim
-    private void handleNoMovies(HttpServletRequest request, 
-                                HttpServletResponse response) 
+    private void handleNoMovies(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("errorMessage", "Không có phim nào được tìm thấy");
         request.getRequestDispatcher("/home/error.jsp").forward(request, response);
     }
 
     // Xử lý lỗi máy chủ
-    private void handleServerError(HttpServletRequest request, 
-                                   HttpServletResponse response, 
-                                   Exception e) 
+    private void handleServerError(HttpServletRequest request,
+            HttpServletResponse response,
+            Exception e)
             throws ServletException, IOException {
         LOGGER.log(Level.SEVERE, "Lỗi máy chủ", e);
-        request.setAttribute("errorMessage", 
-            "Đã xảy ra lỗi: " + e.getMessage());    
+        request.setAttribute("errorMessage",
+                "Đã xảy ra lỗi: " + e.getMessage());
         request.getRequestDispatcher("/home/error.jsp").forward(request, response);
     }
 
@@ -194,18 +194,18 @@ public class HomeServlet extends HttpServlet {
         if (query == null || query.trim().isEmpty()) {
             return movies;
         }
-        
+
         return movies.stream()
-            .filter(movie -> 
-                movie.getMovieName().toLowerCase().contains(query.toLowerCase()) 
-//                movie.getDirector().toLowerCase().contains(query.toLowerCase()) 
-//                movie.getActor().toLowerCase().contains(query.toLowerCase())
-            )
-            .collect(Collectors.toList());
+                .filter(movie
+                        -> movie.getMovieName().toLowerCase().contains(query.toLowerCase())
+                //                movie.getDirector().toLowerCase().contains(query.toLowerCase()) 
+                //                movie.getActor().toLowerCase().contains(query.toLowerCase())
+                )
+                .collect(Collectors.toList());
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Xử lý các yêu cầu POST (nếu cần)
         doGet(request, response);

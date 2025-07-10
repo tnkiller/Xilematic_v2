@@ -68,7 +68,7 @@ public class Validator {
 
     public static String isValidConfirmPassword(String password, String confirmPassword) {
         if (!password.equals(confirmPassword)) {
-            return "Invalid confirm password";
+            return "Confirm password must match with password";
 
         }
         return null;

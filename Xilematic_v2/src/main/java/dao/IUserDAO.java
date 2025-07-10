@@ -8,6 +8,8 @@ public interface IUserDAO {
 
     public void insertUser(User user) throws SQLException;
 
+    public int createUser(User user) throws SQLException;
+
     public User login(String username, String password) throws SQLException;
 
     public User selectUser(int id) throws SQLException;
@@ -20,11 +22,12 @@ public interface IUserDAO {
 
     public boolean updateUser(User user) throws SQLException;
 
+
     public boolean isUsernameExist(String username) throws SQLException;
 
     public List<User> getUsersForPage(int currentPage, int pageSize) throws SQLException;
 
     public int getTotalUsersCount() throws SQLException;
-    
+
     public String getEmailUser(int ma_nguoi_dung) throws SQLException;
 }

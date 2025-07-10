@@ -1,10 +1,19 @@
+footer,
+footer *,
+footer *::before,
+footer *::after {
+    all: unset;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    display: revert;
+}
 footer, footer * {
-  all: revert; /* Reset to browser default */
+    all: revert; /* Reset to browser default */
 }
 footer {
     background: rgba(15, 23, 42, 0.9);
     backdrop-filter: blur(10px);
-    padding: 60px 5% 30px;
+    padding: 0 10px;
     margin-top: 50px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -26,7 +35,6 @@ footer {
 .footer-desc img {
     width: 80px;
     height: auto;
-    filter: brightness(0) invert(1);
     opacity: 0.8;
 }
 
@@ -51,7 +59,7 @@ footer {
     left: 0;
     width: 50px;
     height: 2px;
-    background: var(--primary);
+    background: #6e48ff;
 }
 
 .footer-about ul {
@@ -89,7 +97,7 @@ footer {
     left: 0;
     width: 50px;
     height: 2px;
-    background: var(--primary);
+    background: #6e48ff;
 }
 
 .footer-social p {
@@ -120,7 +128,7 @@ footer {
 
 .btn-subcribe {
     padding: 0 25px;
-    background: var(--primary);
+    background-color: red;
     color: white;
     border: none;
     border-radius: 0 8px 8px 0;
@@ -130,7 +138,7 @@ footer {
 }
 
 .btn-subcribe:hover {
-    background: var(--primary-dark);
+    background-color: blueviolet;
 }
 
 .social-icons {

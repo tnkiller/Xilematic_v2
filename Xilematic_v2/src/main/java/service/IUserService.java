@@ -7,6 +7,8 @@ public interface IUserService {
 
     public void insertUser(User user);
 
+    public int createUser(User user);
+
     public boolean register(User user);
 
     public User login(String username, String password);

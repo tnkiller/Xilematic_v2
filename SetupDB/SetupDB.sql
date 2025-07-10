@@ -1,5 +1,5 @@
-﻿CREATE DATABASE QuanLyRapChieuPhim;
-
+﻿
+CREATE DATABASE QuanLyRapChieuPhim
 GO
     USE QuanLyRapChieuPhim;
 
@@ -72,8 +72,8 @@ GO
         ma_nguoi_dung INT PRIMARY KEY IDENTITY(1, 1),
         ten_tai_khoan NVARCHAR(255) UNIQUE,
         ho_ten NVARCHAR(255),
-        email VARCHAR(255),
-        so_dt VARCHAR(20),
+        email VARCHAR(255) UNIQUE,
+        so_dt VARCHAR(20) UNIQUE,
         mat_khau VARCHAR(255),
         loai_nguoi_dung VARCHAR(50),
         status BIT
@@ -95,7 +95,7 @@ GO
         ten_ghe VARCHAR(10),
         loai_ghe NVARCHAR(50),
         ma_rap INT,
-        FOREIGN KEY (ma_rap) REFERENCES RapPhim(ma_rap),
+        FOREIGN KEY (ma_rap) REFERENCES RapPhim(ma_rap) ON DELETE CASCADE,
         da_dat BIT,
         trang_thai NVARCHAR(10)
     );
@@ -125,7 +125,6 @@ GO
     );
 
 GO
-go
     CREATE TABLE YeuThich (
         ma_yeu_thich INT identity(1, 1),
         ma_nguoi_dung INT,
@@ -136,135 +135,73 @@ go
     );
 
 GO
-CREATE TRIGGER trg_UpdateGheDaDat ON DatVe
+	CREATE TABLE TokenQuenMatKhau(
+		id INT PRIMARY KEY IDENTITY(1,1),
+		token VARCHAR(255) NOT NULL,
+		thoi_gian_song DATETIME NOT NULL,
+		duoc_su_dung BIT NOT NULL,
+		ma_nguoi_dung INT NOT NULL,
+		FOREIGN KEY (ma_nguoi_dung) REFERENCES NguoiDung(ma_nguoi_dung)
+	);
+GO
+
+--ALTER TABLE
+
+
+
+--CREATE TRIGGER
+CREATE TRIGGER trg_UpdateGheDaDat
+ON DatVe
 AFTER INSERT
-    AS BEGIN DECLARE @ghe NVARCHAR(100);
+AS
+BEGIN
+    DECLARE @ghe NVARCHAR(100);
+    DECLARE @ten_ghe NVARCHAR(10);
+    DECLARE @pos INT;
+    DECLARE @delimiter NVARCHAR(1) = ',';
+    DECLARE @ma_lich_chieu INT;
+    DECLARE @ma_rap INT;
 
-DECLARE @ten_ghe NVARCHAR(10);
+    DECLARE cur CURSOR FOR
+    SELECT ghe_da_dat, ma_lich_chieu
+    FROM inserted;
 
-DECLARE @pos INT;
+    OPEN cur;
+    FETCH NEXT FROM cur INTO @ghe, @ma_lich_chieu;
 
-DECLARE @delimiter NVARCHAR(1) = ',';
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        SELECT @ma_rap = ma_rap
+        FROM LichChieu
+        WHERE ma_lich_chieu = @ma_lich_chieu;
 
-DECLARE @ma_lich_chieu INT;
+        WHILE LEN(@ghe) > 0
+        BEGIN
+            SET @pos = CHARINDEX(@delimiter, @ghe);
 
-DECLARE @ma_rap INT;
+            IF @pos > 0
+                SET @ten_ghe = LEFT(@ghe, @pos - 1);
+            ELSE
+                SET @ten_ghe = @ghe;
 
-DECLARE cur CURSOR FOR
-SELECT
-    ghe_da_dat,
-    ma_lich_chieu
-FROM
-    inserted;
+            UPDATE Ghe
+            SET da_dat = 1
+            WHERE ten_ghe = @ten_ghe
+            AND ma_rap = @ma_rap;
 
-OPEN cur;
+            IF @pos > 0
+                SET @ghe = SUBSTRING(@ghe, @pos + 1, LEN(@ghe));
+            ELSE
+                SET @ghe = '';
+        END
 
-FETCH NEXT
-FROM
-    cur INTO @ghe,
-    @ma_lich_chieu;
-<<<<<<< HEAD
+        FETCH NEXT FROM cur INTO @ghe, @ma_lich_chieu;
+    END
 
-WHILE @@FETCH_STATUS = 0 BEGIN
-SELECT
-    @ma_rap = ma_rap
-FROM
-    LichChieu
-WHERE
-    ma_lich_chieu = @ma_lich_chieu;
+    CLOSE cur;
+    DEALLOCATE cur;
+END;
+GO
 
-WHILE LEN(@ghe) > 0 BEGIN
-SET
-    @pos = CHARINDEX(@delimiter, @ghe);
 
-IF @pos > 0
-SET
-    @ten_ghe = LEFT(@ghe, @pos - 1);
 
-ELSE
-SET
-    @ten_ghe = @ghe;
-
-UPDATE
-    Ghe
-SET
-    da_dat = 1
-WHERE
-    ten_ghe = @ten_ghe
-    AND ma_rap = @ma_rap;
-
-IF @pos > 0
-SET
-    @ghe = SUBSTRING(@ghe, @pos + 1, LEN(@ghe));
-
-ELSE
-SET
-    @ghe = '';
-
-END FETCH NEXT
-FROM
-    cur INTO @ghe,
-    @ma_lich_chieu;
-
-END CLOSE cur;
-
-DEALLOCATE cur;
-
-END
-
-ALTER TABLE Ghe
-DROP CONSTRAINT FK__Ghe__ma_rap__5070F446;
-
-ALTER TABLE Ghe
-ADD CONSTRAINT FK_Ghe_RapPhim
-FOREIGN KEY (ma_rap) REFERENCES RapPhim(ma_rap)
-ON DELETE CASCADE;
-=======
-
-WHILE @@FETCH_STATUS = 0 BEGIN
-SELECT
-    @ma_rap = ma_rap
-FROM
-    LichChieu
-WHERE
-    ma_lich_chieu = @ma_lich_chieu;
-
-WHILE LEN(@ghe) > 0 BEGIN
-SET
-    @pos = CHARINDEX(@delimiter, @ghe);
-
-IF @pos > 0
-SET
-    @ten_ghe = LEFT(@ghe, @pos - 1);
-
-ELSE
-SET
-    @ten_ghe = @ghe;
-
-UPDATE
-    Ghe
-SET
-    da_dat = 1
-WHERE
-    ten_ghe = @ten_ghe
-    AND ma_rap = @ma_rap;
-
-IF @pos > 0
-SET
-    @ghe = SUBSTRING(@ghe, @pos + 1, LEN(@ghe));
-
-ELSE
-SET
-    @ghe = '';
-
-END FETCH NEXT
-FROM
-    cur INTO @ghe,
-    @ma_lich_chieu;
-
-END CLOSE cur;
-
-DEALLOCATE cur;
-
-END
->>>>>>> origin/feature/header-profile-favorite/nguyen

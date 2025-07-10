@@ -1,4 +1,4 @@
-
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
@@ -59,19 +59,19 @@
                 <div class="note">
                     <div class="note-item">
                         <div class="available"></div>
-                        <p>: Gh? tr?ng</p>
+                        <p>: Ghế trống</p>
                     </div>
                     <div class="note-item">
                         <div class="available selected"></div>
-                        <p>: ?� ??t</p>
+                        <p>: Đã đặt</p>
                     </div>
                     <div class="note-item">
                         <div class="available selecting"></div>
-                        <p>: ?ang ch?n</p>
+                        <p>: Đang chọn</p>
                     </div>
                     <div class="note-item">
                         <div class="available vip"></div>
-                        <p>: Gh? VIP</p>
+                        <p>: Ghế VIP</p>
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                          alt="Banner">
                 </div>
                 <h2>${movie.movieName}</h2>
-                <p>Gi? chi?u <span>${showtime.ngay_gio_chieu}</span></p>
+                <p>Giờ chiếu <span>${showtime.ngay_gio_chieu}</span></p>
                 <button onclick="openModal()">
                     <div class="btn-trailer">Trailer <span><ion-icon name="caret-forward-circle-outline"></ion-icon></span>
                     </div>
@@ -94,10 +94,10 @@
                     <input type="hidden" name="movieName" value="${movie.movieName}">
                     <input type="hidden" name="selectedSeats" id="f-seats">
                     <input type="hidden" name="totalPrice" id="f-totalPrice">
-                    <p id="selected-seats">Gh? ?� ch?n: None</p>
-                    <p id="total-price">T?ng:0 VND</p>
-                    <p id="warning">Vui l�ng ch?n �t nh?t 1 gh?!</p>
-                    <button class="btn-book" type="submit" onclick="submitBooking()">X�c nh?n</button>
+                    <p id="selected-seats">Ghế đã chọn: None</p>
+                    <p id="total-price">Tổng:0 VND</p>
+                    <p id="warning">Vui lòng chọn ít nhất 1 ghế!</p>
+                    <button class="btn-book" type="submit" onclick="submitBooking()">Xác nhận</button>
                 </form>
 
             </div>
