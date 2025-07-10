@@ -20,7 +20,7 @@ import utils.SendEmail;
  */
 public class TokenForgetPasswordService {
 
-    private TokenForgetPasswordDAO forgetPasswordDAO;
+    private final TokenForgetPasswordDAO forgetPasswordDAO;
 
     private final int LIMIT_TIME = 10; //minutes
 

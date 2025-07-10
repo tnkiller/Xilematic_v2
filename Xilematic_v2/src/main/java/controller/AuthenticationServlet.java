@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.io.PrintWriter;
 import java.util.Base64;
 import model.User;
 import service.TokenForgetPasswordService;
@@ -33,12 +32,10 @@ public class AuthenticationServlet extends HttpServlet {
         String action = request.getParameter(ACTION_PARAM);
         action = action != null ? action : "";
         switch (action) {
-            case "logout":
+            case "logout" ->
                 processLogout(request, response);
-                break;
-            default:
+            default ->
                 processLoginWithGG(request, response);
-                break;
         }
     }
 
@@ -48,19 +45,14 @@ public class AuthenticationServlet extends HttpServlet {
         String action = request.getParameter(ACTION_PARAM);
         action = (action != null) ? action : "";
         switch (action) {
-            case "login":
+            case "login" ->
                 processLogin(request, response);
-                break;
-            case "register":
+            case "register" ->
                 processRegister(request, response);
-                break;
-            case "forgotPassword":
+            case "forgotPassword" ->
                 processForgotPassword(request, response);
-                break;
-            default:
-                PrintWriter out = response.getWriter();
-                out.print("hello");
-                break;
+            default -> {
+            }
         }
     }
 
@@ -82,11 +74,11 @@ public class AuthenticationServlet extends HttpServlet {
             }
             u.setPassword(password);
             //initialize new session
-            initializeSession(request, response, u);
+            initializeSession(request, u);
             if (!DEFAULT_ROLE.equals(u.getTypeOfUser())) {
-                request.getRequestDispatcher(PageLink.ADMIN_PAGE).forward(request, response);
+                request.getRequestDispatcher(PageLink.PAGING_SERVLET).forward(request, response);
             } else {
-//                request.getRequestDispatcher(PageLink.HOME_SERVLET).forward(request, response);
+                request.getRequestDispatcher(PageLink.HOME_SERVLET).forward(request, response);
             }
         }
     }
@@ -94,11 +86,11 @@ public class AuthenticationServlet extends HttpServlet {
     //process login with gg
     private void processLoginWithGG(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String code = request.getParameter("code");
-        String accessToken = null;
+        String accessToken;
 //        xử lí trường hợp người dùng cancel
         try {
             accessToken = GoogleLogin.getToken(code);
-        } catch (Exception e) {
+        } catch (IOException e) {
             response.sendRedirect(PageLink.LOGIN_PAGE);
             return;
         }
@@ -122,7 +114,7 @@ public class AuthenticationServlet extends HttpServlet {
             userService.updateUser(user);
         }
         //initialize new session
-        initializeSession(request, response, user);
+        initializeSession(request, user);
         if (!DEFAULT_ROLE.equals(user.getTypeOfUser())) {
             response.sendRedirect(PageLink.PAGING_SERVLET);
         } else {
@@ -239,7 +231,7 @@ public class AuthenticationServlet extends HttpServlet {
     }
 
     //initialize session 
-    private void initializeSession(HttpServletRequest request, HttpServletResponse response, User userInfor)
+    private void initializeSession(HttpServletRequest request, User userInfor)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.setAttribute(SessionAttribute.USER_INFOR, userInfor);
@@ -265,12 +257,15 @@ public class AuthenticationServlet extends HttpServlet {
         String strToken = service.generateToken();
         String linkReset = "http://localhost:9999/xilematic/" + PageLink.RESET_PASSWORD_SERVLET + "token=" + strToken;
         TokenForgetPassword token = new TokenForgetPassword(user.getId(), strToken, false, service.generateExpiryTime());
-        service.insertTokenForget(token);
-        boolean stt = service.sendResetPasswordMail(recoverEmail, linkReset, user.getFullname());
-        if (stt) {
-            request.setAttribute("succMsg", "Please check your email to get link for reset password!");
+
+        if (service.insertTokenForget(token)) {
+            if (service.sendResetPasswordMail(recoverEmail, linkReset, user.getFullname())) {
+                request.setAttribute("succMsg", "Please check your email to get link for reset password!");
+            } else {
+                request.setAttribute("errMsg", "Wrong something! Please try again...");
+            }
         } else {
-            request.setAttribute("succMsg", "Wrong something! Please try again...");
+            request.setAttribute("errMsg", "Can't generate new token!");
         }
         request.getRequestDispatcher(PageLink.FORGOT_PASSWORD_PAGE).forward(request, response);
     }

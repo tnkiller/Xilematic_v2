@@ -95,7 +95,7 @@ GO
         ten_ghe VARCHAR(10),
         loai_ghe NVARCHAR(50),
         ma_rap INT,
-        FOREIGN KEY (ma_rap) REFERENCES RapPhim(ma_rap),
+        FOREIGN KEY (ma_rap) REFERENCES RapPhim(ma_rap) ON DELETE CASCADE,
         da_dat BIT,
         trang_thai NVARCHAR(10)
     );
@@ -138,7 +138,7 @@ GO
 	CREATE TABLE TokenQuenMatKhau(
 		id INT PRIMARY KEY IDENTITY(1,1),
 		token VARCHAR(255) NOT NULL,
-		thoi_gian_song TIMESTAMP NOT NULL,
+		thoi_gian_song DATETIME NOT NULL,
 		duoc_su_dung BIT NOT NULL,
 		ma_nguoi_dung INT NOT NULL,
 		FOREIGN KEY (ma_nguoi_dung) REFERENCES NguoiDung(ma_nguoi_dung)
@@ -146,16 +146,7 @@ GO
 GO
 
 --ALTER TABLE
-ALTER TABLE Ghe
-DROP CONSTRAINT FK__Ghe__ma_rap__5070F446;
-GO
 
-
-ALTER TABLE Ghe
-ADD CONSTRAINT FK_Ghe_RapPhim
-FOREIGN KEY (ma_rap) REFERENCES RapPhim(ma_rap)
-ON DELETE CASCADE;
-GO
 
 
 --CREATE TRIGGER
