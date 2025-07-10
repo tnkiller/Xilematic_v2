@@ -7,6 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/gif" href="asset/image/AnimatedLogo.gif" />
         <!-- CSS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <link rel="stylesheet" href="<c:url value='/style/header_style.css'/>"/>
@@ -16,7 +17,7 @@
             <header class="site-header">
                 <!-- Logo -->
                 <div class="site-header-logo">
-                    <a href="<%=request.getContextPath()%>/homeservlet?">
+                    <a href='<%=request.getContextPath() + "/" + PageLink.HOME_SERVLET%>'>
                         <img src="<%=request.getContextPath()%>/asset/image/LOGO.png" alt="LOGO" />
                     </a>
                 </div>
@@ -24,23 +25,22 @@
                 <!-- Navigation links -->
                 <nav class="site-header-nav">
                     <ul>
-                        <li><a href="<%=request.getContextPath()%>/homeservlet?">Home</a></li>
+                        <li><a href='<%=request.getContextPath() + "/" + PageLink.HOME_SERVLET%>'>Home</a></li>
                         <li><a href="#">News</a></li>
-                        <li><a href="<%=request.getContextPath()%>/SelectCalendar?">Booking</a></li>
+                        <li><a href='<%=request.getContextPath() + "/" + PageLink.SELECT_CALENDAR_SERVLET%>'>Booking</a></li>
                     </ul>
                 </nav>
 
 
                 <!-- Search bar -->
-                <div class="site-header-search" style='visibility: ${param.page eq "home" ? "visible" : "hidden"}'>
+                <div class="site-header-search" style='display:  ${param.page eq "home" || param.page eq "admin" ? "flex" : "none"}'>
                     <form action="homeservlet" method="GET">
-                        <input type="text" id="search-input" name="search" placeholder="Search for movies..." />
+                        <input type="text" id="search-input" name="search" placeholder="Search..." />
                         <button type="submit" class="search-button">
-                            <i class="fas fa-search"></i>
+                            <ion-icon name="search" style="font-size: 20px;"></ion-icon>
                         </button>
                     </form>
                 </div>
-
 
 
                 <!-- User section -->
@@ -51,12 +51,15 @@
                                 <span>Hello, ${sessionScope.userInfor.username}</span>
                             </div>
                             <div class="site-header-avatar" id="user-avatar" style="background-color: ${sessionScope.colorCode};" onclick="toggleDropdown();">
-                                <span id="avatar-letter"></span>
+                                <span id="avatar-letter" style="pointer-events: none;"></span>
                             </div>
                             <div id="avatar-dropdown" class="site-header-dropdown">
-                                <a href="<%=PageLink.PROFILE_PAGE%>">View Profile</a>
-                                <a href="<%=request.getContextPath()%>/user/favorite.jsp">My favourite</a>
-                                <a href="<%=request.getContextPath()%>/authenticate?action=logout">Logout</a>
+                                <a href='<%=request.getContextPath() + "/" + PageLink.PROFILE_PAGE%>'>View Profile</a>
+                                <c:if test='${sessionScope.userInfor.typeOfUser eq "admin"}'>
+                                    <a href='<%=request.getContextPath() + "/" + PageLink.PAGING_SERVLET%>'>Administrator Page</a>
+                                </c:if>
+                                <a href='<%=request.getContextPath() + "/" + PageLink.FAVORITE_SERVLET%>'>My favourite</a>
+                                <a href='<%=request.getContextPath() + "/" + PageLink.AUTHENTICATE_SERVLET%>action=logout' style="color: red;">Logout</a>
                             </div>
                         </c:when>
                         <c:otherwise>
@@ -99,6 +102,9 @@
                     }
                 }
             }
+
         </script>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     </body>
 </html>

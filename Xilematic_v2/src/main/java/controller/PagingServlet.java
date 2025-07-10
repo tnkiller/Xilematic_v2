@@ -12,21 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import service.HeThongRapService;
-import service.IHeThongRapService;
 import model.CumRap;
 import model.RapPhim;
 import model.Seat;
-import service.CumRapService;
-import service.ICumRapService;
-import service.IMovieService;
-import service.IRapPhimService;
-import service.ISeatService;
-import service.MovieService;
-import service.IUserService;
-import service.RapPhimService;
-import service.SeatService;
-import service.UserService;
+import service.*;
 
 @WebServlet(name = "PagingController", urlPatterns = {"/paging"})
 public class PagingServlet extends HttpServlet {

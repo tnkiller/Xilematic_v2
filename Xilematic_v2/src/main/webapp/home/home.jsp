@@ -1,3 +1,4 @@
+<%@page import="constant.PageLink"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -254,6 +255,7 @@
         <jsp:include page="${request.getContextPath()}/components/header.jsp">
             <jsp:param name="page" value="home"/>
         </jsp:include>
+
         <!-- Banner Carousel -->
         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -376,11 +378,10 @@
                                         <img src="${movie.image != null ? movie.image : 'default-poster.jpg'}" 
                                              class="card-img-top" 
                                              alt="${movie.movieName != null ? movie.movieName : 'Phim'}">
-
+                                        <span class="heart-icon" data-movie-id="${movie.id}">❤️</span>
                                     </span>
                                 </div>
                                 <div class="layer_hover">
-                                    <a href="${pageContext.request.contextPath}/SelectCalendar?id=${movie.id}" class="btn_reserve"><ion-icon name="heart-outline"></ion-icon></a>
                                     <a href="${pageContext.request.contextPath}/SelectCalendar?id=${movie.id}" class="btn_reserve">Đặt vé nek</a>
                                     <a href="${pageContext.request.contextPath}/DetailServlet?id=${movie.id}" class="btn_View">Chi tiết</a>
                                 </div> 
@@ -428,52 +429,12 @@
         </c:if>
     </div>
 
+
+
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-information">
-                <div class="footer-desc">
-                    <img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=150" alt="">
-                    <p class="text-muted">Your ultimate destination for movie tickets and entertainment.</p>
-                </div>
-                <div class="footer-about">
-                    <h5 class="">Quick Links</h5>
-                    <ul class="">
-                        <li><a href="#" class="footer-link">Movie Categories</a></li>
-                        <li><a href="#" class="footer-link">Now Showing</a></li>
-                        <li><a href="#" class="footer-link">Upcoming Films</a></li>
-                        <li><a href="#" class="footer-link">Theater Locations</a></li>
-                        <li><a href="#" class="footer-link">Ticket Booking</a></li>
-                    </ul>
-                </div>
-                <div class="footer-about">
-                    <h5>Customer Support</h5>
-                    <ul>
-                        <li><a href="#" class="footer-link">Help Center</a></li>
-                        <li><a href="#" class="footer-link">Contact Us</a></li>
-                        <li><a href="#" class="footer-link">FAQ</a></li>
-                        <li><a href="#" class="footer-link">Refund Policy</a></li>
-                        <li><a href="#" class="footer-link">+1 (555) 123-4567</a></li>
-                    </ul>
-                </div>
-                <div class="footer-social">
-                    <h5>Newsletter</h5>
-                    <p>Subscribe for exclusive movie updates and offers!</p>
-                    <div>
-                        <input type="email" placeholder="Your email">
-                        <button class="btn-subcribe" type="button">Subscribe</button>
-                    </div>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon"><span><ion-icon name="logo-facebook"></ion-icon></span></a>
-                        <a href="#" class="social-icon"><span><ion-icon name="logo-instagram"></ion-icon></span></a>
-                        <a href="#" class="social-icon"><span><ion-icon name="logo-twitter"></ion-icon></span></a>
-                        <a href="#" class="social-icon"><span><ion-icon name="logo-youtube"></ion-icon></span></a>
-                        <a href="#" class="social-icon"><span><ion-icon name="logo-linkedin"></ion-icon></span></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <div class="footer-namespace">
+        <%@ include file="/components/footer.jsp" %>
+    </div>
 
     <script>
         // TOGGLE CHAT BOX

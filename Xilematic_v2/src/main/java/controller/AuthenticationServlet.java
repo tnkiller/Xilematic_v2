@@ -3,6 +3,7 @@ package controller;
 import constant.PageLink;
 import constant.SessionAttribute;
 import entity.GoogleAccount;
+import entity.TokenForgetPassword;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,22 +12,25 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.Base64;
 import model.User;
+import service.TokenForgetPasswordService;
 import service.UserService;
-import utils.GenerateInfor;
-import utils.GeneratorRandomColorCode;
+import utils.Helper;
 import utils.Validator;
 
 @WebServlet(name = "AuthenticateServlet", urlPatterns = {"/authenticate"})
 public class AuthenticationServlet extends HttpServlet {
 
     private final UserService userService = new UserService();
+    private final String DEFAULT_ROLE = "user";
+    private final String ACTION_PARAM = "action";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action");
+        String action = request.getParameter(ACTION_PARAM);
         action = action != null ? action : "";
         switch (action) {
             case "logout":
@@ -41,7 +45,7 @@ public class AuthenticationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action");
+        String action = request.getParameter(ACTION_PARAM);
         action = (action != null) ? action : "";
         switch (action) {
             case "login":
@@ -51,18 +55,21 @@ public class AuthenticationServlet extends HttpServlet {
                 processRegister(request, response);
                 break;
             case "forgotPassword":
+                processForgotPassword(request, response);
                 break;
             default:
+                PrintWriter out = response.getWriter();
+                out.print("hello");
+                break;
         }
     }
 
     //process login
     private void processLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User u = (User) request.getAttribute("user");
-        String username = u.getUsername();
-        String password = u.getPassword();
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
         String rememberMe = request.getParameter("rememberMe");
-        u = userService.login(username, password);
+        User u = userService.login(username, password);
 
         if (u == null) {
             request.setAttribute("errorMsg", "Wrong username or password!");
@@ -73,49 +80,53 @@ public class AuthenticationServlet extends HttpServlet {
             } else {
                 processRememberMe(false, username, password, response);
             }
-            HttpSession session = request.getSession();
-            session.setAttribute(SessionAttribute.USER_INFOR, u);
-            session.setAttribute(SessionAttribute.COLOR_CODE, GeneratorRandomColorCode.generateColorCode());
-            if (u.getTypeOfUser().equals("admin")) {
-                request.setAttribute("type", "stats");
-                request.setAttribute("status", true);
+            u.setPassword(password);
+            //initialize new session
+            initializeSession(request, response, u);
+            if (!DEFAULT_ROLE.equals(u.getTypeOfUser())) {
                 request.getRequestDispatcher(PageLink.ADMIN_PAGE).forward(request, response);
             } else {
-                request.getRequestDispatcher("homeservlet").forward(request, response);
+//                request.getRequestDispatcher(PageLink.HOME_SERVLET).forward(request, response);
             }
         }
     }
 
     //process login with gg
-    private void processLoginWithGG(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void processLoginWithGG(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String code = request.getParameter("code");
-        String accessToken = GoogleLogin.getToken(code);
+        String accessToken = null;
+//        xử lí trường hợp người dùng cancel
+        try {
+            accessToken = GoogleLogin.getToken(code);
+        } catch (Exception e) {
+            response.sendRedirect(PageLink.LOGIN_PAGE);
+            return;
+        }
         GoogleAccount ggAcc = GoogleLogin.getUserInfo(accessToken);
 
         User user = userService.getUserByEmail(ggAcc.getEmail());
 
         //tai khoan moi
         if (user == null) {
-            String username = GenerateInfor.generateUsername();
-            String password = GenerateInfor.generatePassword();
+            String password = Helper.generatePassword();
             String firstname = ggAcc.getFirst_name() != null ? ggAcc.getFirst_name() : "";
             String givenname = ggAcc.getGiven_name() != null ? ggAcc.getGiven_name() : "";
             String familyname = ggAcc.getFamily_name() != null ? ggAcc.getFamily_name() : "";
             String fullname = familyname + " " + givenname + " " + firstname;
             String email = ggAcc.getEmail();
-            while (userService.isUsernameExist(username)) {
-                username = GenerateInfor.generateUsername();
-            }
-            user = new User(username, fullname, email, "", password, "user");
-            userService.register(user);
+            user = new User("", fullname, email, "", password, DEFAULT_ROLE);
+            int lastId = userService.createUser(user);
+            user = userService.getUser(lastId);
+            //generate username automatically
+            user.setUsername("User" + String.valueOf(lastId));
+            userService.updateUser(user);
         }
-
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionAttribute.USER_INFOR, user);
-        if ("admin".equals(user.getTypeOfUser())) {
-            response.sendRedirect(PageLink.ADMIN_PAGE);
+        //initialize new session
+        initializeSession(request, response, user);
+        if (!DEFAULT_ROLE.equals(user.getTypeOfUser())) {
+            response.sendRedirect(PageLink.PAGING_SERVLET);
         } else {
-            response.sendRedirect("homeservlet");
+            response.sendRedirect(PageLink.HOME_SERVLET);
         }
     }
 
@@ -129,7 +140,7 @@ public class AuthenticationServlet extends HttpServlet {
         String email = user.getEmail();
         String phoneNum = user.getPhoneNumber();
         String password = user.getPassword();
-        user.setTypeOfUser("user");//default
+        user.setTypeOfUser(DEFAULT_ROLE);//default
         String confirmPassword = request.getParameter("confirmPassword");
         boolean flag = true;
 
@@ -227,47 +238,41 @@ public class AuthenticationServlet extends HttpServlet {
         response.sendRedirect(PageLink.LOGIN_PAGE);
     }
 
+    //initialize session 
+    private void initializeSession(HttpServletRequest request, HttpServletResponse response, User userInfor)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionAttribute.USER_INFOR, userInfor);
+        session.setAttribute(SessionAttribute.COLOR_CODE, Helper.generateColorCode());
+    }
+
     //process forgot password
-//    private void processForgotPassword(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        String flag = request.getParameter("action");
-//        switch (flag) {
-//            case "none" ->
-//                getNewPassword(request, response);
-//            case "existed" -> {
-//                updateNewPassword(request, response);
-//            }
-//        }
-//    }
-    //get new password from user
-//    private void getNewPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String username = request.getParameter("input");
-//        int isExist = 0;
-//
-//        User o = new UserDAO().getUserByUsername(username);
-//
-//        if (o != null) {
-//            isExist = 1;
-//        } else {
-//            isExist = -1;
-//        }
-//        request.setAttribute("username", username);
-//        request.setAttribute("isExist", isExist);
-//        request.getRequestDispatcher(PageLink.FORGOT_PASSWORD_PAGE).forward(request, response);
-//    }
-    //update new password into DB
-//    private void updateNewPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String username = request.getParameter("input");
-//        String newPassword = request.getParameter("password");
-//
-//        User newU = new User();
-//        newU.setPassword(newPassword);
-//        newU.setUsername(username);
-//
-//        if (new UserDAO().updateUser(newU) != -1) {
-//            request.setAttribute("msg", "Changed new password successfully!");
-//            request.getRequestDispatcher(PageLink.FORGOT_PASSWORD_PAGE).forward(request, response);
-//        }
-//
-//    }
+    private void processForgotPassword(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String recoverEmail = request.getParameter("recoverEmail");
+
+        //Step 1: check xem tai khoan voi email nay co ton tai trong db khong
+        User user = userService.getUserByEmail(recoverEmail);
+
+        //KHONG CO -> gui error msg
+        if (user == null) {
+            request.setAttribute("errMsg", "This email does not exist!");
+            request.getRequestDispatcher(PageLink.FORGOT_PASSWORD_PAGE).forward(request, response);
+            return;
+        }
+        //CO -> gui link reset password
+        TokenForgetPasswordService service = new TokenForgetPasswordService();
+        String strToken = service.generateToken();
+        String linkReset = "http://localhost:9999/xilematic/" + PageLink.RESET_PASSWORD_SERVLET + "token=" + strToken;
+        TokenForgetPassword token = new TokenForgetPassword(user.getId(), strToken, false, service.generateExpiryTime());
+        service.insertTokenForget(token);
+        boolean stt = service.sendResetPasswordMail(recoverEmail, linkReset, user.getFullname());
+        if (stt) {
+            request.setAttribute("succMsg", "Please check your email to get link for reset password!");
+        } else {
+            request.setAttribute("succMsg", "Wrong something! Please try again...");
+        }
+        request.getRequestDispatcher(PageLink.FORGOT_PASSWORD_PAGE).forward(request, response);
+    }
+
 }

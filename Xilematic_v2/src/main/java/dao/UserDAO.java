@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.User;
@@ -14,8 +15,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class UserDAO implements IUserDAO {
 
-    private static final String LOGIN = "SELECT * from NguoiDung where ten_tai_khoan LIKE ?";
-//    private static final String REGISTER = "INSERT INTO NguoiDung (ten_tai_khoan, ho_ten, email, so_dt, mat_khau, loai_nguoi_dung) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String LOGIN = "SELECT * from NguoiDung where ten_tai_khoan LIKE ? OR email LIKE ?";
     private static final String INSERT_USER = "INSERT INTO NguoiDung (ten_tai_khoan, ho_ten, email, so_dt, mat_khau, loai_nguoi_dung) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM NguoiDung WHERE ma_nguoi_dung = ?";
     private static final String SELECT_ALL_USERS = "select * from NguoiDung";
@@ -23,7 +23,7 @@ public class UserDAO implements IUserDAO {
     private static final String DELETE_USER = "UPDATE NguoiDung SET status = '0' WHERE ma_nguoi_dung = ?";
     private static final String SEARCH_USER = "SELECT * FROM NguoiDung WHERE username LIKE ?";
     private static final String CHECK_USERNAME_ISEXIST = "SELECT * FROM NguoiDung WHERE ten_tai_khoan LIKE ?";
-    private static final String PAGING_USER = "SELECT * FROM NguoiDung ORDER BY ma_nguoi_dung OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    private static final String PAGING_USER = "SELECT * FROM NguoiDung WHERE status IS NULL ORDER BY ma_nguoi_dung OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
     private static final String GET_TOTAL_OF_USER = "SELECT COUNT(*) FROM NguoiDung";
     private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM NguoiDung WHERE email = ?";
     private static final String GET_EMAIL_USER = "SELECT EMAIL FROM NguoiDung WHERE ma_nguoi_dung = ?";
@@ -33,6 +33,7 @@ public class UserDAO implements IUserDAO {
         try (Connection con = DBConnection.getConnection()) {
             PreparedStatement ps = con.prepareStatement(LOGIN);
             ps.setString(1, username);
+            ps.setString(2, username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 if (BCrypt.checkpw(password, rs.getString("mat_khau"))) {
@@ -132,13 +133,14 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public boolean updateUser(User user) throws SQLException {
+        String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         try (Connection con = DBConnection.getConnection()) {
             PreparedStatement ps = con.prepareStatement(UPDATE_USER);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getFullname());
             ps.setString(3, user.getEmail());
             ps.setString(4, user.getPhoneNumber());
-            ps.setString(5, user.getPassword());
+            ps.setString(5, hashedPassword);
             ps.setString(6, user.getTypeOfUser());
             ps.setInt(7, user.getId());
             return ps.executeUpdate() > 0;
@@ -239,4 +241,32 @@ public class UserDAO implements IUserDAO {
         }
         return "";
     }
+
+    @Override
+    public int createUser(User user) throws SQLException {
+        String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+        PreparedStatement ps;
+        int generatedId = -1;
+        try (Connection con = DBConnection.getConnection()) {
+            ps = con.prepareStatement(INSERT_USER, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getFullname());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getPhoneNumber());
+            ps.setString(5, hashedPassword);
+            ps.setString(6, user.getTypeOfUser());
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        generatedId = generatedKeys.getInt(1); // Get the first column (primary key)
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return generatedId;
+    }
+
 }

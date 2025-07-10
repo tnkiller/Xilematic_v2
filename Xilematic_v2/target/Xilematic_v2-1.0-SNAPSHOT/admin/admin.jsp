@@ -19,7 +19,9 @@
     </head>
     <body>
         <!-- include header -->
-        <jsp:include page="/components/header.jsp"/>
+        <jsp:include page="${request.getContextPath()}/components/header.jsp">
+            <jsp:param name="page" value="admin"/>
+        </jsp:include>
 
 
         <!-- main -->
@@ -27,13 +29,13 @@
             <!--nav-bar nằm bên trái-->
             <nav class="nav-bar">
                 <a href="paging?type=stats" class="nav-link ${requestScope.type == 'stats' ? 'active' : ''}">
-                    <i class="bi bi-house-door fs-5"></i>
+                    <i class="bi bi-house-door fs-5" title="Home"></i>
                 </a>
                 <a href="paging?type=users" class="nav-link ${requestScope.type == 'users' ? 'active' : ''}">
-                    <i class="bi bi-people fs-5"></i>
+                    <i class="bi bi-people fs-5" title="User"></i>
                 </a>
                 <a href="paging?type=movies" class="nav-link ${requestScope.type == 'movies' ? 'active' : ''}">
-                    <i class="bi bi-film fs-5"></i>
+                    <i class="bi bi-film fs-5" title="Movie"></i>
                 </a>
                 <a href="paging?type=heThongRap" class="nav-link ${requestScope.type == 'heThongRap' ? 'active' : ''}">
                     <i class="bi bi-badge-4k" title="Hệ thống rạp"></i>
@@ -42,10 +44,10 @@
                     <i class="bi bi-building-gear fs-5" title="Cụm rạp"></i>
                 </a>
                 <a href="paging?type=rapPhim" class="nav-link ${requestScope.type == 'rapPhim' ? 'active' : ''}">
-                    <i class="bi bi-easel"></i>
+                    <i class="bi bi-easel" title="Rạp phim"></i>
                 </a>
                 <a href="paging?type=ghe" class="nav-link ${requestScope.type == 'ghe' ? 'active' : ''}">
-                    <i class="bi bi-grid-3x2-gap-fill"></i>
+                    <i class="bi bi-grid-3x2-gap-fill" title="Ghế"></i>
                 </a>
 
             </nav>
@@ -297,7 +299,7 @@
 
 
 
-                <c:set var="extraParam" value="" />
+                <c:set var="extraParam" value="${null}" />
                 <c:if test="${type == 'ghe' && not empty param.maRap}">
                     <c:set var="extraParam" value="&maRap=${param.maRap}" />
                 </c:if>
@@ -309,42 +311,12 @@
                         <a href="paging?type=${type}&page=${currentPage - 1}${extraParam}">Previous</a>
                     </c:if>
 
-                    <c:if test="${totalPages < 5}">
-                        <c:forEach var="i" begin="1" end="${totalPages}">
-                            <c:choose>
-                                <c:when test="${i == currentPage}">
-                                    <strong>${i}</strong>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="paging?type=${type}&page=${i}${extraParam}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                    </c:if>
-
-                    <c:if test="${totalPages >= 5}">
-                        <c:forEach var="i" begin="${currentPage - 2 > 0 ? currentPage - 2 : 1}"
-                                   end="${totalPages > currentPage + 2 ? currentPage + 2 : totalPages}">
-                            <c:choose>
-                                <c:when test="${i == currentPage}">
-                                    <strong>${i}</strong>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="paging?type=${type}&page=${i}${extraParam}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                        <a href="paging?type=${type}&page=${currentPage - 1}" class="page-nav">&laquo; Previous</a>
-                    </c:if>
-                    <c:if test="${currentPage <= 1}">
-                        <span class="page-nav disabled">&laquo; Previous</span>
-                    </c:if>
 
                     <%-- First page and ellipsis --%>
                     <c:if test="${currentPage > 3 && totalPages > 5}">
-                        <a href="paging?type=${type}&page=1">1</a>
+                        <a href="paging?type=${type}&page=1${extraParam}">1</a>
                         <c:if test="${currentPage > 4}">
-                            <span class="ellipsis">...</span>
+                            <a href="" style="padding: 8px; pointer-events: none; color: grey; background-color: #f0f2f2;">...</a>
                         </c:if>
                     </c:if>
 
@@ -358,7 +330,7 @@
                                         <strong class="current-page">${i}</strong>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="paging?type=${type}&page=${i}">${i}</a>
+                                        <a href="paging?type=${type}&page=${i}${extraParam}">${i}</a>
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
@@ -374,7 +346,7 @@
                                         <strong class="current-page">${i}</strong>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="paging?type=${type}&page=${i}">${i}</a>
+                                        <a href="paging?type=${type}&page=${i}${extraParam}">${i}</a>
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
@@ -384,18 +356,14 @@
                     <%-- Last page and ellipsis --%>
                     <c:if test="${currentPage < totalPages - 2 && totalPages > 5}">
                         <c:if test="${currentPage < totalPages - 3}">
-                            <span class="ellipsis">...</span>
+                            <a href="" style="padding: 8px; pointer-events: none; color: grey; background-color: #f0f2f2;">...</a>
                         </c:if>
-                        <a href="paging?type=${type}&page=${totalPages}">${totalPages}</a>
+                        <a href="paging?type=${type}&page=${totalPages}${extraParam}">${totalPages}</a>
                     </c:if>
 
                     <%-- Next button --%>
                     <c:if test="${currentPage < totalPages}">
                         <a href="paging?type=${type}&page=${currentPage + 1}${extraParam}">Next</a>
-
-                    </c:if>
-                    <c:if test="${currentPage >= totalPages}">
-                        <span class="page-nav disabled">Next &raquo;</span>
                     </c:if>
                 </div>
             </div>
