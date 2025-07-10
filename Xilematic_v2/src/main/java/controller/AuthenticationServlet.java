@@ -58,8 +58,9 @@ public class AuthenticationServlet extends HttpServlet {
 
     //process login
     private void processLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        User user = (User) request.getAttribute("user");
+        String username = user.getUsername();
+        String password = user.getPassword();
         String rememberMe = request.getParameter("rememberMe");
         User u = userService.login(username, password);
 
@@ -76,7 +77,7 @@ public class AuthenticationServlet extends HttpServlet {
             //initialize new session
             initializeSession(request, u);
             if (!DEFAULT_ROLE.equals(u.getTypeOfUser())) {
-                request.getRequestDispatcher(PageLink.PAGING_SERVLET).forward(request, response);
+                request.getRequestDispatcher(PageLink.ADMIN_PAGE).forward(request, response);
             } else {
                 request.getRequestDispatcher(PageLink.HOME_SERVLET).forward(request, response);
             }

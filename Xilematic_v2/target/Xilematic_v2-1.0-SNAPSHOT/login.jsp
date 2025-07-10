@@ -43,7 +43,7 @@
             <a href="${pageContext.request.contextPath}/" class="home-button">
                 <span>← Home</span>
             </a>
-            <form action='<%=request.getContextPath() + "/" + PageLink.AUTHENTICATE_SERVLET%>' method="POST">
+            <form action='<%=request.getContextPath() + "/" + PageLink.INTERMEDIATE_PAGE%>' method="POST">
                 <h2>Login</h2>
                 <div class="input-box">
                     <span class="icon"><ion-icon name="person"></ion-icon></ion-icon></span>
