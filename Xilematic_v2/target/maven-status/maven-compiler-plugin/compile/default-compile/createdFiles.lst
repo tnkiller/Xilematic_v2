@@ -1,5 +1,8 @@
+utils\SendEmail.class
 service\ShowtimeService.class
+service\TokenForgetPasswordService.class
 model\RapPhim.class
+utils\SendEmail$1.class
 service\BookingService.class
 service\IHeThongRapService.class
 service\IShowtimeService.class
@@ -33,6 +36,7 @@ model\Booking.class
 dao\ICumRapDAO.class
 service\MovieService.class
 dao\SeatDAO.class
+utils\ExportData.class
 dao\IRapPhimDAO.class
 controller\AuthenticationServlet.class
 constant\IConstant.class
@@ -41,7 +45,6 @@ dao\FavoriteDAO.class
 com\vnpay\common\ajaxServlet.class
 controller\FavoriteServlet.class
 model\CumRap.class
-utils\GenerateInfor.class
 controller\RapPhimServlet.class
 utils\Helper.class
 com\vnpay\common\VnpayReturn.class
@@ -52,9 +55,11 @@ dao\IBinhLuanDAO.class
 service\ICommentService.class
 dao\IHeThongRapDAO.class
 model\Seat.class
+controller\ResetPasswordServlet.class
 dao\IShowtimeDAO.class
 service\RapPhimService.class
 utils\Validator.class
+dao\TokenForgetPasswordDAO.class
 filter\AuthFilter.class
 service\SeatService.class
 dao\IBookingDAO.class
@@ -68,13 +73,13 @@ context\DBConnection.class
 controller\CheckoutServlet.class
 dao\ISeatDAO.class
 config\AppConfig.class
+model\Mail.class
 model\LichChieu.class
 controller\PagingServlet.class
 model\HeThongRap.class
 constant\SessionAttribute.class
 service\HeThongRapService.class
-constant\MessageManager.class
+entity\TokenForgetPassword.class
 service\IBookingService.class
 controller\SelectCalendarServlet.class
-com\vnpay\common\VnpayReturn$1.class
 controller\HomeServlet.class

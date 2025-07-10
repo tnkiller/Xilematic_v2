@@ -9,6 +9,7 @@ public class PageLink {
     public static final String ACCESS_DENIED_PAGE = "access_denied.jsp";
     public static final String INTERMEDIATE_PAGE = "intermediate.jsp";
     public static final String PROFILE_PAGE = "profile.jsp";
+    public static final String RESET_PASSWORD_PAGE = "reset_password.jsp";
 
     //-----------------------------------------------
     //home folder
@@ -34,6 +35,15 @@ public class PageLink {
 
     //-----------------------------------------------
     //component folder
-    public static final String HEADER_PAGE = "components/header.jsp";
-    public static final String FOOTER_PAGE = "components/footer.jsp";
+    public static final String HEADER = "components/header.jsp";
+    public static final String FOOTER = "components/footer.jsp";
+
+    //-----------------------------------------------
+    //servlet controller
+    public static final String AUTHENTICATE_SERVLET = "authenticate?";
+    public static final String HOME_SERVLET = "homeservlet?";
+    public static final String PAGING_SERVLET = "paging?";
+    public static final String SELECT_CALENDAR_SERVLET = "SelectCalendar?";
+    public static final String FAVORITE_SERVLET = "favorites?";
+    public static final String RESET_PASSWORD_SERVLET = "reset_password?";
 }

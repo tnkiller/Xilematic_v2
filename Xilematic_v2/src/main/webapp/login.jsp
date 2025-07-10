@@ -9,8 +9,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login</title>
+        <link rel="icon" type="image/gif" href="asset/image/AnimatedLogo.gif" />
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/login_style.css">
-        <link rel="icon" type="logo" href="asset/image/download.png" />
     </head>
 
     <body>
@@ -36,13 +36,19 @@
             }
         %>
 
+
+
+
         <div class="login-box">
-            <form action="<%=request.getContextPath()%>/intermediate.jsp" method="POST">
+            <a href="${pageContext.request.contextPath}/" class="home-button">
+                <span>← Home</span>
+            </a>
+            <form action='<%=request.getContextPath() + "/" + PageLink.AUTHENTICATE_SERVLET%>' method="POST">
                 <h2>Login</h2>
                 <div class="input-box">
                     <span class="icon"><ion-icon name="person"></ion-icon></ion-icon></span>
                     <input type="text" required name="username" value="${empty username ? '': username}">
-                    <label>Username</p></label>
+                    <label>Username/Email</p></label>
                 </div>
 
                 <div class="input-box">
@@ -66,7 +72,7 @@
                         </c:choose>
                         Remember me
                     </label>
-                    <a href="">Forgot Password?</a>
+                    <a href="${pageContext.request.contextPath}/<%=PageLink.FORGOT_PASSWORD_PAGE%>">Forgot Password?</a>
                 </div>
 
                 <button type="submit" name="action" value="login">Login</button>
@@ -84,24 +90,24 @@
                     <p>Don't have an account? <a href="<%=PageLink.REGISTER_PAGE%>">Register</a></p>
                 </div>
             </form>
-            <script>
-                const passwordInput = document.getElementById('password');
-                const togglePassword = document.getElementById('togglePassword');
-
-                togglePassword.addEventListener('click', () => {
-                    const type = passwordInput.getAttribute('type');
-                    if (type === 'password') {
-                        passwordInput.setAttribute('type', 'text');
-                        togglePassword.innerHTML = '<ion-icon name="lock-open"></ion-icon>';
-                    } else {
-                        passwordInput.setAttribute('type', 'password');
-                        togglePassword.innerHTML = '<ion-icon name="lock-closed"></ion-icon>';
-                    }
-                });
-            </script>
-            <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-            <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
         </div>
+        <script>
+            const passwordInput = document.getElementById('password');
+            const togglePassword = document.getElementById('togglePassword');
+
+            togglePassword.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type');
+                if (type === 'password') {
+                    passwordInput.setAttribute('type', 'text');
+                    togglePassword.innerHTML = '<ion-icon name="lock-open"></ion-icon>';
+                } else {
+                    passwordInput.setAttribute('type', 'password');
+                    togglePassword.innerHTML = '<ion-icon name="lock-closed"></ion-icon>';
+                }
+            });
+        </script>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     </body>
 
 </html>

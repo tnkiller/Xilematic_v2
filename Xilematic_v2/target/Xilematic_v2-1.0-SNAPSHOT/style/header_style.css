@@ -1,6 +1,10 @@
+/*google font*/
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
 /* Wrapper chính */
 .site-header-wrapper {
     width: 100%;
+    font-family: "DM Sans", sans-serif;
 }
 
 /* Header chính */
@@ -8,10 +12,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #212529;
     padding: 15px;
-    background-color: #fff;
     border-bottom: 1px solid #ddd;
-    position: relative;
     z-index: 100;
 }
 
@@ -37,11 +40,14 @@
 .site-header-search input {
     padding: 10px 12px;
     font-size: 16px;
-    border: 1px solid #ddd;
+    border: 0;
     border-radius: 5px 0 0 5px;
     width: 80%;
     height: 40px;
+    outline: none;
     box-sizing: border-box;
+    background-color: #2d3436;
+    color: white;
 }
 
 .site-header-search button {
@@ -72,9 +78,27 @@
 
 .site-header-nav ul li a {
     text-decoration: none;
-    color: #333;
+    color: white;
     font-weight: bold;
     font-size: 16px;
+}
+
+.site-header-nav ul li{
+    transition: all 0.25s ease-in-out;
+}
+
+.site-header-nav ul li a{
+    transition: all 0.25s ease-in-out;
+}
+
+.site-header-nav ul li:hover {
+    transform: scale(1.1);
+    color: #e63e44;
+}
+
+.site-header-nav ul li a:hover {
+    transform: scale(1.1);
+    color: #e63e44;
 }
 
 /* User section */
@@ -87,7 +111,7 @@
 .site-header-greeting {
     font-size: 16px;
     font-weight: bold;
-    color: #333;
+    color: white;
     margin-right: 12px;
 }
 
@@ -111,18 +135,17 @@
 .site-header-dropdown {
     display: none;
     position: absolute;
-    right: 15px;
-    top: 60px;
-    background-color: white;
+    right: 10px;
+    top: 70px;
+    background-color: #2d3436;
     min-width: 160px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 9999;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .site-header-dropdown a {
-    color: black;
+    color: white;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -130,6 +153,19 @@
 
 .site-header-dropdown a:hover {
     background-color: #f2f2f2;
+    color: black;
+}
+
+.site-header-dropdown >a:first-child:hover{
+    border-radius: 10px 10px 0 0;
+}
+
+.site-header-dropdown >a:last-child:hover{
+    border-radius: 0 0 10px 10px;
+}
+
+.site-header-dropdown >a:last-child {
+    border-top: 1px solid #dfe6e9;
 }
 
 .site-header-dropdown.show {
@@ -146,11 +182,20 @@
     padding: 8px 15px;
     margin-left: 10px;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    border: 0;
     cursor: pointer;
     font-weight: 600;
     font-size: 14px;
 }
+
+.site-header-auth button {
+    transition: all 0.25s ease-in-out;
+}
+
+.site-header-auth button:hover {
+    transform: scale(1.1);
+}
+
 
 .site-header-login {
     background-color: white;
@@ -164,25 +209,18 @@
 
 /* Chiều cao cố định cho header */
 .site-header {
-    height: 80px;
+    height: 100px;
 }
 
 /* Tăng kích thước chữ */
-.site-header-nav ul li a {
+.site-header-nav ul li a,
+.site-header-greeting,
+.site-header-avatar,
+.site-header-auth button{
     font-size: 18px;
 }
 
-.site-header-greeting {
-    font-size: 18px;
-}
 
-.site-header-avatar {
-    font-size: 20px;
-}
-
-.site-header-auth button {
-    font-size: 15px;
-}
 
 /* Responsive design */
 @media (max-width: 768px) {

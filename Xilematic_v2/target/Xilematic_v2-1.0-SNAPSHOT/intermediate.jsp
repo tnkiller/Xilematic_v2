@@ -4,12 +4,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
     </head>
     <body>
         <%
             var act = request.getParameter("action");
         %>
+
 
         <!--movie bean-->
         <jsp:useBean id="movie" class="model.Movie" scope="request"/>
@@ -30,7 +30,7 @@
 
         <!--navigate-->
         <c:choose>
-            <c:when test='<%=act.equals("login") || act.equals("register")%>'>
+            <c:when test='<%=act.equals("register")%>'>
                 <jsp:forward page="authenticate"></jsp:forward>
             </c:when>
             <c:when test='<%=act.equals("add_movie") || act.equals("update_movie")%>'>

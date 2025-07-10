@@ -135,4 +135,14 @@ public class UserService implements IUserService {
 
     }
 
+    @Override
+    public int createUser(User user) {
+        try {
+            return userDao.createUser(user);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
 }

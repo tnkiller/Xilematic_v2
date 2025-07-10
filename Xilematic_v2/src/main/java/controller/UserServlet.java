@@ -1,12 +1,11 @@
 package controller;
 
 import constant.PageLink;
+import constant.SessionAttribute;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 import model.User;
 import service.UserService;
 
@@ -54,26 +53,30 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         User user = (User) request.getAttribute("user");
         userService.insertUser(user);
-        response.sendRedirect("paging?type=users");
+        response.sendRedirect(PageLink.PAGING_SERVLET + "type=users");
     }
 
     //process update function
     private void processUpdateUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = (User) request.getAttribute("user");
-        //validate
-        userService.updateUser(user);
-        if ("admin".equals(user.getTypeOfUser())) {
-            response.sendRedirect("paging?type=users");
+        HttpSession session = request.getSession();
+        User userSession = (User) session.getAttribute(SessionAttribute.USER_INFOR);
+        User userUpdate = (User) request.getAttribute("user");
+        userService.updateUser(userUpdate);
+        //update session if id_update == id_session
+        if (userSession.getId() == userUpdate.getId()) {
+            session.setAttribute(SessionAttribute.USER_INFOR, userUpdate);
+            response.sendRedirect(PageLink.PROFILE_PAGE);
         } else {
-            response.sendRedirect("homeservlet?");
+            response.sendRedirect(PageLink.PAGING_SERVLET + "type=users");
         }
     }
 
     //process delete function
     private void processDeleteUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        userService.deleteUser(((User) request.getAttribute("user")).getId());
+        int id = Integer.parseInt(request.getParameter("id"));
+        userService.deleteUser(id);
         response.sendRedirect("paging?type=users");
     }
 

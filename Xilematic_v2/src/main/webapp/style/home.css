@@ -459,77 +459,30 @@ em {
 .curr_list .img img {
     transition: all 0.3s ease;
 }
-/* <!--footer--> */
-.footer-content {
-    background-color: rgb(11, 6, 32);
-}
-.footer-information {
-    display: flex;
-    justify-content: space-around;
-    padding: 50px 0;
-}
-.footer-information h5 {
-    color: white;
-    font-size: 25px;
-    margin: 0;
-}
-.footer-desc {
-    color: rgb(146, 144, 144);
-}
-.footer-about ul {
-    padding-left: 0;
-}
-.footer-about ul li {
-    list-style: none;
-    margin: 5px;
-}
 
-.footer-about ul li a {
-    color: rgb(146, 144, 144);
-    text-decoration: none;
-    transition: all 0.5s;
-}
-.footer-about ul li a:hover {
-    color: white;
-}
-
-.footer-social p {
-    color: rgb(146, 144, 144);
-}
-.social-icons {
-    margin-top: 20px;
-    display: flex;
-    gap: 15px;
-}
-
-.social-icon {
-    font-size: 30px;
-    transition: all 0.3s ease;
-    color: rgb(146, 144, 144);
-    transition: all 0.5s;
-}
-.social-icon:hover {
-    color: white;
-    transform: translateY(-2px);
-}
-
-.footer-social input {
-    background-color: rgb(146, 144, 144);
-    padding: 10px;
-    border: none;
-}
-input::placeholder {
-    color: black;
-}
-.btn-subcribe {
-    padding: 10px;
-    background-color: #b71c1c;
-    border: none;
-    color: white;
+.heart-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.7); /* Màu trắng mờ ban đầu */
     cursor: pointer;
-    transition: all 0.5s;
+    transition: all 0.3s ease;
+    opacity: 0; /* Ẩn ban đầu */
 }
-.btn-subcribe:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
+
+.heart-icon:hover {
+    transform: scale(1.2);
 }
+
+/* Hiện trái tim khi hover vào card */
+li:hover .heart-icon {
+    opacity: 1;
+}
+
+/* Màu đỏ khi được chọn (active) */
+.heart-icon.active {
+    color: red !important;
+}
+
+

@@ -3,6 +3,8 @@ package utils;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class Helper {
 
@@ -24,5 +26,24 @@ public class Helper {
             sb.append(CHARACTERS.charAt(index));
         }
         return sb.toString();
+    }
+
+    public static String generateColorCode() {
+        String letters = "0123456789ABCDEF";
+        String color = "#";
+        Random rd = new Random();
+        for (var i = 0; i < 6; i++) {
+            color += letters.charAt(rd.nextInt(0, letters.length()));
+        }
+        return color;
+    }
+
+    public static String generateUsername() {
+        return "user" + RandomStringUtils.randomAlphabetic(5);
+    }
+
+    public static String generatePassword() {
+        return RandomStringUtils.randomAlphabetic(5);
+
     }
 }

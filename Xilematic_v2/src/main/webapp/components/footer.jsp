@@ -4,28 +4,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Footer</title>
-        <link rel="stylesheet" href="https://ionic.io/ionicons">
-        <style>
-             footer, 
-        footer *,
-        footer *::before,
-        footer *::after {
-            all: unset;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-            display: revert;
-        }
-        </style>
-        <link rel="stylesheet"
-              href="<c:url value='/style/footer_style.css' />" />
+        <link rel="stylesheet" href="<c:url value='/style/footer_style.css' />" />
     </head>
     <body>
         <footer>
             <div class="footer-content">
                 <div class="footer-information">
                     <div class="footer-desc">
-                        <img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=150" alt="">
+                        <img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=150" alt="illus_image">
                         <p class="text-muted">Your ultimate destination for movie tickets and entertainment.</p>
                     </div>
                     <div class="footer-about">
@@ -66,5 +52,7 @@
                 </div>
             </div>
         </footer>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     </body>
 </html>

@@ -19,19 +19,19 @@ public class AuthFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        // Khởi tạo các quyền truy cập cho từng role
-
-        //Các trang admin có thể vào
-        Set<String> adminPages = new HashSet<>(Arrays.asList(
-                "/admin/", "/home/", "/user/", "/paging", "/users", "movies"
-        ));
-
-        //Các trang user có thể vào
-        Set<String> userPages = new HashSet<>(Arrays.asList(
-                "/user/", "/home/"
-        ));
-        roleAccessMap.put("admin", adminPages);
-        roleAccessMap.put("user", userPages);
+//        // Khởi tạo các quyền truy cập cho từng role
+//
+//        //Các trang admin có thể vào
+//        Set<String> adminPages = new HashSet<>(Arrays.asList(
+//                "/admin/", "/home/", "/user/", "/paging", "/users", "movies"
+//        ));
+//
+//        //Các trang user có thể vào
+//        Set<String> userPages = new HashSet<>(Arrays.asList(
+//                "/user/", "/home/"
+//        ));
+//        roleAccessMap.put("admin", adminPages);
+//        roleAccessMap.put("user", userPages);
     }
 
     @Override

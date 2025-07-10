@@ -16,11 +16,15 @@
     </head>
     <body>
         <!--include header-->
-        <jsp:include page="<%=PageLink.HEADER_PAGE%>"/>
+        <header>
+            <jsp:include page="${request.getContextPath()}/components/header.jsp">
+                <jsp:param name="page" value="profile"/>
+            </jsp:include>
+        </header>
         <div class="container">
             <div class="profile-card">
                 <div class="username">${sessionScope.userInfor.username}</div>
-                <div class="role">${sessionScope.userInfor.typeOfUser}</div>
+                <div class="role" style='color: ${sessionScope.userInfor.typeOfUser eq "admin" ? "#74b9ff" : "#55efc4"}'>${sessionScope.userInfor.typeOfUser}</div>
                 <div class="avatar" style="background-color: ${sessionScope.colorCode};">${sessionScope.userInfor.username.charAt(0).toString().toUpperCase()}</div>
             </div>
 
@@ -32,7 +36,7 @@
 
                 <div class="info-header">Information details</div>
 
-                <form id="profileForm" action="<%=request.getContextPath()%>/intermediate.jsp" method="POST">
+                <form id="profileForm" action='<%=request.getContextPath() + "/" + PageLink.INTERMEDIATE_PAGE%>' method="POST">
                     <input type="hidden" name="action" value="update_user">
                     <input type="hidden" name="id" value="${sessionScope.userInfor.id}">
                     <input type="hidden" name="typeOfUser" value="${sessionScope.userInfor.typeOfUser}">

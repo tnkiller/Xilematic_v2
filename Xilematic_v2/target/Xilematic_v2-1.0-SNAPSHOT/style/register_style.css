@@ -1,142 +1,146 @@
-* {
+/* Thêm các style mới vào đây */
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #333;
 }
 
 .login-box {
-    position: relative;
-    width: 400px;
-    height: auto;
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    background: white;
     padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    min-width: 550px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.login-box h2 {
-    font-size: 28px;
-    color: #333;
+.login-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+h2 {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
+    color: #764ba2;
     font-weight: 600;
 }
 
 .input-box {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .input-box input {
     width: 100%;
-    padding: 10px 10px 10px 40px;
+    padding: 15px 15px 15px 45px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
     font-size: 16px;
-    color: #333;
-    border: none;
-    border-bottom: 2px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.input-box input:focus {
+    border-color: #764ba2;
     outline: none;
-    background: transparent;
-    transition: all 0.3s;
+    box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.2);
 }
 
 .input-box label {
     position: absolute;
-    top: 10px;
-    left: 40px;
-    font-size: 16px;
+    top: 15px;
+    left: 45px;
     color: #999;
+    transition: all 0.3s ease;
     pointer-events: none;
-    transition: all 0.3s;
+    background: white;
+    padding: 0 5px;
 }
 
-.input-box .icon {
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    color: #666;
-    font-size: 18px;
-}
-
-.input-box input:focus ~ label,
-.input-box input:valid ~ label {
-    top: -18px;
+.input-box input:focus + label,
+.input-box input:valid + label {
+    top: -10px;
     left: 35px;
     font-size: 12px;
-    color: #4a89dc;
+    color: #764ba2;
 }
 
-.input-box input:focus,
-.input-box input:valid {
-    border-bottom-color: #4a89dc;
-}
-
-.error-message {
-    display: block;
-    font-size: 12px;
-    color: #e74c3c;
-    margin-top: 5px;
-    height: 14px;
-}
-
-.submit-btn {
-    width: 100%;
-    text-align: center;
-    margin-top: 30px;
+.icon {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    color: #764ba2;
+    font-size: 20px;
 }
 
 .submit-btn button {
     width: 100%;
-    padding: 12px 0;
-    background: #4a89dc;
-    color: #fff;
+    padding: 15px;
+    background: linear-gradient(to right, #667eea, #764ba2);
     border: none;
-    border-radius: 30px;
+    border-radius: 8px;
+    color: white;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .submit-btn button:hover {
-    background: #3b7dd8;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(74, 137, 220, 0.3);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(to right, #5a6fd1, #6a429e);
 }
 
-.submit-btn a {
-    display: block;
-    width: 100%;
-    padding: 12px 0;
-    background: #4CAF50;
-    color: #fff;
-    border: none;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
-.submit-btn a:hover {
-    background: #3e8e41;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
-}
-
-/* Thêm hiệu ứng khi input không hợp lệ */
-.input-box input:invalid:not(:focus):not(:placeholder-shown) {
-    border-bottom-color: #e74c3c;
-}
-
-.input-box input:invalid:not(:focus):not(:placeholder-shown) ~ label {
+.error-message {
     color: #e74c3c;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+.login-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.back-to-login {
+    background: none;
+    border: none;
+    color: #764ba2;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.back-to-login:hover {
+    background-color: #f3e9ff;
+    transform: translateX(-3px);
+}
+
+.back-to-login ion-icon {
+    margin-right: 5px;
+    transition: all 0.3s ease;
+}
+
+.back-to-login:hover ion-icon {
+    transform: translateX(-3px);
 }
