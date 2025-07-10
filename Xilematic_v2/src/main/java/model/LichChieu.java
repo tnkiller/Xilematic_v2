@@ -1,7 +1,15 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package model;
 
+/**
+ *
+ * @author ASUS
+ */
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class LichChieu {
     private int maLichChieu;
@@ -17,7 +25,6 @@ public class LichChieu {
     }
 
     public LichChieu() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public int getMaLichChieu() {
@@ -51,6 +58,8 @@ public class LichChieu {
     public void setNgayGioChieu(LocalDateTime ngayGioChieu) {
         this.ngayGioChieu = ngayGioChieu;
     }
+   
+
 
     @Override
     public String toString() {

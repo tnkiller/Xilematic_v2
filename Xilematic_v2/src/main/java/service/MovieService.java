@@ -98,4 +98,9 @@ public class MovieService implements IMovieService {
             System.out.println(movie.toString());
         }
     }
+
+    @Override
+    public List<Movie> getMoviesByGenreName(String genreName) throws SQLException {
+       return movieDao.getMoviesByGenreName(genreName);
+    }
 }

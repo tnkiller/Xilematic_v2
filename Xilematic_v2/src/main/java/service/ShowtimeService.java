@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import dao.ShowtimeDAO;
 import model.Showtime;
 
@@ -25,5 +27,9 @@ public class ShowtimeService implements IShowtimeService {
     @Override
     public String getMoiveNameByShowtimeID(int ma_lich_chieu) {
         return showtimeDAO.getMoiveNameByShowtimeID(ma_lich_chieu);
+    }
+    @Override
+     public List<Showtime> getAllShowtimes() {
+        return showtimeDAO.getAllShowtimes();
     }
 }

@@ -1,24 +1,27 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package model;
 
+/**
+ *
+ * @author ASUS
+ */
 public class CumRap {
-
     private int maCumRap;
     private String tenCumRap;
     private String diaChi;
     private int maHeThongRap;
+
+    public CumRap() {
+    }
 
     public CumRap(int maCumRap, String tenCumRap, String diaChi, int maHeThongRap) {
         this.maCumRap = maCumRap;
         this.tenCumRap = tenCumRap;
         this.diaChi = diaChi;
         this.maHeThongRap = maHeThongRap;
-    }
-
-
-
-    public CumRap(String tenCumRap, String diaChi) {
-        this.tenCumRap = tenCumRap;
-        this.diaChi = diaChi;
     }
 
     public int getMaCumRap() {
@@ -58,4 +61,6 @@ public class CumRap {
         return "CumRap{" + "maCumRap=" + maCumRap + ", tenCumRap=" + tenCumRap + ", diaChi=" + diaChi + ", maHeThongRap=" + maHeThongRap + '}';
     }
 
+   
 }
+

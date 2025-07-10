@@ -1,3 +1,4 @@
+
 package dao;
 
 import context.DBConnection;
@@ -6,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Favorite;
 import model.Movie;
+
 
 public class FavoriteDAO implements IFavoriteDAO {
 
@@ -20,8 +22,8 @@ public class FavoriteDAO implements IFavoriteDAO {
     public void insertFavorite(Favorite fav) throws SQLException {
         try (Connection con = DBConnection.getConnection()) {
             PreparedStatement ps = con.prepareStatement(INSERT_FAV);
-            ps.setInt(1, fav.getMa_nguoi_dung());
-            ps.setInt(2, fav.getMa_phim());
+            ps.setInt(1, fav.getUser().getId());
+            ps.setInt(2, fav.getMovie().getId());
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,13 +34,12 @@ public class FavoriteDAO implements IFavoriteDAO {
     public Favorite selectFavorite(int id) throws SQLException {
         try (Connection con = DBConnection.getConnection()) {
             PreparedStatement ps = con.prepareStatement(SELECT_FAV_BY_ID);
-            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Favorite(
                         rs.getInt("ma_yeu_thich"),
-                        rs.getInt("ma_nguoi_dung"),
-                        rs.getInt("ma_phim"));
+                        new UserDAO().selectUser(rs.getInt("ma_nguoi_dung")),
+                        new MovieDAO().selectMovie(rs.getInt("ma_phim")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,8 +56,9 @@ public class FavoriteDAO implements IFavoriteDAO {
             while (rs.next()) {
                 result.add(new Favorite(
                         rs.getInt("ma_yeu_thich"),
-                        rs.getInt("ma_nguoi_dung"),
-                        rs.getInt("ma_phim")));
+                        new UserDAO().selectUser(rs.getInt("ma_nguoi_dung")),
+                        new MovieDAO().selectMovie(rs.getInt("ma_phim")))
+                );
             }
             return result;
         } catch (Exception e) {
@@ -81,14 +83,24 @@ public class FavoriteDAO implements IFavoriteDAO {
     public boolean updateFavorite(Favorite fav) throws SQLException {
         try (Connection c = DBConnection.getConnection()) {
             PreparedStatement ps = c.prepareStatement(UPDATE_FAV);
-            ps.setInt(1, fav.getMa_nguoi_dung());
-            ps.setInt(2, fav.getMa_phim());
-            ps.setInt(3, fav.getId());
+            ps.setInt(1, fav.getId());
+            ps.setInt(2, fav.getUser().getId());
+            ps.setInt(3, fav.getMovie().getId());
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public List<Favorite> getFavouritesForPage(int currentPage, int pageSize) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public int getTotalFavouriteCount() throws SQLException {
+        return 0;
     }
 
     @Override
@@ -113,21 +125,10 @@ public class FavoriteDAO implements IFavoriteDAO {
         return null;
     }
 
-    @Override
-    public List<Favorite> getFavouritesForPage(int currentPage, int pageSize) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public int getTotalFavouriteCount() throws SQLException {
-        return -1;
-    }
-
     //MAIN TEST
     public static void main(String[] args) throws SQLException {
-        FavoriteDAO fd = new FavoriteDAO();
-        fd.selectFavoriteByUserId(16).forEach(System.out::println);
-
+        new FavoriteDAO().selectFavoriteByUserId(16).forEach(System.out::println);
+        System.out.println(new FavoriteDAO().selectFavoriteByUserId(16).size());
     }
 
 }

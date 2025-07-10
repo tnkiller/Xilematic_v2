@@ -25,5 +25,6 @@ public interface IMovieDAO {
 
 
     public LocalDateTime getMovieShowtimeByCinema(int ma_rap, int ma_phim) throws SQLException;
+    public List<Movie> getMoviesByGenreName(String genreName) throws SQLException ;
 
 }
