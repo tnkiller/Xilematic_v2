@@ -120,7 +120,7 @@ video {
 
 .carousel img {
     width: 284px;
-    height: auto;
+    height: 385px;
     padding: 5px;
     /* object-fit: cover; */
     flex-shrink: 0;
@@ -275,7 +275,6 @@ li {
     display: block;
     width: 100%;
     height: 49px;
-    background: url(/LCHS/Image/Bg/bg_w_mk.png) repeat-y left bottom;
     font-size: 28px;
     color: #fff;
     font-family: "linlivertine";
@@ -315,7 +314,6 @@ img {
     width: 178px;
     height: 262px;
     padding: 73px 10px 0;
-    background: url(/LCHS/Image/Bg/bg_mask06.png) repeat;
     color: #fff;
     text-align: center;
     font-size: 14px;
@@ -323,13 +321,12 @@ img {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    z-index: 11;
+    z-index: 5;
 }
 .movie_clist.curr_list .layer_hover {
     width: 228px;
     height: 335px;
     padding: 114px 20px 0;
-    background-image: url(/LCHS/Image/Bg/bg_mask06_2.png);
 }
 .curr_list .layer_hover [class^="btn_"] {
     width: 100%;
@@ -348,6 +345,9 @@ img {
 
 .movie_clist.curr_list .layer_hover [class^="btn_"] {
     font-size: 15px;
+}
+.movie_clist.curr_list .layer_hover [class^="btn_reserve"]{
+    z-index:7;
 }
 .curr_list .layer_hover .btn_View {
     margin-top: 10px;
@@ -469,6 +469,7 @@ em {
     cursor: pointer;
     transition: all 0.3s ease;
     opacity: 0; /* Ẩn ban đầu */
+    z-index: 11;
 }
 
 .heart-icon:hover {

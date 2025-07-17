@@ -265,7 +265,7 @@
                 <c:forEach var="movie" items="${nowShowingMovies}">
                     <div class="carousel-item" data-bs-interval="2000">
                         <a href="${pageContext.request.contextPath}/DetailServlet?id=${movie.id}">
-                            <img src="${movie.image}" alt="${movie.movieName}" class="d-block w-100">
+                            <img src="${movie.image}" alt="${movie.movieName}" class="d-block w-100" style="height:380px">
                         </a>
                     </div>
                 </c:forEach>
@@ -382,8 +382,8 @@
                                     </span>
                                 </div>
                                 <div class="layer_hover">
-                                    <a href="${pageContext.request.contextPath}/SelectCalendar?id=${movie.id}" class="btn_reserve">Đặt vé nek</a>
                                     <a href="${pageContext.request.contextPath}/DetailServlet?id=${movie.id}" class="btn_View">Chi tiết</a>
+                                    
                                 </div> 
                                 <dl class="list_text">
                                     <dt>
