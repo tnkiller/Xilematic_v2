@@ -74,6 +74,9 @@
                         <button type="button" class="edit-btn" onclick="toggleEdit()">Chỉnh sửa</button>
                         <button type="button" class="edit-btn cancel" onclick="cancelEdit()" style="display: none;">Hủy</button>
                         <button type="submit" class="edit-btn save" style="display: none;">Lưu thay đổi</button>
+                        <a href='<%=request.getContextPath() + "/" + PageLink.CHANGE_PASSWORD_PAGE%>' >
+                            <button type="button" class="edit-btn">Đổi mật khẩu</button>
+                        </a>
                     </div>
                 </form>
             </div>

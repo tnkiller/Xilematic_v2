@@ -6,6 +6,7 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import java.io.PrintWriter;
 import model.User;
 import service.UserService;
 
@@ -40,10 +41,15 @@ public class UserServlet extends HttpServlet {
             case "update_user":
                 processUpdateUser(request, response);
                 break;
+            case "change_password":
+                processChangePassword(request, response);
+                break;
             case "delete":
                 processDeleteUser(request, response);
                 break;
             default:
+                PrintWriter out = response.getWriter();
+                out.print("Rau thau xog!");
                 break;
         }
     }
@@ -87,6 +93,23 @@ public class UserServlet extends HttpServlet {
         User us = userService.getUser(Integer.parseInt(id));
         request.setAttribute("user", us);
         request.getRequestDispatcher(PageLink.EDIT_USER_PAGE).forward(request, response);
+    }
+
+    //show change password
+    private void processChangePassword(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String currentPassword = request.getParameter("currentPassword");
+        String newPassword = request.getParameter("newPassword");
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute(SessionAttribute.USER_INFOR);
+        if (currentPassword.equals(currentUser.getPassword())) {
+            currentUser.setPassword(newPassword);
+            userService.updateUser(currentUser);
+            response.sendRedirect(PageLink.PROFILE_PAGE);
+        } else {
+            request.setAttribute("msg", "Current password is NOT correct!");
+            request.getRequestDispatcher(PageLink.CHANGE_PASSWORD_PAGE).forward(request, response);
+        }
     }
 
 }

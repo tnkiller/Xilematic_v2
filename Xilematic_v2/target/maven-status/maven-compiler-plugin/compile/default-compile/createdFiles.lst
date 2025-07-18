@@ -34,6 +34,7 @@ controller\MovieServlet.class
 dao\IUserDAO.class
 model\Booking.class
 dao\ICumRapDAO.class
+entity\RequestAttribute.class
 service\MovieService.class
 dao\SeatDAO.class
 utils\ExportData.class

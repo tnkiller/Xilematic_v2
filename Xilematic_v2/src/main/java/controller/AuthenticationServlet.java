@@ -3,6 +3,7 @@ package controller;
 import constant.PageLink;
 import constant.SessionAttribute;
 import entity.GoogleAccount;
+import entity.RequestAttribute;
 import entity.TokenForgetPassword;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -126,76 +127,25 @@ public class AuthenticationServlet extends HttpServlet {
     //process register
     private void processRegister(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String[] requestAttributeErr = {"errUsername", "errFullname", "errEmail", "errPhoneNumber", "errPassword", "errConfirmPassword"};
         User user = (User) request.getAttribute("user");
-        String username = user.getUsername();
-        String fullname = user.getFullname();
-        String email = user.getEmail();
-        String phoneNum = user.getPhoneNumber();
-        String password = user.getPassword();
         user.setTypeOfUser(DEFAULT_ROLE);//default
         String confirmPassword = request.getParameter("confirmPassword");
-        boolean flag = true;
 
-        if (Validator.isEmpty(username) != null
-                || Validator.isEmpty(fullname) != null
-                || Validator.isEmpty(email) != null
-                || Validator.isEmpty(phoneNum) != null
-                || Validator.isEmpty(password) != null) {
-            for (String i : requestAttributeErr) {
-                request.setAttribute(i, "PLease fill form correctly!");
-                request.getRequestDispatcher(PageLink.REGISTER_PAGE).forward(request, response);
+        var res = Validator.validateUserInformation(user, confirmPassword);
+        //res != null -> co du lieu khong hop le
+        if (res != null) {
+            for (RequestAttribute i : res) {
+                if (i.getContent() != null) {
+                } else {
+
+                }
+                request.setAttribute(i.getName(), i.getContent());
             }
-            return;
-        }
-
-//         validate không cho trùng trong database
-        if (Validator.isValidUsername(username) != null) {
-            request.setAttribute(requestAttributeErr[0], Validator.isValidUsername(username));
-            flag = false;
-        } else {
-            request.setAttribute("username", username);
-        }
-
-        if (Validator.isValidFullname(fullname) != null) {
-            request.setAttribute(requestAttributeErr[1], Validator.isValidFullname(fullname));
-            flag = false;
-        } else {
-            request.setAttribute("fullname", fullname);
-        }
-
-        if (Validator.isValidEmail(email) != null) {
-            request.setAttribute(requestAttributeErr[2], Validator.isValidEmail(email));
-            flag = false;
-        } else {
-            request.setAttribute("email", email);
-        }
-
-        if (Validator.isValidPhoneNumber(phoneNum) != null) {
-            request.setAttribute(requestAttributeErr[3], Validator.isValidPhoneNumber(phoneNum));
-            flag = false;
-        } else {
-            request.setAttribute("phoneNum", phoneNum);
-        }
-
-        if (Validator.isValidPassword(password) != null) {
-            request.setAttribute(requestAttributeErr[4], Validator.isValidPassword(password));
-            flag = false;
-        } else {
-            request.setAttribute("password", password);
-        }
-
-        if (Validator.isValidConfirmPassword(password, confirmPassword) != null) {
-            request.setAttribute(requestAttributeErr[5], Validator.isValidConfirmPassword(password, confirmPassword));
-            flag = false;
-        }
-
-        if (!flag) {
             request.getRequestDispatcher(PageLink.REGISTER_PAGE).forward(request, response);
             return;
         }
 
-        boolean status = userService.register(user);
+        userService.register(user);
         response.sendRedirect(PageLink.LOGIN_PAGE);
     }
 

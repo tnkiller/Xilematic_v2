@@ -117,11 +117,27 @@ body {
     cursor: pointer;
     font-size: 14px;
     margin-top: 20px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.edit-btn:last-child {
+    background-color: #e84393;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 20px;
     transition: background-color 0.3s;
 }
 
 .edit-btn:hover {
-    background-color: #45a049;
+    background-color: #408f43;
+}
+
+.edit-btn:hover:last-child {
+    background-color: #b53e77;
 }
 
 .edit-btn.cancel {

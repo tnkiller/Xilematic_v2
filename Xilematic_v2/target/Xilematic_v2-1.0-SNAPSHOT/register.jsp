@@ -30,7 +30,7 @@
                 <!-- Fullname Field -->
                 <div class="input-box">
                     <span class="icon"><ion-icon name="person-circle"></ion-icon></span>
-                    <input type="text" required minlength="2" maxlength="50" name="fullname" id="fullname" value="${fullname}">
+                    <input type="text" required name="fullname" id="fullname" value="${fullname}">
                     <label>Fullname</label>
                     <span class="error-message" id="fullname-error">${errFullname}</span> <!-- Error message for Fullname -->
                 </div>
@@ -38,7 +38,7 @@
                 <!-- Email Field -->
                 <div class="input-box">
                     <span class="icon"><ion-icon name="mail"></ion-icon></span>
-                    <input type="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email" id="email" value="${email}">
+                    <input type="email" required name="email" id="email" value="${email}">
                     <label>Email</label>
                     <span class="error-message" id="email-error">${errEmail}</span> <!-- Error message for Email -->
                 </div>
@@ -46,7 +46,7 @@
                 <!-- Phone Number Field -->
                 <div class="input-box">
                     <span class="icon"><ion-icon name="call"></ion-icon></span>
-                    <input type="tel" required pattern="^0[0-9]{9}$" name="phoneNumber" id="phoneNum" value="${phoneNum}">
+                    <input type="tel" required name="phoneNumber" id="phoneNum" value="${phoneNum}">
                     <label>Phone Number</label>
                     <span class="error-message" id="phoneNum-error">${errPhoneNumber}</span> <!-- Error message for Phone Number -->
                 </div>
@@ -54,7 +54,7 @@
                 <!-- Password Field -->
                 <div class="input-box">
                     <span class="icon" id="togglePassword" style="cursor: pointer;"><ion-icon name="lock-closed"></ion-icon></span>
-                    <input type="password" required minlength="6" name="password" id="password">
+                    <input type="password" required name="password" id="password">
                     <label>Password</label>
                     <span class="error-message" id="password-error">${errPassword}</span> <!-- Error message for Password -->
                 </div>
@@ -62,7 +62,7 @@
                 <!-- Confirm Password Field -->
                 <div class="input-box">
                     <span class="icon" id="toggleConfirmPassword" style="cursor: pointer;"><ion-icon name="lock-closed"></ion-icon></span>
-                    <input type="password" required minlength="6" name="confirmPassword" id="confirmPassword">
+                    <input type="password" required name="confirmPassword" id="confirmPassword">
                     <label>Confirm password</label>
                     <span class="error-message" id="password-error">${errConfirmPassword}</span> <!-- Error message for Password -->
                 </div>
@@ -86,7 +86,7 @@
                     togglePassword.innerHTML = '<ion-icon name="lock-closed"></ion-icon>';
                 }
             });
-            
+
             conftogglePassword.addEventListener('click', () => {
                 const type = confirmPassword.getAttribute('type');
                 if (type === 'password') {

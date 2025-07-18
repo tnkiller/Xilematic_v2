@@ -10,6 +10,7 @@ public class PageLink {
     public static final String INTERMEDIATE_PAGE = "intermediate.jsp";
     public static final String PROFILE_PAGE = "profile.jsp";
     public static final String RESET_PASSWORD_PAGE = "reset_password.jsp";
+    public static final String CHANGE_PASSWORD_PAGE = "change_password.jsp";
 
     //-----------------------------------------------
     //home folder
@@ -46,4 +47,5 @@ public class PageLink {
     public static final String SELECT_CALENDAR_SERVLET = "SelectCalendar?";
     public static final String FAVORITE_SERVLET = "favorites?";
     public static final String RESET_PASSWORD_SERVLET = "reset_password?";
+    public static final String USER_SERVLET = "users?";
 }

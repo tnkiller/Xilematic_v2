@@ -23,15 +23,12 @@ public class UserService implements IUserService {
     @Override
     public boolean register(User user) {
         try {
-            if (userDao.isUsernameExist(user.getUsername())) {
-                return false;
-            }
             userDao.insertUser(user);
+            return true;
         } catch (SQLException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        return true;
     }
 
     @Override
