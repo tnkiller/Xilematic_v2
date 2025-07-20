@@ -4,7 +4,7 @@ public class AppConfig {
 
     public static final String DB_URL = "jdbc:sqlserver://localhost:1433;databaseName=QuanLyRapChieuPhim;encrypt=true;trustServerCertificate=true";
     public static final String DB_USER = "sa";
-    public static final String DB_PASS = "123456";
+    public static final String DB_PASS = "123";
 
     public static final String SMTP_HOST = "smtp.gmail.com";
     public static final String SMTP_PORT = "587";

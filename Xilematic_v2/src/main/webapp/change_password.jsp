@@ -44,7 +44,7 @@
                 <div class="password-rules">
                     <h3>Requirement:</h3>
                     <ul class="rules-list">
-                        <li>At least 6 characters</li>
+                        <li>At least 6 characters/li>
                         <li>Contains at least 1 digit (0-9)</li>
                         <li>Contains at least 1 uppercase and 1 lowercase letter</li>
                     </ul>
