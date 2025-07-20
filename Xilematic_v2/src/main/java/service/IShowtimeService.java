@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import model.Showtime;
 
 public interface IShowtimeService {
@@ -11,4 +13,5 @@ public interface IShowtimeService {
     public Showtime getShowtimeInformationByID(int ma_lich_chieu);
     
     public String getMoiveNameByShowtimeID(int ma_lich_chieu);
+    public List<Showtime> getAllShowtimes();
 }

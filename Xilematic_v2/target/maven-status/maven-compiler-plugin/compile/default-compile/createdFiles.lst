@@ -8,6 +8,7 @@ controller\GoogleLogin.class
 model\Movie.class
 model\Favorite.class
 controller\BookingServlet.class
+demo\Action.class
 dao\BookingDAO.class
 dao\ShowtimeDAO.class
 dao\UserDAO.class
@@ -21,6 +22,7 @@ service\IMovieService.class
 service\IUserService.class
 dao\BinhLuanDAO.class
 service\IFavoriteService.class
+demo\ActionResult.class
 com\vnpay\common\Config.class
 service\ISeatService.class
 controller\MovieServlet.class
@@ -35,6 +37,7 @@ dao\IFavoriteDAO.class
 dao\FavoriteDAO.class
 com\vnpay\common\ajaxServlet.class
 controller\FavoriteServlet.class
+model\PhimTheLoai.class
 model\CumRap.class
 utils\GenerateInfor.class
 utils\Helper.class
@@ -43,6 +46,7 @@ model\TheLoai.class
 dao\HeThongRapDAO.class
 service\UserService.class
 dao\IBinhLuanDAO.class
+demo\AgentLoop.class
 service\ICommentService.class
 dao\IHeThongRapDAO.class
 model\Seat.class
@@ -50,22 +54,20 @@ dao\IShowtimeDAO.class
 utils\Validator.class
 filter\AuthFilter.class
 service\SeatService.class
+demo\Message.class
 dao\IBookingDAO.class
 dao\MovieDAO.class
 model\Showtime.class
 constant\PageLink.class
 entity\GoogleAccount.class
 context\DBConnection.class
-controller\CheckoutServlet.class
 dao\ISeatDAO.class
 config\AppConfig.class
 model\LichChieu.class
-controller\PagingServlet.class
 model\HeThongRap.class
 constant\SessionAttribute.class
 service\HeThongRapService.class
 constant\MessageManager.class
 service\IBookingService.class
-controller\SelectCalendarServlet.class
 com\vnpay\common\VnpayReturn$1.class
 controller\HomeServlet.class

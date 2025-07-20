@@ -3,6 +3,7 @@ D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\controller\SelectCalend
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\service\ISeatService.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\controller\HomeServlet.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\context\DBConnection.java
+D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\demo\LLM.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\service\IHeThongRapService.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\com\vnpay\common\Config.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\service\SeatService.java
@@ -14,6 +15,7 @@ D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\model\RapPhim.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\dao\IMovieDAO.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\dao\UserDAO.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\dao\HeThongRapDAO.java
+D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\demo\AgentLoop.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\constant\PageLink.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\controller\AuthenticationServlet.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\dao\IFavoriteDAO.java
@@ -29,6 +31,7 @@ D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\service\ICommentService
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\dao\ISeatDAO.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\dao\BookingDAO.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\controller\FavoriteServlet.java
+D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\model\PhimTheLoai.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\dao\IHeThongRapDAO.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\controller\BookingServlet.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\service\UserService.java
@@ -36,6 +39,7 @@ D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\dao\MovieDAO.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\model\LichChieu.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\service\ShowtimeService.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\service\IUserService.java
+D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\demo\Action.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\constant\IConstant.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\controller\GoogleLogin.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\dao\IShowtimeDAO.java
@@ -46,7 +50,9 @@ D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\model\User.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\service\IShowtimeService.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\com\vnpay\common\ajaxServlet.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\dao\BinhLuanDAO.java
+D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\demo\Message.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\service\IFavoriteService.java
+D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\demo\ActionResult.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\dao\FavoriteDAO.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\config\AppConfig.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\service\CommentService.java
@@ -63,6 +69,7 @@ D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\model\Showtime.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\controller\DetailServlet.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\service\HeThongRapService.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\service\IBookingService.java
+D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\demo\FuntionToCall.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\controller\CheckoutServlet.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\model\Booking.java
 D:\web_cinemetic\Xilematic_v2\Xilematic_v2\src\main\java\dao\IBinhLuanDAO.java

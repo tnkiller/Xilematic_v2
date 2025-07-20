@@ -180,6 +180,7 @@
         alert(error.message || 'Đã xảy ra lỗi khi gửi bình luận');
     });
 }
+
     </script>
   </body>
 </html>

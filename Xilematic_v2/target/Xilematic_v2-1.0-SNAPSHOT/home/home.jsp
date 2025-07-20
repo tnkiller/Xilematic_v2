@@ -6,7 +6,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rạp Phim Điện Ảnh</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/home.css">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" 
         rel="stylesheet" 
@@ -347,10 +346,11 @@
                         <img src="${movie.image != null ? movie.image : 'default-poster.jpg'}" 
                                    class="card-img-top" 
                                    alt="${movie.movieName != null ? movie.movieName : 'Phim'}">
-
+                                    <span class="heart-icon" data-movie-id="${movie.id}">❤️</span>
                     </span>
                 </div>
                 <div class="layer_hover">
+                    
                     <a href="${pageContext.request.contextPath}/SelectCalendar?id=${movie.id}" class="btn_reserve">Đặt vé nek</a>
                     <a href="${pageContext.request.contextPath}/DetailServlet?id=${movie.id}" class="btn_View">
                         Chi tiết
@@ -399,33 +399,30 @@
       </c:if>
   </div>
    <!-- CHAT WIDGET CONTAINER -->
-    <div id="chat-widget">
-        <!-- CHAT BOX (HIDDEN BY DEFAULT) -->
-        <div id="chat-box">
-            <div class="chat-header">
-                <h3>Trợ lý ảo 2025</h3>
-                <button class="close-btn" onclick="toggleChat()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="chat-body" id="chat-messages">
-                <!-- Messages will appear here -->
-                <div class="message bot-message">
-                    Xin chào! Tôi có thể giúp gì cho bạn? 😊
-                </div>
-            </div>
-            <div class="chat-footer">
-                <input type="text" id="user-input" placeholder="Nhập tin nhắn..." autocomplete="off">
-                <button onclick="sendMessage()">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+   <div id="chat-widget">
+    <div id="chat-box">
+        <div class="chat-header">
+            <h3>Trợ lý ảo 2025</h3>
+            <button class="close-btn" onclick="toggleChat()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chat-body" id="chat-messages">
+            <div class="message bot-message initial-message">
+                Xin chào! Tôi có thể giúp gì cho bạn? 😊
             </div>
         </div>
-        <!-- CHAT TRIGGER BUTTON -->
-        <button id="chat-trigger" onclick="toggleChat()">
-            <i class="fas fa-comment-dots"></i>
-        </button>
+        <div class="chat-footer">
+            <input type="text" id="user-input" placeholder="Nhập tin nhắn..." autocomplete="off">
+            <button onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
     </div>
+    <button id="chat-trigger" onclick="toggleChat()">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+</div>
 
   <!-- Footer -->
  <footer>
@@ -474,6 +471,38 @@
         </div>
     </footer>
   <script>
+      // Hàm để thêm tin nhắn vào chatbox
+    function addMessage(sender, message) {
+        const messagesContainer = document.getElementById('chat-messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message');
+        messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+        messageDiv.innerHTML = message;
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight; // Cuộn xuống cuối
+    }
+
+    // Hàm để hiển thị chỉ báo đang gõ
+    function showTypingIndicator() {
+        const messagesContainer = document.getElementById('chat-messages');
+        const typingIndicatorHtml = `
+            <div class="typing-indicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        `;
+        messagesContainer.innerHTML += typingIndicatorHtml;
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // Hàm để ẩn chỉ báo đang gõ
+    function hideTypingIndicator() {
+        const typingIndicator = document.querySelector('.typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
         // TOGGLE CHAT BOX
         function toggleChat() {
             const chatBox = document.getElementById('chat-box');
@@ -489,65 +518,152 @@
         }
 
         // SEND MESSAGE FUNCTION
-        function sendMessage() {
-            const input = document.getElementById('user-input');
-            const messages = document.getElementById('chat-messages');
-            
-            if (input.value.trim() !== '') {
-                // Add user message
-                messages.innerHTML += `
-                    <div class="message user-message">
-                        ${input.value}
-                    </div>
-                `;
-                
-                // Simulate bot typing
-                messages.innerHTML += `
-                    <div class="typing-indicator">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                    </div>
-                `;
-                
-                // Scroll to bottom
-                messages.scrollTop = messages.scrollHeight;
-                
-                // Simulate bot reply after 1-2s
-                setTimeout(() => {
-                    // Remove typing indicator
-                    document.querySelector('.typing-indicator')?.remove();
-                    
-                    // Add bot reply
-                    const replies = [
-                        "Tôi đang xử lý yêu cầu của bạn...",
-                        "Bạn cần thêm thông tin gì nữa không?",
-                        "Tôi có thể giúp gì thêm? 🤖",
-                        "Câu hỏi hay đấy! Để tôi kiểm tra...",
-                    ];
-                    const randomReply = replies[Math.floor(Math.random() * replies.length)];
-                    
-                    messages.innerHTML += `
-                        <div class="message bot-message">
-                            ${randomReply}
-                        </div>
-                    `;
-                    
-                    // Scroll to bottom again
-                    messages.scrollTop = messages.scrollHeight;
-                }, 1000 + Math.random() * 1000);
-                
-                // Clear input
-                input.value = '';
-            }
+       async function sendMessage() {
+        const input = document.getElementById('user-input');
+        const userMessage = input.value.trim();
+        const messagesContainer = document.getElementById('chat-messages'); // Đảm bảo đã định nghĩa
+
+        if (userMessage === '') {
+            return;
         }
 
+        // 1. Thêm tin nhắn của người dùng vào giao diện ngay lập tức
+        addMessage('user', userMessage);
+        input.value = ''; // Xóa nội dung input
+
+        // 2. Hiển thị chỉ báo đang gõ
+        showTypingIndicator();
+
+        try {
+            // Chuẩn bị dữ liệu để gửi đi dưới dạng JSON
+            const payload = {
+                message: userMessage
+            };
+
+            // Gửi yêu cầu POST với Content-Type là application/json
+            const response = await fetch('${pageContext.request.contextPath}/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // <--- THAY ĐỔI Ở ĐÂY
+                },
+                body: JSON.stringify(payload) // <--- VÀ THAY ĐỔI Ở ĐÂY: Chuyển đối tượng JS thành chuỗi JSON
+            });
+
+            // Kiểm tra phản hồi HTTP
+            if (!response.ok) {
+                // Đọc thông báo lỗi từ server nếu có
+                const errorText = await response.text();
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            }
+
+            // Phân tích phản hồi JSON từ server
+            const data = await response.json();
+            hideTypingIndicator(); // Ẩn chỉ báo đang gõ
+
+            // Xử lý phản hồi từ bot
+            if (data.response) {
+                addMessage('bot', data.response);
+            } else if (data.error) {
+                addMessage('bot', `Lỗi từ AI: ${data.error}`); // Rõ ràng hơn về lỗi từ AI
+            } else {
+                addMessage('bot', 'Xin lỗi, tôi không hiểu phản hồi từ hệ thống.');
+            }
+            saveChatHistory(); // Lưu lịch sử sau khi có tin nhắn mới
+        } catch (error) {
+            console.error('Lỗi khi gửi tin nhắn:', error);
+            hideTypingIndicator(); // Ẩn chỉ báo đang gõ ngay cả khi có lỗi
+            addMessage('bot', 'Xin lỗi, không thể kết nối đến trợ lý ảo. Vui lòng thử lại sau.');
+        }
+    }
+
+    // Tải lịch sử chat từ backend hoặc sessionStorage
+    async function loadChatHistory() {
+        const messagesContainer = document.getElementById('chat-messages');
+        messagesContainer.innerHTML = ''; // Xóa tất cả tin nhắn cũ
+        addMessage('bot', 'Xin chào! Tôi có thể giúp gì cho bạn? 😊'); // Luôn thêm tin nhắn chào mừng ban đầu
+
+        try {
+            const response = await fetch('${pageContext.request.contextPath}/chat', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const chatHistory = await response.json();
+            if (chatHistory && chatHistory.length > 0) {
+                chatHistory.forEach(msg => {
+                    // Tránh thêm lại tin nhắn chào mừng nếu nó đã có trong lịch sử từ server
+                    if (msg.content !== 'Xin chào! Tôi có thể giúp gì cho bạn? 😊' && msg.role !== 'system') {
+                        addMessage(msg.role, msg.content);
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Lỗi khi tải lịch sử chat từ server:', error);
+            // Có thể thêm tin nhắn lỗi thân thiện hơn cho người dùng nếu cần
+            // addMessage('bot', 'Không thể tải lịch sử chat. Vui lòng thử lại.');
+        } finally {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; // Cuộn xuống cuối sau khi tải
+        }
+    }
+
+    // Lưu lịch sử chat vào sessionStorage
+    function saveChatHistory() {
+        const messagesContainer = document.getElementById('chat-messages');
+        // Lấy tất cả các tin nhắn DIV trong container
+        const messageElements = Array.from(messagesContainer.children);
+
+        const messagesToSave = [];
+        messageElements.forEach(msgDiv => {
+            // Chỉ lưu những tin nhắn thực sự (có class user-message hoặc bot-message)
+            // và không phải là typing indicator
+            if (msgDiv.classList.contains('user-message') || msgDiv.classList.contains('bot-message')) {
+                // Lọc bỏ tin nhắn typing indicator nếu nó vẫn còn trong DOM
+                if (!msgDiv.classList.contains('typing-indicator') && msgDiv.innerText.trim() !== '...' && msgDiv.querySelector('.typing-dot') === null) {
+                     messagesToSave.push({
+                        role: msgDiv.classList.contains('user-message') ? 'user' : 'bot',
+                        content: msgDiv.innerText.trim()
+                    });
+                }
+            }
+        });
+        sessionStorage.setItem('chatHistory', JSON.stringify(messagesToSave));
+    }
         // Allow sending message with Enter key
         document.getElementById('user-input').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 sendMessage();
             }
         });
+        document.addEventListener('DOMContentLoaded', function() {
+    // Lấy tất cả các trái tim
+    const heartIcons = document.querySelectorAll('.heart-icon');
+    
+    // Kiểm tra localStorage để load trạng thái yêu thích
+    heartIcons.forEach(heart => {
+        const movieId = heart.getAttribute('data-movie-id');
+        const isLiked = localStorage.getItem(`movie_${movieId}_liked`) === 'true';
+        
+        if (isLiked) {
+            heart.classList.add('active');
+        }
+        
+        // Thêm sự kiện click
+        heart.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.classList.toggle('active');
+            
+            // Lưu vào localStorage
+            const isNowLiked = this.classList.contains('active');
+            localStorage.setItem(`movie_${movieId}_liked`, isNowLiked);
+        });
+    });
+});
     </script>
 
   <!-- Bootstrap JS Bundle (includes Popper) -->

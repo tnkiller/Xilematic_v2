@@ -90,7 +90,9 @@ public class SelectCalendarServlet extends HttpServlet {
             int rapPhimId = Integer.parseInt(request.getParameter("rapPhimId")); 
 
             List<LichChieu> listLichChieu = bookingService.getLichChieu( maPhim,rapPhimId, ngayChieu);
-            
+             for(LichChieu lichChieu : listLichChieu){
+                 System.out.println(lichChieu);
+             }
             StringBuilder htmlBuilder = new StringBuilder();
 
             if (listLichChieu != null && !listLichChieu.isEmpty()) {
