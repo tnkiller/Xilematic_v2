@@ -10,9 +10,16 @@ import model.RapPhim;
 public interface IBookingDAO {
 
     public void addNewBooking(Booking b);
-     public List<HeThongRap> getAllHeThongRap();
+
+    public List<HeThongRap> getAllHeThongRap();
+
     public List<CumRap> getCumRapByHeThongRapId(int heThongRapId);
+
     public List<RapPhim> getRapByCumRapId(int cumRapId);
-    public List<LichChieu> getLichChieu( int maPhim,int maRap, String ngayChieu);
+
+    public List<LichChieu> getLichChieu(int maPhim, int maRap, String ngayChieu);
+
     public List<LichChieu> getLichChieuByRapPhimAndPhim(int maRap, int maPhim);
+
+    public List<Booking> getBookingByUserId(int userId);
 }

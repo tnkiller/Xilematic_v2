@@ -7,7 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/gif" href="asset/image/AnimatedLogo.gif" />
+        <link rel="icon" type="image/gif" href="<c:url value='/asset/image/AnimatedLogo.gif'/>" />
         <!-- CSS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <link rel="stylesheet" href="<c:url value='/style/header_style.css'/>"/>
@@ -55,6 +55,7 @@
                             </div>
                             <div id="avatar-dropdown" class="site-header-dropdown">
                                 <a href='<%=request.getContextPath() + "/" + PageLink.PROFILE_PAGE%>'>View Profile</a>
+                                <a href='<%=request.getContextPath() + "/" + PageLink.BOOKING_HISTORY_SERVLET%>'>Booking history</a>
                                 <c:if test='${sessionScope.userInfor.typeOfUser eq "admin"}'>
                                     <a href='<%=request.getContextPath() + "/" + PageLink.PAGING_SERVLET%>'>Administrator Page</a>
                                 </c:if>

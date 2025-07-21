@@ -25,6 +25,7 @@ public class PageLink {
     public static final String BOOKING_PAGE = "user/booking.jsp";
     public static final String CHECKOUT_PAGE = "user/checkout.jsp";
     public static final String SUCCESS_PAGE = "user/success.jsp";
+    public static final String BOOKING_HISTORY_PAGE = "user/booking_history.jsp";
 
     //-----------------------------------------------
     //admin folder
@@ -48,4 +49,5 @@ public class PageLink {
     public static final String FAVORITE_SERVLET = "favorites?";
     public static final String RESET_PASSWORD_SERVLET = "reset_password?";
     public static final String USER_SERVLET = "users?";
+    public static final String BOOKING_HISTORY_SERVLET = "booking_history?";
 }

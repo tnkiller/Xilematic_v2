@@ -9,6 +9,7 @@ import model.Booking;
 import model.CumRap;
 import model.HeThongRap;
 import model.LichChieu;
+import model.Movie;
 import model.RapPhim;
 
 public class BookingDAO implements IBookingDAO {
@@ -17,6 +18,7 @@ public class BookingDAO implements IBookingDAO {
     PreparedStatement ps = null;
     ResultSet rs = null;
     private static final String INSERT_NEW_BOOKING = "INSERT INTO DatVe(tai_khoan, ma_lich_chieu, ghe_da_dat, gia_ve) VALUES (?, ?, ?, ?)";
+    private static final String SELECT_BOOKINGS_BY_USERID = "SELECT * FROM DatVe WHERE tai_khoan = ?";
 
     @Override
     public void addNewBooking(Booking b) {
@@ -45,8 +47,7 @@ public class BookingDAO implements IBookingDAO {
                 list.add(new HeThongRap(
                         rs.getInt("ma_he_thong_rap"),
                         rs.getString("ten_he_thong_rap"),
-                        rs.getString("logo")
-                ));
+                        rs.getString("logo")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,13 +156,37 @@ public class BookingDAO implements IBookingDAO {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-        List<LichChieu> list = new ArrayList<>();
-        new HeThongRapDAO().getLichChieuByRapPhimAndPhim(1, 1);
-        System.out.println("kich thuoc :" + list.size());
-        for (LichChieu heThongRap : list) {
-            System.out.println(heThongRap);
+    @Override
+    public List<Booking> getBookingByUserId(int userId) {
+        List<Booking> bookings = new ArrayList<>();
+        try {
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(SELECT_BOOKINGS_BY_USERID);
+            ps.setInt(1, userId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                bookings.add(new Booking(
+                        rs.getInt("ma_dat_ve"),
+                        rs.getInt("tai_khoan"),
+                        rs.getInt("ma_lich_chieu"),
+                        rs.getString("ghe_da_dat"),
+                        rs.getLong("gia_ve"),
+                        rs.getTimestamp("create_at").toLocalDateTime()));
+            }
+            return bookings;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    // test main method to check functionality
+    public static void main(String[] args) throws SQLException {
+        BookingDAO bookingDAO = new BookingDAO();
+        // Test getBookingByUserId
+        List<Booking> bookings = bookingDAO.getBookingByUserId(43);
+        for (Booking booking : bookings) {
+            System.out.println(booking);
         }
     }
 

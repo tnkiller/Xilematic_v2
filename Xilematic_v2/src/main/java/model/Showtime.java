@@ -6,6 +6,8 @@ public class Showtime {
     private int ma_rap;
     private int ma_phim;
     private String ngay_gio_chieu;
+    private RapPhim rapPhim;
+    private Movie movie;
 
     public Showtime() {
     }
@@ -55,9 +57,26 @@ public class Showtime {
         this.ngay_gio_chieu = ngay_gio_chieu;
     }
 
+    public RapPhim getRapPhim() {
+        return rapPhim;
+    }
+
+    public void setRapPhim(RapPhim rapPhim) {
+        this.rapPhim = rapPhim;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
     @Override
     public String toString() {
-        return "Showtime{" + "ma_lich_chieu=" + ma_lich_chieu + ", ma_rap=" + ma_rap + ", ma_phim=" + ma_phim + ", ngay_gio_chieu=" + ngay_gio_chieu + '}';
+        return "Showtime{" + "ma_lich_chieu=" + ma_lich_chieu + ", ma_rap=" + ma_rap + ", ma_phim=" + ma_phim
+                + ", ngay_gio_chieu=" + ngay_gio_chieu + '}';
     }
 
 }
