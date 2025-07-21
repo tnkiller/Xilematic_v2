@@ -67,7 +67,7 @@ public class LLM {
     public String generateResponse(List<Message> messages) {
         // Initialize OpenAI client using environment variables
     	OpenAIClient client = OpenAIOkHttpClient.builder()
-        .apiKey("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") // API key của bạn
+        .apiKey() // API key của bạn
         .build();
 
         // Transform custom Message objects to OpenAI's ChatCompletionMessageParam objects
