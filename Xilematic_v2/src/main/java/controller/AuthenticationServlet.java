@@ -1,8 +1,6 @@
 package controller;
 
 import constant.PageLink;
-import constant.SessionAttribute;
-import entity.GoogleAccount;
 import entity.RequestAttribute;
 import entity.TokenForgetPassword;
 import java.io.IOException;
@@ -17,7 +15,7 @@ import java.util.Base64;
 import model.User;
 import service.TokenForgetPasswordService;
 import service.UserService;
-import utils.Helper;
+import utils.SessionUtil;
 import utils.Validator;
 
 @WebServlet(name = "AuthenticateServlet", urlPatterns = {"/authenticate"})
@@ -35,8 +33,6 @@ public class AuthenticationServlet extends HttpServlet {
         switch (action) {
             case "logout" ->
                 processLogout(request, response);
-            default ->
-                processLoginWithGG(request, response);
         }
     }
 
@@ -68,59 +64,21 @@ public class AuthenticationServlet extends HttpServlet {
         if (u == null) {
             request.setAttribute("errorMsg", "Wrong username or password!");
             request.getRequestDispatcher(PageLink.LOGIN_PAGE).forward(request, response);
-        } else {
-            if (rememberMe != null) {
-                processRememberMe(true, username, password, response);
-            } else {
-                processRememberMe(false, username, password, response);
-            }
-            u.setPassword(password);
-            //initialize new session
-            initializeSession(request, u);
-            if (!DEFAULT_ROLE.equals(u.getTypeOfUser())) {
-                request.getRequestDispatcher(PageLink.ADMIN_PAGE).forward(request, response);
-            } else {
-                request.getRequestDispatcher(PageLink.HOME_SERVLET).forward(request, response);
-            }
-        }
-    }
-
-    //process login with gg
-    private void processLoginWithGG(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String code = request.getParameter("code");
-        String accessToken;
-//        xử lí trường hợp người dùng cancel
-        try {
-            accessToken = GoogleLogin.getToken(code);
-        } catch (IOException e) {
-            response.sendRedirect(PageLink.LOGIN_PAGE);
             return;
         }
-        GoogleAccount ggAcc = GoogleLogin.getUserInfo(accessToken);
 
-        User user = userService.getUserByEmail(ggAcc.getEmail());
-
-        //tai khoan moi
-        if (user == null) {
-            String password = Helper.generatePassword();
-            String firstname = ggAcc.getFirst_name() != null ? ggAcc.getFirst_name() : "";
-            String givenname = ggAcc.getGiven_name() != null ? ggAcc.getGiven_name() : "";
-            String familyname = ggAcc.getFamily_name() != null ? ggAcc.getFamily_name() : "";
-            String fullname = familyname + " " + givenname + " " + firstname;
-            String email = ggAcc.getEmail();
-            user = new User("", fullname, email, "", password, DEFAULT_ROLE);
-            int lastId = userService.createUser(user);
-            user = userService.getUser(lastId);
-            //generate username automatically
-            user.setUsername("User" + String.valueOf(lastId));
-            userService.updateUser(user);
-        }
-        //initialize new session
-        initializeSession(request, user);
-        if (!DEFAULT_ROLE.equals(user.getTypeOfUser())) {
-            response.sendRedirect(PageLink.PAGING_SERVLET);
+        if (rememberMe != null) {
+            processRememberMe(true, username, password, response);
         } else {
-            response.sendRedirect(PageLink.HOME_SERVLET);
+            processRememberMe(false, username, password, response);
+        }
+        u.setPassword(password);
+        //initialize new session
+        SessionUtil.initializeSession(request.getSession(), u);
+        if (!DEFAULT_ROLE.equals(u.getTypeOfUser())) {
+            request.getRequestDispatcher(PageLink.ADMIN_PAGE).forward(request, response);
+        } else {
+            request.getRequestDispatcher(PageLink.HOME_SERVLET).forward(request, response);
         }
     }
 
@@ -179,14 +137,6 @@ public class AuthenticationServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.invalidate();
         response.sendRedirect(PageLink.LOGIN_PAGE);
-    }
-
-    //initialize session 
-    private void initializeSession(HttpServletRequest request, User userInfor)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionAttribute.USER_INFOR, userInfor);
-        session.setAttribute(SessionAttribute.COLOR_CODE, Helper.generateColorCode());
     }
 
     //process forgot password

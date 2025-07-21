@@ -15,6 +15,7 @@
     </head>
     <body>
         <div class="password-container">
+            <button type="button" class="back-btn" onclick="history.back()">Quay lại</button>
             <div class="password-header">
                 <h1>CHANGE PASSWORD</h1>
             </div>

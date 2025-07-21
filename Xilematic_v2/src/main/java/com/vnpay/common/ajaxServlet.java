@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -79,11 +80,11 @@ public class ajaxServlet extends HttpServlet {
             String fieldName = (String) itr.next();
             String fieldValue = (String) vnp_Params.get(fieldName);
             if ((fieldValue != null) && (fieldValue.length() > 0)) {
-                //Build hash data
+                // Build hash data
                 hashData.append(fieldName);
                 hashData.append('=');
                 hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
-                //Build query
+                // Build query
                 query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()));
                 query.append('=');
                 query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
@@ -96,11 +97,11 @@ public class ajaxServlet extends HttpServlet {
 
         int ma_lich_chieu = Integer.parseInt(req.getParameter("ma_lich_chieu"));
         String selectedSeats = req.getParameter("selectedSeats");
-        
+
         HttpSession session = req.getSession();
         session.setAttribute("ma_lich_chieu", ma_lich_chieu);
         session.setAttribute("selectedSeats", selectedSeats);
-        
+
         String queryUrl = query.toString();
         String vnp_SecureHash = Config.hmacSHA512(Config.secretKey, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;

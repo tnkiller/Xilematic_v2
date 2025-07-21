@@ -40,14 +40,16 @@ D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\entity\TokenForgetPassword.jav
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\model\Seat.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\BookingDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\SeatService.java
+D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\FacebookCallbackServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\BookingService.java
-D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\GoogleLogin.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\MovieDAO.java
+D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\utils\SessionUtil.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\BookingServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\ShowtimeDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\ISeatDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\RapPhimDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\filter\AuthFilter.java
+D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\GoogleCallbackServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\utils\ExportData.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\com\vnpay\common\Config.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\model\Favorite.java
@@ -69,6 +71,7 @@ D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\model\LichChieu.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\ICumRapDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\config\AppConfig.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\CumRapDAO.java
+D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\entity\FacebookAccount.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\entity\RequestAttribute.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\IHeThongRapDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\HeThongRapService.java

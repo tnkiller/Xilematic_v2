@@ -1,3 +1,4 @@
+<%@page import="constant.PageLink"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -47,6 +48,9 @@
                     <jsp:param value="${param.maRap}" name="maRap"></jsp:param>
                 </jsp:forward>
             </c:when>
+            <c:otherwise>
+                <jsp:forward page='<%=request.getContextPath() + "/" + PageLink.ERROR_PAGE%>'></jsp:forward>
+            </c:otherwise>
         </c:choose>
 
 

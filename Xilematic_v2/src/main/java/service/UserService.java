@@ -138,8 +138,17 @@ public class UserService implements IUserService {
             return userDao.createUser(user);
         } catch (SQLException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
         }
-        return -1;
+    }
+    
+    public static void main(String[] args) {
+        User u = new User();
+        u.setUsername("teo");
+        u.setEmail("blbla");
+        u.setPassword("123123");
+        u.setTypeOfUser("user");
+        System.out.println(new UserService().createUser(u));
     }
 
 }

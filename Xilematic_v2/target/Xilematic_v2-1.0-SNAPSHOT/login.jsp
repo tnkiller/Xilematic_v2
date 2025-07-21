@@ -78,10 +78,10 @@
                 <button type="submit" name="action" value="login">Login</button>
 
                 <div class="login-with">
-                    <a href=""><img
+                    <a href="https://www.facebook.com/v20.0/dialog/oauth?client_id=714288088041771&redirect_uri=http://localhost:9999/xilematic/fbcallback&scope=public_profile,email"><img
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"
                             alt="facebook"></a>
-                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:9999/xilematic/authenticate&response_type=code&client_id=747901007172-0j3e46shld22dvqq0q6cg0scptbv64ch.apps.googleusercontent.com&approval_prompt=force"><img
+                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:9999/xilematic/ggcallback&response_type=code&client_id=747901007172-0j3e46shld22dvqq0q6cg0scptbv64ch.apps.googleusercontent.com&approval_prompt=force"><img
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Google_Favicon_2025.svg/250px-Google_Favicon_2025.svg.png"
                             alt="google"></a>
                 </div>

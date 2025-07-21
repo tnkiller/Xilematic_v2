@@ -3,13 +3,13 @@ service\ShowtimeService.class
 service\TokenForgetPasswordService.class
 model\RapPhim.class
 utils\SendEmail$1.class
+controller\GoogleCallbackServlet.class
 service\BookingService.class
 service\IHeThongRapService.class
 service\IShowtimeService.class
 controller\DetailServlet.class
 controller\GheServlet.class
 service\ICumRapService.class
-controller\GoogleLogin.class
 model\Movie.class
 service\IRapPhimService.class
 model\Favorite.class
@@ -31,6 +31,7 @@ service\IFavoriteService.class
 com\vnpay\common\Config.class
 service\ISeatService.class
 controller\MovieServlet.class
+utils\SessionUtil.class
 dao\IUserDAO.class
 model\Booking.class
 dao\ICumRapDAO.class
@@ -49,6 +50,7 @@ model\CumRap.class
 controller\RapPhimServlet.class
 utils\Helper.class
 com\vnpay\common\VnpayReturn.class
+entity\FacebookAccount.class
 model\TheLoai.class
 dao\HeThongRapDAO.class
 service\UserService.class
@@ -68,6 +70,7 @@ dao\CumRapDAO.class
 dao\MovieDAO.class
 dao\RapPhimDAO.class
 model\Showtime.class
+controller\FacebookCallbackServlet.class
 constant\PageLink.class
 entity\GoogleAccount.class
 context\DBConnection.class
