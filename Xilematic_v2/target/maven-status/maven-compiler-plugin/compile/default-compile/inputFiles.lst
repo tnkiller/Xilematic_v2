@@ -12,6 +12,7 @@ D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\com\vnpay\common\VnpayReturn.j
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\MovieService.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\PagingServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\IShowtimeDAO.java
+D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\controller\BookingHistoryServlet.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\BinhLuanDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\dao\IFavoriteDAO.java
 D:\GITHUB\Xilematic_v2\Xilematic_v2\src\main\java\service\ISeatService.java

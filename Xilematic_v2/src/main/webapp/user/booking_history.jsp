@@ -1,3 +1,4 @@
+<%@page import="constant.PageLink"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -105,7 +106,12 @@
                                 </div>
 
                                 <div class="booking-card-footer">
-                                    <button class="action-button" onclick="rebook('${booking.ma_dat_ve}','${booking.movie.movieName}')">
+                                    <a href='<%=request.getContextPath() + "/" + PageLink.BOOKING_HISTORY_SERVLET + "action=viewDetail&ma_dat_ve="%>${booking.ma_dat_ve}'>
+                                        <button class="action-btn">
+                                            <i class="fa-solid fa-circle-info"></i> Chi tiết
+                                        </button>
+                                    </a>
+                                    <button class="action-button" onclick="rebook('${booking.movie.id}', '${booking.movie.movieName}')">
                                         <i class="fas fa-redo-alt"></i> Đặt lại
                                     </button>
                                 </div>

@@ -22,4 +22,6 @@ public interface IBookingService {
     public List<LichChieu> getLichChieuByRapPhimAndPhim(int maRap, int maPhim);
 
     public List<Booking> getBookingsByUserId(int userId);
+
+    public Booking getBookingById(int bookingId);
 }

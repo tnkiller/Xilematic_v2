@@ -68,4 +68,19 @@ public class BookingService implements IBookingService {
         }
     }
 
+    @Override
+    public Booking getBookingById(int bookingId) {
+        Booking res = bookingDAO.getBookingById(bookingId);
+        ShowtimeService showTimeService = new ShowtimeService();
+        MovieService movieService = new MovieService();
+        RapPhimService rapPhimService = new RapPhimService();
+        Showtime showtime = showTimeService.getShowtimeInformationByID(res.getMa_lich_chieu());
+        RapPhim rp = rapPhimService.selectRapPhimByID(showtime.getMa_rap());
+        Movie mv = movieService.getMovie(showtime.getMa_phim());
+        showtime.setRapPhim(rp);
+        res.setMovie(mv);
+        res.setShowtime(showtime);
+        return res;
+    }
+
 }

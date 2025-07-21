@@ -26,6 +26,7 @@ public class PageLink {
     public static final String CHECKOUT_PAGE = "user/checkout.jsp";
     public static final String SUCCESS_PAGE = "user/success.jsp";
     public static final String BOOKING_HISTORY_PAGE = "user/booking_history.jsp";
+    public static final String BOOKING_HISTORY_DETAIL_PAGE = "user/booking_history_detail.jsp";
 
     //-----------------------------------------------
     //admin folder

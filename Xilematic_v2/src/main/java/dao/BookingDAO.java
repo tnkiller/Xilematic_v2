@@ -19,6 +19,7 @@ public class BookingDAO implements IBookingDAO {
     ResultSet rs = null;
     private static final String INSERT_NEW_BOOKING = "INSERT INTO DatVe(tai_khoan, ma_lich_chieu, ghe_da_dat, gia_ve) VALUES (?, ?, ?, ?)";
     private static final String SELECT_BOOKINGS_BY_USERID = "SELECT * FROM DatVe WHERE tai_khoan = ?";
+    private static final String SELECT_BOOKINGS_BY_ID = "SELECT * FROM DatVe WHERE ma_dat_ve = ?";
 
     @Override
     public void addNewBooking(Booking b) {
@@ -174,6 +175,28 @@ public class BookingDAO implements IBookingDAO {
                         rs.getTimestamp("create_at").toLocalDateTime()));
             }
             return bookings;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Booking getBookingById(int bookingId) {
+        try {
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(SELECT_BOOKINGS_BY_ID);
+            ps.setInt(1, bookingId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Booking(
+                        rs.getInt("ma_dat_ve"),
+                        rs.getInt("tai_khoan"),
+                        rs.getInt("ma_lich_chieu"),
+                        rs.getString("ghe_da_dat"),
+                        rs.getLong("gia_ve"),
+                        rs.getTimestamp("create_at").toLocalDateTime());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

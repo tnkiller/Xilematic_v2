@@ -22,4 +22,6 @@ public interface IBookingDAO {
     public List<LichChieu> getLichChieuByRapPhimAndPhim(int maRap, int maPhim);
 
     public List<Booking> getBookingByUserId(int userId);
+
+    public Booking getBookingById(int bookingId);
 }

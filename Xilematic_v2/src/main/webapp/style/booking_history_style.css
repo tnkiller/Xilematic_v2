@@ -250,10 +250,11 @@ body {
     background-color: rgba(0, 0, 0, 0.3);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
-.action-button {
+.action-button,
+.action-btn {
     background-color: transparent;
     color: var(--accent-red);
     border: 1px solid var(--accent-red);
@@ -267,9 +268,20 @@ body {
     gap: 8px;
 }
 
-.action-button:hover {
+.action-button:hover,
+.action-btn:hover {
     background-color: var(--accent-red);
     color: white;
+}
+
+.action-btn {
+    background-color: var(--secondary-bg);
+    color: var(--text-primary);
+    border: none;
+    font-size: 1rem;
+    drop-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px 15px;
+    transition: var(--transition);
 }
 
 .booking-history-pagination {
