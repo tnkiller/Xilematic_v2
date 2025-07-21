@@ -15,6 +15,9 @@
     <body>
         <%
             var act = request.getParameter("action");
+//             if (act == null) {
+//        response.sendRedirect(request.getContextPath() + "/login.jsp");
+//        return; 
         %>
 
         <!--movie bean-->
