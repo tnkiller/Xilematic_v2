@@ -3,7 +3,10 @@ package demo;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import model.*;
@@ -49,7 +52,7 @@ public class FuntionToCall {
 
 
     public List<Movie> getDetailMovieByName(String filmName1) {
-		List<Movie> movies = list.stream().filter(m->m.getMovieName().equalsIgnoreCase(filmName1)).collect(Collectors.toList());
+		List<Movie> movies = list.stream().filter(m->m.getMovieName().equalsIgnoreCase(filmName1)||m.getMovieName().contains(filmName1)).collect(Collectors.toList());
 		return movies;
 	}
 
@@ -60,23 +63,54 @@ public class FuntionToCall {
 		return  hotMovies;
 	}
     public List<Movie> recommendMoviesByTime(LocalDateTime desiredTime) throws SQLException {
-        List<Showtime> showtimes = showtime.getAllShowtimes(); // cần service này
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    List<Showtime> showtimes = showtime.getAllShowtimes();
+    System.out.println("Total showtimes: " + showtimes.size());
 
-        return showtimes.stream()
-            .filter(s -> {
+    // Create multiple formatters to handle different date-time formats
+    List<DateTimeFormatter> formatters = Arrays.asList(
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"),
+        DateTimeFormatter.ofPattern("HH:mm - dd/MM/yyyy"),
+        DateTimeFormatter.ofPattern("HH:mm - MM/dd/yyyy")
+    );
+
+    List<Movie> recommendedMovies = showtimes.stream()
+        .filter(s -> {
+            for (DateTimeFormatter formatter : formatters) {
                 try {
                     LocalDateTime showtimeDateTime = LocalDateTime.parse(s.getNgay_gio_chieu(), formatter);
-                    return showtimeDateTime.toLocalDate().equals(desiredTime.toLocalDate()) &&
-                           showtimeDateTime.getHour() == desiredTime.getHour();
-                } catch (Exception e) {
-                    return false; // bỏ qua nếu lỗi định dạng
+                    boolean isMatch = showtimeDateTime.toLocalDate().equals(desiredTime.toLocalDate()) &&
+                                      showtimeDateTime.getHour() == desiredTime.getHour();
+                    
+                    if (isMatch) {
+                        System.out.println("Matched Showtime: " + s.getNgay_gio_chieu());
+                        return true;
+                    }
+                } catch (DateTimeParseException e) {
+                    // Continue to next formatter if parsing fails
+                    continue;
                 }
-            })
-            .map(s -> movieService.getMovie(s.getMa_phim())) // cần viết thêm hàm này nếu chưa có
-            .distinct()
-            .collect(Collectors.toList());
-    }
+            }
+            return false;
+        })
+        .map(s -> {
+            try {
+                Movie movie = movieService.getMovie(s.getMa_phim());
+                System.out.println("Movie found: " + (movie != null ? movie.getMovieName() : "NULL"));
+                return movie;
+            } catch (Exception e) {
+                System.err.println("Error fetching movie for ID: " + s.getMa_phim());
+                return null;
+            }
+        })
+        .filter(Objects::nonNull)
+        .distinct()
+        .collect(Collectors.toList());
+
+    System.out.println("Recommended Movies: " + recommendedMovies.size());
+    return recommendedMovies;
+}
+
+
 
 	
 }

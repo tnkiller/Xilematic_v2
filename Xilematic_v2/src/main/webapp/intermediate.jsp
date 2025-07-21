@@ -1,6 +1,6 @@
 <%-- 
     Document   : intermediate
-    Created on : Jun 21, 2025, 5:54:25 PM
+    Created on : Jun 21, 2025, 5:54:25 PM
     Author     : ADMIN
 --%>
 
@@ -13,23 +13,23 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <%
-            var act = request.getParameter("action");
-//             if (act == null) {
-//        response.sendRedirect(request.getContextPath() + "/login.jsp");
-//        return; 
-        %>
+       <%
+    var act = request.getParameter("action");
+    // Kiểm tra nếu act là null HOẶC session không tồn tại
+    if (act == null && session.getAttribute("userInfor") == null) {
+        // Chuyển hướng đến trang login.jsp
+        response.sendRedirect("login.jsp");
+        return; // Dừng việc thực thi tiếp theo của trang
+    }
+%>
 
         <!--movie bean-->
         <jsp:useBean id="movie" class="model.Movie" scope="request"/>
         <jsp:setProperty name="movie" property="*"/>
 
-
         <!--user bean-->
         <jsp:useBean id="user" class="model.User" scope="request"/>
         <jsp:setProperty name="user" property="*"/>
-
-
 
         <!--navigate-->
         <c:choose>
@@ -43,7 +43,6 @@
                 <jsp:forward page="users"></jsp:forward>
             </c:when>
         </c:choose>
-
 
     </body>
 </html>

@@ -105,19 +105,26 @@ Phản hồi theo định dạng sau:
                 result = new ActionResult(funtionToCall.findMoviesByGenre(genre), null);
                 break;
 
-            case "findByShowtime":
-                LocalDateTime desiredTime = extractTimeFromUserText(userRequest);
-                if (desiredTime != null) {
-                    List<Movie> recommendations = funtionToCall.recommendMoviesByTime(desiredTime);
-                    result = new ActionResult(recommendations, null);
-                } else {
-                    result = new ActionResult(null, "Không thể xác định thời gian từ câu nói.");
-                }
-                break;
+           case "findByShowtime":
+    LocalDateTime desiredTime = extractTimeFromUserText(userRequest);
+    if (desiredTime != null) {
+        try {
+            List<Movie> recommendations = funtionToCall.recommendMoviesByTime(desiredTime);
+            System.out.println("Recommendations count: " + recommendations.size());
+            result = new ActionResult(recommendations, null);
+        } catch (Exception e) {
+            System.err.println("Error finding movies by showtime: " + e.getMessage());
+            result = new ActionResult(null, "Lỗi khi tìm phim: " + e.getMessage());
+        }
+    } else {
+        result = new ActionResult(null, "Không thể xác định thời gian từ câu nói.");
+    }
+    break;
+
 
             case "terminate":
                 breakLoop = true;
-                finalResult = (String) action.getArgs().getOrDefault("message", "Terminated.");
+                finalResult = (String) action.getArgs().getOrDefault("message", "terminate.");
                 System.out.println(finalResult);
                 continue;
 

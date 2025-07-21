@@ -472,15 +472,23 @@
     </footer>
   <script>
       // Hàm để thêm tin nhắn vào chatbox
-    function addMessage(sender, message) {
-        const messagesContainer = document.getElementById('chat-messages');
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message');
-        messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
-        messageDiv.innerHTML = message;
-        messagesContainer.appendChild(messageDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight; // Cuộn xuống cuối
-    }
+      // Hàm để thêm tin nhắn vào chatbox
+function addMessage(sender, message) {
+    const messagesContainer = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message');
+    messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+
+    // Sử dụng innerHTML để render URL đã được xử lý từ server
+    messageDiv.innerHTML = message;
+
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+
+
+
 
     // Hàm để hiển thị chỉ báo đang gõ
     function showTypingIndicator() {

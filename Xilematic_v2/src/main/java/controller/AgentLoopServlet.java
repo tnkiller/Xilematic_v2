@@ -17,6 +17,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebServlet("/chat")
 public class AgentLoopServlet extends HttpServlet {
@@ -60,6 +62,8 @@ public class AgentLoopServlet extends HttpServlet {
         String botResponse;
         try {
             botResponse = agent.run(userMessage, llm);
+            botResponse = processUrlInMessage(botResponse);
+            System.out.println("chat bot response : "+botResponse);
         } catch (SQLException e) {
             System.err.println("Database error: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // Thêm status lỗi
@@ -107,4 +111,26 @@ public class AgentLoopServlet extends HttpServlet {
 
         response.getWriter().write(objectMapper.writeValueAsString(chatHistory));
     }
+    private String processUrlInMessage(String message) {
+    // Regex để tìm URL
+    String urlRegex = "(https?://[^\\s]+)";
+    Pattern pattern = Pattern.compile(urlRegex);
+    Matcher matcher = pattern.matcher(message);
+    
+    // Nếu tìm thấy URL
+    if (matcher.find()) {
+        String url = matcher.group(1);
+        System.out.println("Detected URL: " + url);
+        
+        // Tạo HTML link cho URL
+        String linkedMessage = message.replace(url, 
+            "<a href=\"" + url + "\" target=\"_blank\" style=color:red>" + "Đặt vé " + "</a>");
+        
+        System.out.println("Processed message with URL: " + linkedMessage);
+        return linkedMessage;
+    }
+    
+    // Nếu không có URL, trả về tin nhắn gốc
+    return message;
+}
 }
