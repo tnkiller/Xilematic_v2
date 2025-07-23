@@ -3,12 +3,37 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Rạp Phim Điện Ảnh</title>
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rạp Phim Điện Ảnh</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" 
+        crossorigin="anonymous">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" 
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer">
+  <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/home.css"/>
+  <style>
+        /* ----- CORE STYLE ----- */
+        :root {
+            --primary: #6e48ff;
+            --secondary: #9c50ff;
+            --dark: #1a1a2e;
+            --light: #f5f5ff;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
 
         <!-- Font Awesome -->
         <link rel="stylesheet" 
@@ -294,21 +319,139 @@
         </div>
 
 
-
-        <!-- CHAT WIDGET CONTAINER -->
-        <div id="chat-widget">
-            <!-- CHAT BOX (HIDDEN BY DEFAULT) -->
-            <div id="chat-box">
-                <div class="chat-header">
-                    <h3>Trợ lý ảo 2025</h3>
-                    <button class="close-btn" onclick="toggleChat()">
-                        <i class="fas fa-times"></i>
-                    </button>
+  <!-- Phim Đang Chiếu -->
+  <div class="tab_content on">
+      <h2 class="text-center mb-4">Phim Đang Chiếu</h2>
+      <ul class="curr_list movie_clist" id="ulMovieList">
+          <c:choose>
+    <c:when test="${not empty nowShowingMovies}">
+        <c:forEach var="movie" items="${nowShowingMovies}" varStatus="status">
+            <li>
+                <div class="curr_box">
+                    <span class="num">${status.count}</span>
+                    <span class="img">
+                        <img src="${movie.image != null ? movie.image : 'default-poster.jpg'}" 
+                                   class="card-img-top" 
+                                   alt="${movie.movieName != null ? movie.movieName : 'Phim'}">
+                                    <span class="heart-icon" data-movie-id="${movie.id}">❤️</span>
+                    </span>
                 </div>
-                <div class="chat-body" id="chat-messages">
-                    <!-- Messages will appear here -->
-                    <div class="message bot-message">
-                        Xin chào! Tôi có thể giúp gì cho bạn? 😊
+                <div class="layer_hover">
+                    
+                    <a href="${pageContext.request.contextPath}/SelectCalendar?id=${movie.id}" class="btn_reserve">Đặt vé nek</a>
+                    <a href="${pageContext.request.contextPath}/DetailServlet?id=${movie.id}" class="btn_View">
+                        Chi tiết
+                    </a>
+                </div> 
+                <dl class="list_text">
+                    <dt>
+                        <a href="${pageContext.request.contextPath}/DetailServlet?id=${movie.id}" class="btn_View">
+                        ${movie.movieName}
+                    </a>
+                    </dt>
+                    <dd>
+                        <span class="rate">
+                            <c:set var="randomDuration">
+                                <%= (int)(Math.random() * (140 - 110 + 1) + 110) %>
+                            </c:set>
+                            ${randomDuration} Phút
+                        </span>
+                        <span class="grade"><em>${movie.releaseDate != null ? movie.releaseDate : 'Sắp ra mắt'}</em></span>
+                    </dd>
+                </dl>      
+            </li>
+        </c:forEach>
+    </c:when>
+    <c:otherwise>
+        <li class="col-12 text-center">
+            <p>Hiện tại không có phim đang chiếu</p>
+        </li>
+    </c:otherwise>
+</c:choose>
+
+          </ul>
+      </div>
+
+      <!-- Phân Trang -->
+      <c:if test="${totalPages > 1}">
+          <nav aria-label="Phân trang phim" class="mt-4">
+              <ul class="pagination justify-content-center">
+                  <c:forEach begin="1" end="${totalPages}" var="pageNum">
+                      <li class="page-item ${pageNum == currentPage ? 'active' : ''}">
+                          <a class="page-link" href="?page=${pageNum}">${pageNum}</a>
+                      </li>
+                  </c:forEach>
+              </ul>
+          </nav>
+      </c:if>
+  </div>
+   <!-- CHAT WIDGET CONTAINER -->
+   <div id="chat-widget">
+    <div id="chat-box">
+        <div class="chat-header">
+            <h3>Trợ lý ảo 2025</h3>
+            <button class="close-btn" onclick="toggleChat()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chat-body" id="chat-messages">
+            <div class="message bot-message initial-message">
+                Xin chào! Tôi có thể giúp gì cho bạn? 😊
+            </div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="user-input" placeholder="Nhập tin nhắn..." autocomplete="off">
+            <button onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+    <button id="chat-trigger" onclick="toggleChat()">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+</div>
+
+  <!-- Footer -->
+ <footer>
+        <div class="footer-content">
+            <div class="footer-information">
+                <div class="footer-desc">
+                    <img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=150" alt="">
+                    <p class="text-muted">Your ultimate destination for movie tickets and entertainment.</p>
+                </div>
+                <div class="footer-about">
+                    <h5 class="">Quick Links</h5>
+                    <ul class="">
+                        <li><a href="#" class="footer-link">Movie Categories</a></li>
+                        <li><a href="#" class="footer-link">Now Showing</a></li>
+                        <li><a href="#" class="footer-link">Upcoming Films</a></li>
+                        <li><a href="#" class="footer-link">Theater Locations</a></li>
+                        <li><a href="#" class="footer-link">Ticket Booking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-about">
+                    <h5>Customer Support</h5>
+                    <ul>
+                        <li><a href="#" class="footer-link">Help Center</a></li>
+                        <li><a href="#" class="footer-link">Contact Us</a></li>
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                        <li><a href="#" class="footer-link">Refund Policy</a></li>
+                        <li><a href="#" class="footer-link">+1 (555) 123-4567</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h5>Newsletter</h5>
+                    <p>Subscribe for exclusive movie updates and offers!</p>
+                    <div>
+                        <input type="email" placeholder="Your email">
+                        <button class="btn-subcribe" type="button">Subscribe</button>
+                    </div>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><span><ion-icon name="logo-facebook"></ion-icon></span></a>
+                        <a href="#" class="social-icon"><span><ion-icon name="logo-instagram"></ion-icon></span></a>
+                        <a href="#" class="social-icon"><span><ion-icon name="logo-twitter"></ion-icon></span></a>
+                        <a href="#" class="social-icon"><span><ion-icon name="logo-youtube"></ion-icon></span></a>
+                        <a href="#" class="social-icon"><span><ion-icon name="logo-linkedin"></ion-icon></span></i></a>
                     </div>
                 </div>
                 <div class="chat-footer">
@@ -323,120 +466,48 @@
                 <i class="fas fa-comment-dots"></i>
             </button>
         </div>
+    </footer>
+  <script>
+      // Hàm để thêm tin nhắn vào chatbox
+      // Hàm để thêm tin nhắn vào chatbox
+function addMessage(sender, message) {
+    const messagesContainer = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message');
+    messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
 
-        <!--phim sap chieu--> 
-        <div class="carousel-container">
-            <button class="btn left" onclick="moveSlide(-1)">&#10094;</button>
-            <div class="carousel" id="upcomingCarousel">
-                <c:choose>
-                    <c:when test="${not empty upcomingMovies}">
-                        <%-- Clone cuối (ảnh cuối cùng) --%>
-                        <c:set var="lastMovie" value="${upcomingMovies[upcomingMovies.size() - 1]}" />
-                        <a href="${pageContext.request.contextPath}/DetailServlet?id=${lastMovie.id}">
-                            <img src="${lastMovie.image}" alt="${lastMovie.movieName}">
-                        </a>
+    // Sử dụng innerHTML để render URL đã được xử lý từ server
+    messageDiv.innerHTML = message;
 
-                        <%-- Ảnh thật --%>
-                        <c:forEach var="movie" items="${upcomingMovies}">
-                            <a href="${pageContext.request.contextPath}/DetailServlet?id=${movie.id}">
-                                <img src="${movie.image}" alt="${movie.movieName}">
-                            </a>
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
 
-                        </c:forEach>
 
-                        <%-- Clone đầu (ảnh đầu tiên) --%>
-                        <c:set var="firstMovie" value="${upcomingMovies[0]}" />
-                        <a href="${pageContext.request.contextPath}/DetailServlet?id=${firstMovie.id}">
-                            <img src="${firstMovie.image}" alt="${firstMovie.movieName}">
-                        </a>
 
-                    </c:when>
-                    <c:otherwise>
-                        <div class="carousel-item">
-                            <img src="${pageContext.request.contextPath}/img/default-upcoming.jpg" 
-                                 class="d-block w-100" 
-                                 alt="Không có phim sắp chiếu">
-                        </div>
-                    </c:otherwise>
-                </c:choose>
+
+
+    // Hàm để hiển thị chỉ báo đang gõ
+    function showTypingIndicator() {
+        const messagesContainer = document.getElementById('chat-messages');
+        const typingIndicatorHtml = `
+            <div class="typing-indicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
             </div>
-            <button class="btn right" onclick="moveSlide(1)">&#10095;</button>
-        </div>
+        `;
+        messagesContainer.innerHTML += typingIndicatorHtml;
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
 
-
-        <!-- Phim Đang Chiếu -->
-        <div class="tab_content on">
-            <h2 class="text-center mb-4">Phim Đang Chiếu</h2>
-            <ul class="curr_list movie_clist" id="ulMovieList">
-                <c:choose>
-                    <c:when test="${not empty nowShowingMovies}">
-                        <c:forEach var="movie" items="${nowShowingMovies}" varStatus="status">
-                            <li>
-                                <div class="curr_box">
-                                    <span class="num">${status.count}</span>
-                                    <span class="img">
-                                        <img src="${movie.image != null ? movie.image : 'default-poster.jpg'}" 
-                                             class="card-img-top" 
-                                             alt="${movie.movieName != null ? movie.movieName : 'Phim'}">
-                                        <span class="heart-icon" data-movie-id="${movie.id}">❤️</span>
-                                    </span>
-                                </div>
-                                <div class="layer_hover">
-                                    <a href="${pageContext.request.contextPath}/DetailServlet?id=${movie.id}" class="btn_View">Chi tiết</a>
-                                    
-                                </div> 
-                                <dl class="list_text">
-                                    <dt>
-                                        <a href="${pageContext.request.contextPath}/DetailServlet?id=${movie.id}" class="btn_View">
-                                            ${movie.movieName}
-                                        </a>
-                                    </dt>
-                                    <dd>
-                                        <span class="rate">
-                                            <c:set var="randomDuration">
-                                                <%= (int) (Math.random() * (140 - 110 + 1) + 110)%>
-                                            </c:set>
-                                            ${randomDuration} Phút
-                                        </span>
-                                        <span class="grade"><em>${movie.releaseDate != null ? movie.releaseDate : 'Sắp ra mắt'}</em></span>
-                                        <span><ion-icon name="heart-outline"></ion-icon></span>
-                                    </dd>
-                                </dl>      
-                            </li>
-                        </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                        <li class="col-12 text-center">
-                            <p>Hiện tại không có phim đang chiếu</p>
-                        </li>
-                    </c:otherwise>
-                </c:choose>
-
-            </ul>
-        </div>
-
-        <!-- Phân Trang -->
-        <c:if test="${totalPages > 1}">
-            <nav aria-label="Phân trang phim" class="mt-4">
-                <ul class="pagination justify-content-center">
-                    <c:forEach begin="1" end="${totalPages}" var="pageNum">
-                        <li class="page-item ${pageNum == currentPage ? 'active' : ''}">
-                            <a class="page-link" href="?page=${pageNum}">${pageNum}</a>
-                        </li>
-                    </c:forEach>
-                </ul>
-            </nav>
-        </c:if>
-    </div>
-
-
-
-    <!-- Footer -->
-    <div class="footer-namespace">
-        <%@ include file="/components/footer.jsp" %>
-    </div>
-
-    <script>
+    // Hàm để ẩn chỉ báo đang gõ
+    function hideTypingIndicator() {
+        const typingIndicator = document.querySelector('.typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
         // TOGGLE CHAT BOX
         function toggleChat() {
             const chatBox = document.getElementById('chat-box');
@@ -452,65 +523,152 @@
         }
 
         // SEND MESSAGE FUNCTION
-        function sendMessage() {
-            const input = document.getElementById('user-input');
-            const messages = document.getElementById('chat-messages');
+       async function sendMessage() {
+        const input = document.getElementById('user-input');
+        const userMessage = input.value.trim();
+        const messagesContainer = document.getElementById('chat-messages'); // Đảm bảo đã định nghĩa
 
-            if (input.value.trim() !== '') {
-                // Add user message
-                messages.innerHTML += `
-                      <div class="message user-message">
-        ${input.value}
-                      </div>
-                  `;
-
-                // Simulate bot typing
-                messages.innerHTML += `
-                      <div class="typing-indicator">
-                          <div class="typing-dot"></div>
-                          <div class="typing-dot"></div>
-                          <div class="typing-dot"></div>
-                      </div>
-                  `;
-
-                // Scroll to bottom
-                messages.scrollTop = messages.scrollHeight;
-
-                // Simulate bot reply after 1-2s
-                setTimeout(() => {
-                    // Remove typing indicator
-                    document.querySelector('.typing-indicator')?.remove();
-
-                    // Add bot reply
-                    const replies = [
-                        "Tôi đang xử lý yêu cầu của bạn...",
-                        "Bạn cần thêm thông tin gì nữa không?",
-                        "Tôi có thể giúp gì thêm? 🤖",
-                        "Câu hỏi hay đấy! Để tôi kiểm tra...",
-                    ];
-                    const randomReply = replies[Math.floor(Math.random() * replies.length)];
-
-                    messages.innerHTML += `
-                          <div class="message bot-message">
-        ${randomReply}
-                          </div>
-                      `;
-
-                    // Scroll to bottom again
-                    messages.scrollTop = messages.scrollHeight;
-                }, 1000 + Math.random() * 1000);
-
-                // Clear input
-                input.value = '';
-            }
+        if (userMessage === '') {
+            return;
         }
 
+        // 1. Thêm tin nhắn của người dùng vào giao diện ngay lập tức
+        addMessage('user', userMessage);
+        input.value = ''; // Xóa nội dung input
+
+        // 2. Hiển thị chỉ báo đang gõ
+        showTypingIndicator();
+
+        try {
+            // Chuẩn bị dữ liệu để gửi đi dưới dạng JSON
+            const payload = {
+                message: userMessage
+            };
+
+            // Gửi yêu cầu POST với Content-Type là application/json
+            const response = await fetch('${pageContext.request.contextPath}/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // <--- THAY ĐỔI Ở ĐÂY
+                },
+                body: JSON.stringify(payload) // <--- VÀ THAY ĐỔI Ở ĐÂY: Chuyển đối tượng JS thành chuỗi JSON
+            });
+
+            // Kiểm tra phản hồi HTTP
+            if (!response.ok) {
+                // Đọc thông báo lỗi từ server nếu có
+                const errorText = await response.text();
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            }
+
+            // Phân tích phản hồi JSON từ server
+            const data = await response.json();
+            hideTypingIndicator(); // Ẩn chỉ báo đang gõ
+
+            // Xử lý phản hồi từ bot
+            if (data.response) {
+                addMessage('bot', data.response);
+            } else if (data.error) {
+                addMessage('bot', `Lỗi từ AI: ${data.error}`); // Rõ ràng hơn về lỗi từ AI
+            } else {
+                addMessage('bot', 'Xin lỗi, tôi không hiểu phản hồi từ hệ thống.');
+            }
+            saveChatHistory(); // Lưu lịch sử sau khi có tin nhắn mới
+        } catch (error) {
+            console.error('Lỗi khi gửi tin nhắn:', error);
+            hideTypingIndicator(); // Ẩn chỉ báo đang gõ ngay cả khi có lỗi
+            addMessage('bot', 'Xin lỗi, không thể kết nối đến trợ lý ảo. Vui lòng thử lại sau.');
+        }
+    }
+
+    // Tải lịch sử chat từ backend hoặc sessionStorage
+    async function loadChatHistory() {
+        const messagesContainer = document.getElementById('chat-messages');
+        messagesContainer.innerHTML = ''; // Xóa tất cả tin nhắn cũ
+        addMessage('bot', 'Xin chào! Tôi có thể giúp gì cho bạn? 😊'); // Luôn thêm tin nhắn chào mừng ban đầu
+
+        try {
+            const response = await fetch('${pageContext.request.contextPath}/chat', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const chatHistory = await response.json();
+            if (chatHistory && chatHistory.length > 0) {
+                chatHistory.forEach(msg => {
+                    // Tránh thêm lại tin nhắn chào mừng nếu nó đã có trong lịch sử từ server
+                    if (msg.content !== 'Xin chào! Tôi có thể giúp gì cho bạn? 😊' && msg.role !== 'system') {
+                        addMessage(msg.role, msg.content);
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Lỗi khi tải lịch sử chat từ server:', error);
+            // Có thể thêm tin nhắn lỗi thân thiện hơn cho người dùng nếu cần
+            // addMessage('bot', 'Không thể tải lịch sử chat. Vui lòng thử lại.');
+        } finally {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; // Cuộn xuống cuối sau khi tải
+        }
+    }
+
+    // Lưu lịch sử chat vào sessionStorage
+    function saveChatHistory() {
+        const messagesContainer = document.getElementById('chat-messages');
+        // Lấy tất cả các tin nhắn DIV trong container
+        const messageElements = Array.from(messagesContainer.children);
+
+        const messagesToSave = [];
+        messageElements.forEach(msgDiv => {
+            // Chỉ lưu những tin nhắn thực sự (có class user-message hoặc bot-message)
+            // và không phải là typing indicator
+            if (msgDiv.classList.contains('user-message') || msgDiv.classList.contains('bot-message')) {
+                // Lọc bỏ tin nhắn typing indicator nếu nó vẫn còn trong DOM
+                if (!msgDiv.classList.contains('typing-indicator') && msgDiv.innerText.trim() !== '...' && msgDiv.querySelector('.typing-dot') === null) {
+                     messagesToSave.push({
+                        role: msgDiv.classList.contains('user-message') ? 'user' : 'bot',
+                        content: msgDiv.innerText.trim()
+                    });
+                }
+            }
+        });
+        sessionStorage.setItem('chatHistory', JSON.stringify(messagesToSave));
+    }
         // Allow sending message with Enter key
         document.getElementById('user-input').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 sendMessage();
             }
         });
+        document.addEventListener('DOMContentLoaded', function() {
+    // Lấy tất cả các trái tim
+    const heartIcons = document.querySelectorAll('.heart-icon');
+    
+    // Kiểm tra localStorage để load trạng thái yêu thích
+    heartIcons.forEach(heart => {
+        const movieId = heart.getAttribute('data-movie-id');
+        const isLiked = localStorage.getItem(`movie_${movieId}_liked`) === 'true';
+        
+        if (isLiked) {
+            heart.classList.add('active');
+        }
+        
+        // Thêm sự kiện click
+        heart.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.classList.toggle('active');
+            
+            // Lưu vào localStorage
+            const isNowLiked = this.classList.contains('active');
+            localStorage.setItem(`movie_${movieId}_liked`, isNowLiked);
+        });
+    });
+});
     </script>
 
 

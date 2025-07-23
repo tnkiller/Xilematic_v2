@@ -4,6 +4,9 @@ import context.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
 import model.Showtime;
 import utils.Helper;
 
@@ -24,6 +27,7 @@ public class ShowtimeDAO implements IShowtimeDAO {
     private static final String SELECT_MOVIE_NAME = "SELECT ten_phim \n"
             + "FROM Phim p JOIN LichChieu l ON l.ma_phim = p.ma_phim\n"
             + "WHERE ma_lich_chieu = ?";
+    private static final String SELECT_ALL_SHOWTIMES = "SELECT * FROM LichChieu";
 
     @Override
     public Showtime getShowtimeInformationByID(int ma_lich_chieu) {
@@ -91,5 +95,24 @@ public class ShowtimeDAO implements IShowtimeDAO {
             e.printStackTrace();
         }
         return "";
+    }
+    public List<Showtime> getAllShowtimes() {
+        List<Showtime> list = new ArrayList<>();
+        try (Connection con = DBConnection.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(SELECT_ALL_SHOWTIMES);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int ma_lich_chieu = rs.getInt("ma_lich_chieu");
+                int ma_rap = rs.getInt("ma_rap");
+                int ma_phim = rs.getInt("ma_phim");
+                String ngay_gio_chieu = helper.formatLocalDateTime(rs.getTimestamp("ngay_gio_chieu").toLocalDateTime());
+
+                Showtime showtime = new Showtime(ma_lich_chieu, ma_rap, ma_phim, ngay_gio_chieu);
+                list.add(showtime);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

@@ -14,12 +14,15 @@ model\Movie.class
 service\IRapPhimService.class
 model\Favorite.class
 controller\BookingServlet.class
+demo\Action.class
 dao\BookingDAO.class
 dao\ShowtimeDAO.class
 dao\UserDAO.class
 dao\IMovieDAO.class
 controller\UserServlet.class
+demo\FuntionToCall.class
 model\BinhLuan.class
+controller\AgentLoopServlet.class
 service\CommentService.class
 service\FavoriteServiceImpl.class
 model\User.class
@@ -28,6 +31,7 @@ service\CumRapService.class
 service\IUserService.class
 dao\BinhLuanDAO.class
 service\IFavoriteService.class
+demo\ActionResult.class
 com\vnpay\common\Config.class
 controller\BookingHistoryServlet.class
 service\ISeatService.class
@@ -47,6 +51,7 @@ dao\IFavoriteDAO.class
 dao\FavoriteDAO.class
 com\vnpay\common\ajaxServlet.class
 controller\FavoriteServlet.class
+model\PhimTheLoai.class
 model\CumRap.class
 controller\RapPhimServlet.class
 utils\Helper.class
@@ -54,8 +59,10 @@ com\vnpay\common\VnpayReturn.class
 entity\FacebookAccount.class
 model\TheLoai.class
 dao\HeThongRapDAO.class
+demo\LLM.class
 service\UserService.class
 dao\IBinhLuanDAO.class
+demo\AgentLoop.class
 service\ICommentService.class
 dao\IHeThongRapDAO.class
 model\Seat.class
@@ -66,6 +73,7 @@ utils\Validator.class
 dao\TokenForgetPasswordDAO.class
 filter\AuthFilter.class
 service\SeatService.class
+demo\Message.class
 dao\IBookingDAO.class
 dao\CumRapDAO.class
 dao\MovieDAO.class

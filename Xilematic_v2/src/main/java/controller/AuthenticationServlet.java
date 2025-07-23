@@ -41,6 +41,8 @@ public class AuthenticationServlet extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter(ACTION_PARAM);
         action = (action != null) ? action : "";
+        System.out.println("[AuthenticationServlet] Action parameter: " + action);
+
         switch (action) {
             case "login" ->
                 processLogin(request, response);
@@ -109,6 +111,7 @@ public class AuthenticationServlet extends HttpServlet {
 
     //process remember me
     private void processRememberMe(boolean isChecked, String username, String password, HttpServletResponse response) {
+        System.out.println("[AuthenticationServlet] Entering processRememberMe method. isChecked: " + isChecked);
         Cookie cookieUsername;
         Cookie cookiePassword;
         if (isChecked) {
@@ -119,9 +122,10 @@ public class AuthenticationServlet extends HttpServlet {
             cookieUsername.setHttpOnly(true);
             cookiePassword.setHttpOnly(true);
             cookieUsername.setSecure(true);
-            cookiePassword.setSecure(true);
+            cookiePassword.setSecure(true); // Chỉ nên dùng true trên HTTPS
             cookieUsername.setMaxAge(24 * 60 * 60);
             cookiePassword.setMaxAge(24 * 60 * 60);
+            System.out.println("[AuthenticationServlet] Setting 'Remember Me' cookies (USERNAME, PASSWORD) with MaxAge: " + (24 * 60 * 60));
         } else {
             cookieUsername = new Cookie("USERNAME", "");
             cookiePassword = new Cookie("PASSWORD", "");
@@ -138,6 +142,7 @@ public class AuthenticationServlet extends HttpServlet {
         session.invalidate();
         response.sendRedirect(PageLink.LOGIN_PAGE);
     }
+
 
     //process forgot password
     private void processForgotPassword(HttpServletRequest request, HttpServletResponse response)

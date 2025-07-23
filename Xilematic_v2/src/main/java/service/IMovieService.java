@@ -1,5 +1,6 @@
 package service;
 
+import java.sql.SQLException;
 import java.util.List;
 import model.Movie;
 
@@ -20,4 +21,5 @@ public interface IMovieService {
     public int getTotalMoviesCount();
 
     public String getMovieShowtimeByCinema(int ma_rap, int ma_phim);
+    public List<Movie> getMoviesByGenreName(String genreName) throws SQLException ;
 }

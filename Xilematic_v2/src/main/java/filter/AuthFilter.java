@@ -1,89 +1,92 @@
 package filter;
 
-import jakarta.servlet.*;
-import jakarta.servlet.annotation.WebFilter;
-
 import java.io.IOException;
-import java.util.*;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = {"/*"}) // Áp dụng cho tất cả servlet
+/**
+ *
+ * @author ASUS
+ */
+@WebFilter(filterName = "AuthFilter", urlPatterns = {"/*"})
 public class AuthFilter implements Filter {
 
-    // MAP quyền truy cập
-    private static final Map<String, Set<String>> roleAccessMap = new HashMap<>();
-    // Các tài nguyên công khai
-    private static final List<String> publicUrls = Arrays.asList(
-            "/login.jsp", "/register.jsp", "/intermediate.jsp", "/access_denied.jsp", "/favorites",
-            "/style/", "/script/", "/asset/", "/favicon.ico", "/authenticate", "/components/", "/home/", "/"
-    );
+    // private static final boolean debug = true; // Biến này không cần thiết nếu chỉ dùng System.out
 
     @Override
-    public void init(FilterConfig filterConfig) {
-//        // Khởi tạo các quyền truy cập cho từng role
-//
-//        //Các trang admin có thể vào
-//        Set<String> adminPages = new HashSet<>(Arrays.asList(
-//                "/admin/", "/home/", "/user/", "/paging", "/users", "movies"
-//        ));
-//
-//        //Các trang user có thể vào
-//        Set<String> userPages = new HashSet<>(Arrays.asList(
-//                "/user/", "/home/"
-//        ));
-//        roleAccessMap.put("admin", adminPages);
-//        roleAccessMap.put("user", userPages);
+    public void init(FilterConfig filterConfig) throws ServletException {
+        System.out.println("[AuthFilter] Filter initialized.");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpSession session = httpRequest.getSession(false); // Không tạo session mới nếu chưa có
 
-        chain.doFilter(request, response);
+        String path = httpRequest.getRequestURI();
+        String contextPath = httpRequest.getContextPath();
 
-//        HttpServletRequest req = (HttpServletRequest) request;
-//        HttpServletResponse res = (HttpServletResponse) response;
-//
-//        String contextPath = req.getContextPath();         // ex: /myapp
-//        String uri = req.getRequestURI();                  // ex: /myapp/secure/admin
-//        String path = uri.substring(contextPath.length()); // ex: /secure/admin
-//
-    
+        System.out.println("\n--- [AuthFilter] New Request ---");
+        System.out.println("[AuthFilter] Path requested: " + path);
+        System.out.println("[AuthFilter] Context Path: " + contextPath);
 
-////        path = /style/home_style.css
-//        if (publicUrls.stream().anyMatch(path::startsWith)) {
-//            chain.doFilter(request, response); // Cho phép truy cập URL công khai
-//            return;
-//        }
-//
-//        // Kiểm tra phiên đăng nhập
-//        HttpSession session = req.getSession(false);
-//
-//        if (session != null && session.getAttribute(SessionAttribute.USER_INFOR) != null) {
-//            User u = (User) session.getAttribute(SessionAttribute.USER_INFOR);
-//            Set<String> allowedPrefixes = roleAccessMap.get(u.getTypeOfUser());
-//
-//            System.out.println(path);
-//            System.out.println(u.getTypeOfUser());
-//
-//            boolean allowed = false;
-//
-//            if (allowedPrefixes != null) {
-//                for (String prefix : allowedPrefixes) {
-//                    if (path.startsWith(prefix)) {
-//                        allowed = true;
-//                        break;
-//                    }
-//                }
-//            }
-//            if (allowed) {
-//                chain.doFilter(request, response);
-//            } else {
-//                res.sendRedirect(contextPath + "/access_denied.jsp");
-//            }
-//
-//        } else {
-//            res.sendRedirect(contextPath + "/" + PageLink.LOGIN_PAGE);
-//        }
+        // Các trang công khai mà người dùng chưa đăng nhập có thể truy cập
+        // Sử dụng path.startsWith để xử lý các đường dẫn con nếu có (ví dụ: /homeservlet/abc)
+        boolean isHomePage = path.equals(contextPath + "/") || path.startsWith(contextPath + "/homeservlet");
+        boolean isDetailPage = path.startsWith(contextPath + "/DetailServlet");
+        boolean isintermediatePage = path.startsWith(contextPath + "/intermediate.jsp");
+        boolean isSelectCalendarPage = path.startsWith(contextPath + "/SelectCalendar");
+        boolean isLoginPage = path.startsWith(contextPath + "/login.jsp") ;
+        boolean isRegisterPage = path.startsWith(contextPath + "/register.jsp") ;
+        boolean isAuthenticateAction = path.startsWith(contextPath + "/authenticate"); // Servlet xử lý post login form
+
+        // Tài nguyên tĩnh (CSS, JS, Images, v.v.)
+        boolean isResource = path.contains(".css") || path.contains(".js") || path.contains("image");
+
+        System.out.println("[AuthFilter] Check flags:");
+        System.out.println("  - isHomePage: " + isHomePage);
+        System.out.println("  - isDetailPage: " + isDetailPage);
+        System.out.println("  - isSelectCalendarPage: " + isSelectCalendarPage);
+        System.out.println("  - isLoginPage: " + isLoginPage);
+        System.out.println("  - isRegisterPage: " + isRegisterPage);
+        System.out.println("  - isAuthenticateAction: " + isAuthenticateAction);
+        System.out.println("  - isResource: " + isResource);
+        System.out.println("  - isintermediatePage: " + isintermediatePage);
+
+        // Kiểm tra xem người dùng đã đăng nhập chưa
+        boolean loggedIn = (session != null && session.getAttribute("userInfor") != null);
+        System.out.println("[AuthFilter] User loggedIn (session check): " + loggedIn);
+        if (session != null) {
+            System.out.println("[AuthFilter] Session ID: " + session.getId());
+            System.out.println("[AuthFilter] userInfor attribute in session: " + session.getAttribute("userInfor"));
+        } else {
+            System.out.println("[AuthFilter] Session is null.");
+        }
+
+
+        if (loggedIn || isHomePage || isDetailPage || isSelectCalendarPage || isLoginPage || isRegisterPage || isAuthenticateAction || isResource||isintermediatePage) {
+            System.out.println("[AuthFilter] Access granted for path: " + path + ". Chaining filter.");
+            chain.doFilter(request, response); // Cho phép yêu cầu đi tiếp
+        } else {
+            System.out.println("[AuthFilter] Unauthorized access to path: " + path + ". Redirecting to login page.");
+            httpResponse.sendRedirect(contextPath + "/login.jsp"); // Chuyển hướng đến URL của servlet login
+            // Bạn có thể cân nhắc chuyển hướng đến login.jsp nếu bạn không có servlet /login
+            // httpResponse.sendRedirect(contextPath + "/login.jsp");
+        }
     }
 
+    @Override
+    public void destroy() {
+        System.out.println("[AuthFilter] Filter destroyed.");
+    }
 }
