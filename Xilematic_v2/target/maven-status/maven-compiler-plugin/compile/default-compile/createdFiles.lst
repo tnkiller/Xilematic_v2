@@ -29,6 +29,7 @@ service\IUserService.class
 dao\BinhLuanDAO.class
 service\IFavoriteService.class
 com\vnpay\common\Config.class
+controller\BookingHistoryServlet.class
 service\ISeatService.class
 controller\MovieServlet.class
 utils\SessionUtil.class
