@@ -459,16 +459,44 @@ em {
 .curr_list .img img {
     transition: all 0.3s ease;
 }
-
+/* .heart-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        opacity: 1;
+        z-index: 11;
+    }
+    
+    .heart-icon:hover {
+        color: rgba(255, 0, 0, 0.7);
+        transform: scale(1.2);
+    }
+    
+    .heart-icon.active {
+        color: #ff0000;
+        opacity: 1;
+    }
+    
+    .curr_box:hover .heart-icon {
+        opacity: 1;
+    }
+    
+    .curr_box {
+        position: relative;
+    }*/
 .heart-icon {
     position: absolute;
     top: 10px;
     right: 10px;
     font-size: 24px;
-    color: rgba(255, 255, 255, 0.7); /* Màu trắng mờ ban đầu */
+    color: rgba(255, 255, 255, 0.7); 
     cursor: pointer;
     transition: all 0.3s ease;
-    opacity: 0; /* Ẩn ban đầu */
+    opacity: 0;  
     z-index: 11;
 }
 
@@ -476,7 +504,7 @@ em {
     transform: scale(1.2);
 }
 
-/* Hiện trái tim khi hover vào card */
+ Hiện trái tim khi hover vào card 
 li:hover .heart-icon {
     opacity: 1;
 }
@@ -490,10 +518,10 @@ li:hover .heart-icon {
     top: 10px;
     right: 10px;
     font-size: 24px;
-    color: rgba(255, 255, 255, 0.7); /* Màu trắng mờ ban đầu */
+    color: rgba(255, 255, 255, 0.7);  
     cursor: pointer;
     transition: all 0.3s ease;
-    opacity: 0; /* Ẩn ban đầu */
+    opacity: 0;   
 }
 
 .heart-icon:hover {

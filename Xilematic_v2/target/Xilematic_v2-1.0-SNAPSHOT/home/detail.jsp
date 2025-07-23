@@ -632,13 +632,6 @@
                 alert(error.message || 'Đã xảy ra lỗi khi gửi bình luận');
             });
         }
-    })
-    .catch(error => {
-        console.error('Lỗi:', error);
-        alert(error.message || 'Đã xảy ra lỗi khi gửi bình luận');
-    });
-}
-
     </script>
 </body>
 </html>
