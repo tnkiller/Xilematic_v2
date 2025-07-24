@@ -92,7 +92,6 @@ dao\ISeatDAO.class
 model\LichChieu.class
 controller\PagingServlet.class
 model\HeThongRap.class
-constant\SessionAttribute.class
 service\HeThongRapService.class
 service\IBookingService.class
 controller\SelectCalendarServlet.class

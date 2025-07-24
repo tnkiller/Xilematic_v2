@@ -1,7 +1,6 @@
 package com.vnpay.common;
 
 import constant.PageLink;
-import constant.SessionAttribute;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -23,6 +22,7 @@ import model.User;
 import service.BookingService;
 import service.ShowtimeService;
 import utils.SendEmail;
+import utils.SessionUtil;
 
 public class VnpayReturn extends HttpServlet {
 
@@ -105,7 +105,7 @@ public class VnpayReturn extends HttpServlet {
         session.removeAttribute("ma_lich_chieu");
         session.removeAttribute("selectedSeats");
 
-        User user = (User) request.getSession().getAttribute(SessionAttribute.USER_INFOR);
+        User user = (User) request.getSession().getAttribute(SessionUtil.USER_INFOR);
         int tai_khoan = user.getId();
         String emailClient = user.getEmail();
         long totalPrice = Long.parseLong(request.getParameter("vnp_Amount")) / 100;

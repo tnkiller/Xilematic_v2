@@ -54,7 +54,7 @@
                             <i class="fas fa-ticket-alt"></i>
                             <h3>Chưa có đơn đặt vé nào</h3>
                             <p>Hãy khám phá các bộ phim mới nhất và đặt vé ngay hôm nay!</p>
-                            <button class="explore-button">Khám phá ngay</button>
+                            <a href='<%=request.getContextPath() + "/" + PageLink.HOME_SERVLET%>'><button class="explore-button">Khám phá ngay</button></a>
                         </div>
                     </c:when>
                     <c:otherwise>
