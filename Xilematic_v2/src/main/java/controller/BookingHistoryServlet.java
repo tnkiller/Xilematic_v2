@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import constant.PageLink;
-import constant.SessionAttribute;
 import jakarta.mail.Session;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -21,6 +20,7 @@ import model.Booking;
 import model.User;
 import service.BookingService;
 import service.IBookingService;
+import utils.SessionUtil;
 
 @WebServlet(name = "BookingHistoryServlet", urlPatterns = { "/booking_history" })
 public class BookingHistoryServlet extends HttpServlet {
@@ -56,7 +56,7 @@ public class BookingHistoryServlet extends HttpServlet {
     private void viewBookingHistory(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        User currentUser = (User) request.getSession().getAttribute(SessionAttribute.USER_INFOR);
+        User currentUser = (User) request.getSession().getAttribute(SessionUtil.USER_INFOR);
         int userId = currentUser.getId();
         var bookingList = bookingService.getBookingsByUserId(userId);
         out.println(bookingList);

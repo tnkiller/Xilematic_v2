@@ -25,6 +25,8 @@ public interface IFavoriteDAO {
 
     public boolean deleteFavorite(int id) throws SQLException;
 
+    public boolean deleteFavoriteByCondition(int userId, int movieId) throws SQLException;
+
     public boolean updateFavorite(Favorite fav) throws SQLException;
 
     public List<Favorite> getFavouritesForPage(int currentPage, int pageSize) throws SQLException;

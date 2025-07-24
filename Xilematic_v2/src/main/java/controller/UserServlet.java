@@ -1,7 +1,6 @@
 package controller;
 
 import constant.PageLink;
-import constant.SessionAttribute;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,6 +8,7 @@ import jakarta.servlet.http.*;
 import java.io.PrintWriter;
 import model.User;
 import service.UserService;
+import utils.SessionUtil;
 
 @WebServlet(name = "UserServlet", urlPatterns = {"/users"})
 public class UserServlet extends HttpServlet {
@@ -66,12 +66,12 @@ public class UserServlet extends HttpServlet {
     private void processUpdateUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        User userSession = (User) session.getAttribute(SessionAttribute.USER_INFOR);
+        User userSession = (User) session.getAttribute(SessionUtil.USER_INFOR);
         User userUpdate = (User) request.getAttribute("user");
         userService.updateUser(userUpdate);
         //update session if id_update == id_session
         if (userSession.getId() == userUpdate.getId()) {
-            session.setAttribute(SessionAttribute.USER_INFOR, userUpdate);
+            session.setAttribute(SessionUtil.USER_INFOR, userUpdate);
             response.sendRedirect(PageLink.PROFILE_PAGE);
         } else {
             response.sendRedirect(PageLink.PAGING_SERVLET + "type=users");
@@ -101,7 +101,7 @@ public class UserServlet extends HttpServlet {
         String currentPassword = request.getParameter("currentPassword");
         String newPassword = request.getParameter("newPassword");
         HttpSession session = request.getSession();
-        User currentUser = (User) session.getAttribute(SessionAttribute.USER_INFOR);
+        User currentUser = (User) session.getAttribute(SessionUtil.USER_INFOR);
         if (currentPassword.equals(currentUser.getPassword())) {
             currentUser.setPassword(newPassword);
             userService.updateUser(currentUser);

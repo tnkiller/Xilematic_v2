@@ -17,6 +17,11 @@ public class Favorite {
     public Favorite() {
     }
 
+    public Favorite(int ma_nguoi_dung, int ma_phim) {
+        this.ma_nguoi_dung = ma_nguoi_dung;
+        this.ma_phim = ma_phim;
+    }
+
     public Favorite(int id, int ma_nguoi_dung, int ma_phim) {
         this.id = id;
         this.ma_nguoi_dung = ma_nguoi_dung;

@@ -101,4 +101,14 @@ public class FavoriteServiceImpl implements IFavoriteService {
         return null;
     }
 
+    @Override
+    public boolean deleteFavoriteByCondition(int userId, int movieId) {
+        try {
+            return favoriteDao.deleteFavoriteByCondition(userId, movieId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

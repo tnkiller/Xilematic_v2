@@ -30,4 +30,6 @@ public interface IFavoriteService {
 
     public int getTotalFavouriteCount();
 
+    public boolean deleteFavoriteByCondition(int userId, int movieId);
+
 }

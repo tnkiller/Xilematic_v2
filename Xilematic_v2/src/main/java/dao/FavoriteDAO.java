@@ -15,6 +15,7 @@ public class FavoriteDAO implements IFavoriteDAO {
     private static final String SELECT_ALL_FAV = "SELECT * FROM YeuThich ";
     private static final String UPDATE_FAV = "UPDATE YeuThich SET ma_nguoi_dung = ?, ma_phim = ?  WHERE ma_yeu_thich = ?";
     private static final String DELETE_FAV = "DELETE YeuThich WHERE ma_yeu_thich = ?";
+    private static final String DELETE_FAV_BY_CONDITION = "DELETE FROM YeuThich WHERE ma_nguoi_dung = ? AND ma_phim = ?";
 
     @Override
     public void insertFavorite(Favorite fav) throws SQLException {
@@ -128,6 +129,19 @@ public class FavoriteDAO implements IFavoriteDAO {
         FavoriteDAO fd = new FavoriteDAO();
         fd.selectFavoriteByUserId(16).forEach(System.out::println);
 
+    }
+
+    @Override
+    public boolean deleteFavoriteByCondition(int userId, int movieId) throws SQLException {
+        try (Connection c = DBConnection.getConnection()) {
+            PreparedStatement ps = c.prepareStatement(DELETE_FAV_BY_CONDITION);
+            ps.setInt(1, userId);
+            ps.setInt(2, movieId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }
