@@ -58,6 +58,7 @@ model\Movie.class
 service\IRapPhimService.class
 model\Favorite.class
 dao\UserDAO.class
+controller\StatsServlet.class
 demo\FuntionToCall.class
 model\BinhLuan.class
 service\IUserService.class
@@ -92,6 +93,7 @@ dao\ISeatDAO.class
 model\LichChieu.class
 controller\PagingServlet.class
 model\HeThongRap.class
+constant\SessionAttribute.class
 service\HeThongRapService.class
 service\IBookingService.class
 controller\SelectCalendarServlet.class

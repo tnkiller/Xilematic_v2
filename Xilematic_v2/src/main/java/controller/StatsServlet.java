@@ -5,7 +5,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -34,6 +33,9 @@ public class StatsServlet extends HttpServlet {
         req.setAttribute("listTenHeThongRap", service.getAllTenHeThongRap());
         req.setAttribute("monthlyRevenue",   service.getMonthlyRevenue());
 
+        /* KHÔNG chuyển trang – cứ forward về admin.jsp để nó tự include dashboard.jsp */
         req.getRequestDispatcher("/admin/admin.jsp").forward(req, resp);
     }
 }
+
+

@@ -44,6 +44,7 @@ public class PageLink {
     //-----------------------------------------------
     //servlet controller
     public static final String AUTHENTICATE_SERVLET = "authenticate?";
+    public static final String STAT_SERVLET = "stats?";
     public static final String HOME_SERVLET = "homeservlet?";
     public static final String PAGING_SERVLET = "paging?";
     public static final String SELECT_CALENDAR_SERVLET = "SelectCalendar?";

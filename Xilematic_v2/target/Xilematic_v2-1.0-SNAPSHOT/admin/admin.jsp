@@ -28,7 +28,7 @@
         <div class="main">
             <!--nav-bar nằm bên trái-->
             <nav class="nav-bar">
-                <a href="paging?type=stats" class="nav-link ${requestScope.type == 'stats' ? 'active' : ''}">
+                <a href="stats" class="nav-link ${type=='stats'?'active':''}">
                     <i class="bi bi-house-door fs-5" title="Home"></i>
                 </a>
                 <a href="paging?type=users" class="nav-link ${requestScope.type == 'users' ? 'active' : ''}">
@@ -45,9 +45,6 @@
                 </a>
                 <a href="paging?type=rapPhim" class="nav-link ${requestScope.type == 'rapPhim' ? 'active' : ''}">
                     <i class="bi bi-easel" title="Rạp phim"></i>
-                </a>
-                <a href="paging?type=lichChieu" class="nav-link ${requestScope.type == 'lichChieu' ? 'active' : ''}">
-                        <i class="bi bi-calendar-event fs-5" title="Lịch chiếu"></i>
                 </a>
                 <a href="paging?type=ghe" class="nav-link ${requestScope.type == 'ghe' ? 'active' : ''}">
                     <i class="bi bi-grid-3x2-gap-fill" title="Ghế"></i>
@@ -71,20 +68,13 @@
                     <c:when test="${requestScope.type == 'rapPhim'}">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_rapPhim" data-type="${param.type}">Add New</button>
                     </c:when>
-                        <c:when test="${requestScope.type == 'cumRap'}">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCumRapPopup" data-type="${param.type}">Add New</button>
-                    </c:when>
-                        <c:when test="${requestScope.type == 'rap'}">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRapPopup" data-type="${param.type}">Add New</button>
-                    </c:when>
-                        <c:when test="${requestScope.type == 'lichChieu'}">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLichChieuPopup" data-type="${param.type}">Add New</button>
-                    </c:when>
                     <c:when test="${requestScope.type == 'ghe'}">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_ghe" data-type="${param.type}">Add New</button>
                     </c:when>
                 </c:choose>
-
+                <c:if test="${requestScope.type == 'stats'}">
+                    <jsp:include page="dashboard.jsp"/>
+                </c:if> 
                 <!--hiển thị select RapPhim cho Ghe-->
                 <c:if test="${requestScope.type == 'ghe'}">
                     <form method="get" action="paging" class="mb-3">
@@ -183,29 +173,7 @@
                                     <th>Type</th>
                                     <th>Action</th>
                                     </c:when>
-                                    <c:when test="${param.type == 'heThongRap'}">
-                                    <th>Mã hệ thống rạp</th>
-                                    <th>Tên hệ thống rạp</th>
-                                    <th>Logo</th>
-                                    <th>Action</th>
-                                    </c:when>
-                                    
-                                     <c:when test="${param.type == 'cumRap'}">
-                                    <th>Mã cụm rạp</th>
-                                    <th>Tên cụm rạp</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Mã hệ thống rạp phụ thuộc </th>
-                                    <th>Action</th>
-                                    </c:when>
-                                    
-                                    <c:when test="${param.type == 'lichChieu'}">
-                                    <th>Mã lịch chiếu </th>
-                                    <th>Mã rạp</th>
-                                    <th>Mã Phim</th>
-                                    <th>Ngày giờ chiếu</th>
-                                    <th>Action</th>
-                                    </c:when>
-                                    
+
                                 <c:when test="${param.type == 'rapPhim'}">
                                     <th>Mã rạp</th>
                                     <th>Tên rạp</th>
@@ -307,34 +275,6 @@
                                     </tr>
                                 </c:forEach>
                             </c:when>
-                                    
-                                    
-                                    <c:when test="${requestScope.type == 'cumRap'}">
-                                <c:forEach var="cumRap" items="${requestScope.list}">
-                                    <tr>
-                                        <td>${cumRap.maCumRap}</td>
-                                        <td>${cumRap.tenCumRap}</td>
-                                        <td>${cumRap.diaChi}</td>
-                                        <td>
-                                            <span class="badge bg-secondary">${cumRap.maHeThongRap}</span>
-                                        </td>
-                                        <td>
-                                            <a href="TheaterSystemServlet?action=cumRap&id=${cumRap.maCumRap}" class="text-primary me-2">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
-                                            <form action="TheaterSystemServlet" method="POST" class="delete-btn d-inline">
-                                                <input type="hidden" name="id" value="${cumRap.maCumRap}"/>
-                                                <input type="hidden" name="typeEdit" value="cumRap"/>
-                                                <button type="submit" name="action" value="delete" class="btn btn-link p-0">
-                                                    <i class="bi bi-trash text-danger"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </c:when>
-                                    
-                                    
                             <c:when test="${requestScope.type == 'rapPhim'}">
                                 <c:forEach var="rap" items="${requestScope.list}">
                                     <tr>
@@ -354,38 +294,6 @@
                                     </tr>
                                 </c:forEach>
                             </c:when>
-                                    
-                                    
-                                    <c:when test="${requestScope.type == 'lichChieu'}">
-                                <c:forEach var="lichChieu" items="${requestScope.list}">
-                                    <tr>
-                                        <td>
-                                            <span class="badge bg-secondary">${lichChieu.maLichChieu}</span>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-primary">${lichChieu.maRap}</span>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-info">${lichChieu.maPhim}</span>
-                                        </td>
-                                        <td>${lichChieu.ngayGioChieu}</td>
-                                        <td>
-                                            <a href="TheaterSystemServlet?action=lichChieu&id=${lichChieu.maLichChieu}" class="text-primary me-2">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
-                                            <form action="TheaterSystemServlet" method="POST" class="delete-btn d-inline">
-                                                <input type="hidden" name="maLichChieu" value="${lichChieu.maLichChieu}"/>
-                                                <input type="hidden" name="typeEdit" value="lichChieu"/>
-                                                <button type="submit" name="action" value="delete" class="btn btn-link p-0">
-                                                    <i class="bi bi-trash text-danger"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </c:when>   
-                                    
-                                    
                         </c:choose>
                     </tbody>
                 </table>
@@ -476,12 +384,6 @@
             <jsp:param name="title" value="ADD NEW USER" />
             <jsp:param name="action" value="ADD" />
         </jsp:include>
-        <!--cụm rạp--> 
-
-        <jsp:include page="modal_add_CumRap.jsp">
-            <jsp:param name="title" value="Thêm Cụm Rạp" />
-            <jsp:param name="action" value="ADD" />
-        </jsp:include>
         <!--RapPhim-->
         <jsp:include page="modal_rapPhim.jsp">
             <jsp:param name="title" value="ADD NEW RAP PHIM" />
@@ -490,11 +392,6 @@
         <!--GHE-->
         <jsp:include page="modal_ghe.jsp">
             <jsp:param name="title" value="ADD NEW GHE" />
-            <jsp:param name="action" value="ADD" />
-        </jsp:include>
-        <!--lịch chiếu-->
-        <jsp:include page="modal_add_LichChieu.jsp">
-            <jsp:param name="title" value="Thêm Lịch Chiếu" />
             <jsp:param name="action" value="ADD" />
         </jsp:include>
 
@@ -508,6 +405,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
+
 
 
 

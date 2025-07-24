@@ -57,7 +57,7 @@
                                 <a href='<%=request.getContextPath() + "/" + PageLink.PROFILE_PAGE%>'>View Profile</a>
                                 <a href='<%=request.getContextPath() + "/" + PageLink.BOOKING_HISTORY_SERVLET%>'>Booking history</a>
                                 <c:if test='${sessionScope.userInfor.typeOfUser eq "admin"}'>
-                                    <a href='<%=request.getContextPath() + "/" + PageLink.PAGING_SERVLET%>'>Administrator Page</a>
+                                    <a href='<%=request.getContextPath() + "/" + PageLink.STAT_SERVLET%>'>Administrator Page</a>
                                 </c:if>
                                 <a href='<%=request.getContextPath() + "/" + PageLink.FAVORITE_SERVLET + "action=load"%>'>My favourite</a>
                                 <a href='<%=request.getContextPath() + "/" + PageLink.AUTHENTICATE_SERVLET%>action=logout' style="color: red;">Logout</a>

@@ -36,6 +36,9 @@ public class PagingServlet extends HttpServlet {
         int page = (pageParam != null && !pageParam.isEmpty()) ? Integer.parseInt(pageParam) : 1;
 
         String type = request.getParameter("type");
+        if (pageParam == null && type == null) {
+            request.getRequestDispatcher(PageLink.STAT_SERVLET).forward(request, response);
+        }
         if (type == null) {
             type = "stats";
         }

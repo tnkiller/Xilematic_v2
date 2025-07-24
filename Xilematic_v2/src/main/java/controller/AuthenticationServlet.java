@@ -78,7 +78,7 @@ public class AuthenticationServlet extends HttpServlet {
         //initialize new session
         SessionUtil.initializeSession(request.getSession(), u);
         if (!DEFAULT_ROLE.equals(u.getTypeOfUser())) {
-            request.getRequestDispatcher(PageLink.ADMIN_PAGE).forward(request, response);
+            request.getRequestDispatcher(PageLink.STAT_SERVLET).forward(request, response);
         } else {
             request.getRequestDispatcher(PageLink.HOME_SERVLET).forward(request, response);
         }
@@ -142,7 +142,6 @@ public class AuthenticationServlet extends HttpServlet {
         session.invalidate();
         response.sendRedirect(PageLink.LOGIN_PAGE);
     }
-
 
     //process forgot password
     private void processForgotPassword(HttpServletRequest request, HttpServletResponse response)
