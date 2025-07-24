@@ -2,13 +2,17 @@ package dao;
 
 import context.DBConnection;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import model.CumRap;
 import model.HeThongRap;
 import model.LichChieu;
@@ -30,6 +34,23 @@ public class HeThongRapDAO implements IHeThongRapDAO {
     private static final String GET_TOTAL_OF_RAP = "SELECT COUNT(*) FROM RapPhim";
     private static final String GET_TOTAL_OF_LICHCHIEU_BYIDR = "SELECT COUNT(*) FROM LichChieu Where ma_rap=? ";
     private static final String GET_TOTAL_OF_LICHCHIEU = "SELECT COUNT(*) FROM LichChieu ";
+    private static final String GET_ALL_TEN_HE_THONG_RAP = "SELECT ten_he_thong_rap FROM HeThongRap";
+    private static final String SQL_MONTH_REVENUE = """
+    SELECT
+        h.ma_he_thong_rap,
+        h.ten_he_thong_rap,
+        ISNULL(SUM(dv.gia_ve), 0) AS tong_doanh_thu_thang
+    FROM HeThongRap AS h
+    LEFT JOIN CumRap    AS cr ON cr.ma_he_thong_rap = h.ma_he_thong_rap
+    LEFT JOIN RapPhim   AS rp ON rp.ma_cum_rap      = cr.ma_cum_rap
+    LEFT JOIN LichChieu AS lc ON lc.ma_rap          = rp.ma_rap
+    LEFT JOIN DatVe     AS dv
+           ON dv.ma_lich_chieu = lc.ma_lich_chieu
+          AND dv.create_at >= ?      -- ① @firstDay
+          AND dv.create_at <  ?      -- ② @nextMonth
+    GROUP BY h.ma_he_thong_rap, h.ten_he_thong_rap
+    ORDER BY tong_doanh_thu_thang DESC
+    """;
 
     @Override
     public List<HeThongRap> getHeThongRapsForPage(int currentPage, int pageSize) {
@@ -556,9 +577,64 @@ public class HeThongRapDAO implements IHeThongRapDAO {
 //             
 //         }
         HeThongRapDAO heThongRapDAO = new HeThongRapDAO();
-        System.out.println("hethongrap : " + heThongRapDAO.getTotalHeThongRap());
-        System.out.println("cum rap : " + heThongRapDAO.getTotalCumRap(1));
-        System.out.println("rap : " + heThongRapDAO.getTotalRap(1));
-        System.out.println("Lich chieu : " + heThongRapDAO.getTotalLichChieu(1));
+//        System.out.println("hethongrap : " + heThongRapDAO.getTotalHeThongRap());
+//        System.out.println("cum rap : " + heThongRapDAO.getTotalCumRap(1));
+//        System.out.println("rap : " + heThongRapDAO.getTotalRap(1));
+//        System.out.println("Lich chieu : " + heThongRapDAO.getTotalLichChieu(1));
+         Map<String, Long> revenueMap = heThongRapDAO.getMonthlyRevenue();   // LinkedHashMap<tenHeThongRap, doanhThu>
+
+        // In tiêu đề bảng
+        System.out.printf("%-25s | %15s%n", "Hệ thống rạp", "Doanh thu tháng");
+        System.out.println("-----------------------------------------------");
+
+        // Lặp & in từng hệ thống rạp
+        revenueMap.forEach((cinemaName, total) ->
+            System.out.printf("%-25s | %,15d%n", cinemaName, total)
+        );
+    }
+
+    @Override
+    public List<String> getAllTenHeThongRap() {
+        List<String> result = new ArrayList<>();
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try (Connection con = DBConnection.getConnection()) {
+            ptm = con.prepareStatement(GET_ALL_TEN_HE_THONG_RAP);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getString("ten_he_thong_rap"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Long> getMonthlyRevenue() {
+        Map<String, Long> result = new LinkedHashMap<>();  
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+
+        LocalDate firstDay = LocalDate.now().withDayOfMonth(1);
+        LocalDate nextMonth = firstDay.plusMonths(1);
+
+        try (Connection con = DBConnection.getConnection()) {
+            ptm = con.prepareStatement(SQL_MONTH_REVENUE);   
+            ptm.setDate(1, Date.valueOf(firstDay));
+            ptm.setDate(2, Date.valueOf(nextMonth));
+
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("ten_he_thong_rap");
+                long revenue = rs.getLong("tong_doanh_thu_thang");
+                result.put(name, revenue);          
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
+
+

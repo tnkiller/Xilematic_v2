@@ -7,6 +7,7 @@ package service;
 import dao.HeThongRapDAO;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import model.CumRap;
 import model.HeThongRap;
 import model.LichChieu;
@@ -175,5 +176,17 @@ public class HeThongRapService implements IHeThongRapService{
     public List<LichChieu> getLichChieuByRapPhimAndPhim(int maRap, int maPhim){
     return  heThongRapDAO.getLichChieuByRapPhimAndPhim(maRap, maPhim);
             }
+
+    @Override
+    public List<String> getAllTenHeThongRap() {
+        return heThongRapDAO.getAllTenHeThongRap();
+    }
+
+    @Override
+    public Map<String, Long> getMonthlyRevenue() {
+        return heThongRapDAO.getMonthlyRevenue();
+    }
     
 }
+
+
