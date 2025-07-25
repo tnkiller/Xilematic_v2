@@ -242,7 +242,10 @@
 </head>
 <body>
   <!-- Header -->
- <jsp:include page="${request.getContextPath()}/components/header.jsp"/>
+  <jsp:include page="${request.getContextPath()}/components/header.jsp">
+      <jsp:param name="page" value="home"/>
+  </jsp:include>
+     
 
   <!-- Banner Carousel -->
   <div id="carouselExampleFade" class="carousel slide carousel-fade">

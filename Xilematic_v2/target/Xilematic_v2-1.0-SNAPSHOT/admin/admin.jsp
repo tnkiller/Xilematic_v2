@@ -19,9 +19,7 @@
     </head>
     <body>
         <!-- include header -->
-        <jsp:include page="${request.getContextPath()}/components/header.jsp">
-            <jsp:param name="page" value="admin"/>
-        </jsp:include>
+        <jsp:include page="${request.getContextPath()}/components/header.jsp"/>
 
 
         <!-- main -->
