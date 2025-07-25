@@ -78,7 +78,7 @@ public class AuthenticationServlet extends HttpServlet {
         //initialize new session
         SessionUtil.initializeSession(request.getSession(), u);
         if (!DEFAULT_ROLE.equals(u.getTypeOfUser())) {
-            request.getRequestDispatcher(PageLink.STAT_SERVLET).forward(request, response);
+            response.sendRedirect(PageLink.STAT_SERVLET);
         } else {
             request.getRequestDispatcher(PageLink.HOME_SERVLET).forward(request, response);
         }

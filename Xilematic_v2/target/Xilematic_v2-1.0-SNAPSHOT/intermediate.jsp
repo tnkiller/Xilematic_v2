@@ -13,15 +13,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-       <%
-    var act = request.getParameter("action");
-    // Kiểm tra nếu act là null HOẶC session không tồn tại
-    if (act == null && session.getAttribute("userInfor") == null) {
-        // Chuyển hướng đến trang login.jsp
-        response.sendRedirect("login.jsp");
-        return; // Dừng việc thực thi tiếp theo của trang
-    }
-%>
+        
+        
+        <%
+            var act = request.getParameter("action");
+            // Kiểm tra nếu act là null HOẶC session không tồn tại
+            if (act == null && session.getAttribute("userInfor") == null) {
+                // Chuyển hướng đến trang login.jsp
+                response.sendRedirect("login.jsp");
+                return; // Dừng việc thực thi tiếp theo của trang
+            }
+        %>
 
 
         <!--movie bean-->
@@ -35,16 +37,16 @@
         <!--navigate-->
         <c:choose>
             <c:when test='<%=act.equals("login") || act.equals("register")%>'>
-                <jsp:forward page="authenticate"></jsp:forward>
+                <jsp:forward page="authenticate"/>
             </c:when>
             <c:when test='<%=act.equals("add_movie") || act.equals("update_movie")%>'>
-                <jsp:forward page="movies"></jsp:forward>
+                <jsp:forward page="movies"/>
             </c:when>
             <c:when test='<%=act.equals("add_user") || act.equals("update_user")%>'>
-                <jsp:forward page="users"></jsp:forward>
+                <jsp:forward page="users"/>
             </c:when>
             <c:when test='<%=act.equals("update_rapPhim") || act.equals("add_rapPhim")%>'>
-                <jsp:forward page="rapPhim"></jsp:forward>
+                <jsp:forward page="rapPhim"/>
             </c:when>
             <c:when test='<%=act.equals("update_ghe") || act.equals("add_ghe")%>'>
                 <jsp:forward page="ghe">
